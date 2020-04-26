@@ -83,7 +83,6 @@ struct ExploreView: View {
                         .overlay(
                             Image(systemName: "person.fill")
                                 .font(.avenirNextRegular(size: selectedScreen == 0 ? 22 : 16))
-        //                            .font(.avenirNextRegular(size: 24))
                                 .animation(.easeInOut(duration: 0.5))
                             .fixedSize()
                             .frame(height: 10.0)
