@@ -40,9 +40,12 @@
 		405F2BAA24484B09002E44CF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405F2BA924484B09002E44CF /* Extensions.swift */; };
 		405F2BAC24484B56002E44CF /* HelperStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405F2BAB24484B56002E44CF /* HelperStructs.swift */; };
 		405F2BAE244E2AC0002E44CF /* ButtonBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405F2BAD244E2AC0002E44CF /* ButtonBarView.swift */; };
+		FA4B32CFDF863682875A8981 /* Pods_twentyfour.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F7DEEAD7D4A7784A646F7A9 /* Pods_twentyfour.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1EF491E7C38552EE83EFE752 /* Pods-twentyfour.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twentyfour.release.xcconfig"; path = "Target Support Files/Pods-twentyfour/Pods-twentyfour.release.xcconfig"; sourceTree = "<group>"; };
+		2F7DEEAD7D4A7784A646F7A9 /* Pods_twentyfour.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_twentyfour.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		400F104B244F190E009C7598 /* carolina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = carolina.png; sourceTree = "<group>"; };
 		400F104D244F1B4F009C7598 /* mira.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mira.png; path = ../../../../Desktop/together_squares/mira.png; sourceTree = "<group>"; };
 		40174904244714880058532B /* basti.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = basti.jpg; path = ../../../../Desktop/together_squares/basti.jpg; sourceTree = "<group>"; };
@@ -78,6 +81,7 @@
 		405F2BA924484B09002E44CF /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		405F2BAB24484B56002E44CF /* HelperStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperStructs.swift; sourceTree = "<group>"; };
 		405F2BAD244E2AC0002E44CF /* ButtonBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonBarView.swift; sourceTree = "<group>"; };
+		623159FD19D20559FA45FAF3 /* Pods-twentyfour.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twentyfour.debug.xcconfig"; path = "Target Support Files/Pods-twentyfour/Pods-twentyfour.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,17 +89,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA4B32CFDF863682875A8981 /* Pods_twentyfour.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1EF7DD87235505010CC39610 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2F7DEEAD7D4A7784A646F7A9 /* Pods_twentyfour.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		404558BF244475F900CF12CD = {
 			isa = PBXGroup;
 			children = (
 				404558CA244475F900CF12CD /* twentyfour */,
 				404558C9244475F900CF12CD /* Products */,
+				4D9657EC091D28A9B78A974C /* Pods */,
+				1EF7DD87235505010CC39610 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -204,6 +219,16 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		4D9657EC091D28A9B78A974C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				623159FD19D20559FA45FAF3 /* Pods-twentyfour.debug.xcconfig */,
+				1EF491E7C38552EE83EFE752 /* Pods-twentyfour.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -211,9 +236,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 404558DC244475FB00CF12CD /* Build configuration list for PBXNativeTarget "twentyfour" */;
 			buildPhases = (
+				8436DB5B596AA094274B58D1 /* [CP] Check Pods Manifest.lock */,
 				404558C4244475F900CF12CD /* Sources */,
 				404558C5244475F900CF12CD /* Frameworks */,
 				404558C6244475F900CF12CD /* Resources */,
+				5E5F87EF0A2E73BBA22EE26B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -278,6 +305,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5E5F87EF0A2E73BBA22EE26B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-twentyfour/Pods-twentyfour-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-twentyfour/Pods-twentyfour-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-twentyfour/Pods-twentyfour-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8436DB5B596AA094274B58D1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-twentyfour-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		404558C4244475F900CF12CD /* Sources */ = {
@@ -438,6 +507,7 @@
 		};
 		404558DD244475FB00CF12CD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 623159FD19D20559FA45FAF3 /* Pods-twentyfour.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -459,6 +529,7 @@
 		};
 		404558DE244475FB00CF12CD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1EF491E7C38552EE83EFE752 /* Pods-twentyfour.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
