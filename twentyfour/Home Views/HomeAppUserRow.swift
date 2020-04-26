@@ -60,8 +60,8 @@ struct RowItem: View {
                         [
 //                            Color ("Peach"),
 //                            .pink,
-                            Color ("Midnight"),
-                            Color ("Darknight"),
+                            Color ("DarkGray"),
+                            Color ("DarkGray"),
                     ]),
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing)
@@ -113,7 +113,7 @@ struct RowItem: View {
                                         .frame(width: 25, height: 25)
                                         .scaledToFill()
 //                                        .foreground(Color ("Midnight"))
-                                        .foreground(Color ("BabyBlue"))
+                                        .foreground(Color ("SuperLightGray"))
                             )
                             .frame(width: 44, height: 44)
                         }

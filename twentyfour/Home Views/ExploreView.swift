@@ -41,8 +41,8 @@ struct ExploreView: View {
                     [
 //                        Color ("AmaGreen"),
 //                        Color ("AmaBlue"),
-                        Color ("Midnight"),
-                        Color ("Darknight"),
+                        Color ("DarkGray"),
+                        Color ("DarkGray"),
                         
 //                        Color ("Sea"),
 //                        Color ("AmaBlue"),
@@ -90,7 +90,7 @@ struct ExploreView: View {
                             .frame(height: 10.0)
                             .padding(.horizontal)
                             .padding(.vertical, 10.0)
-                            .foreground(Color(selectedScreen == 0 ? "BabyBlue" : "DarkGray"))
+                            .foreground(Color(selectedScreen == 0 ? "SuperLightGray" : "DarkGray"))
                             
 //                                .foregroundColor(.white)
                         )
@@ -112,7 +112,7 @@ struct ExploreView: View {
                                     .frame(height: 10.0)
                                     .padding(.horizontal)
                                     .padding(.vertical, 10.0)
-                                    .foreground(Color(selectedScreen == 1 ? "BabyBlue" : "DarkGray"))
+                                    .foreground(Color(selectedScreen == 1 ? "SuperLightGray" : "DarkGray"))
                         )
                         .frame(width: 48, height: 48)
 
