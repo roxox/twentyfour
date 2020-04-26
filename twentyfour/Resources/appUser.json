@@ -1,0 +1,56 @@
+[
+{
+    "username": "Basti",
+    "email": "katha.fox@gmx.net",
+    "id": "1004",
+    "searchParameter": {
+        "isFoodSelected": true,
+        "isSportSelected": true,
+        "isEntertainmentSelected": true,
+        "isActive": true,
+        "description": "Food",
+        "location": {
+            "longitude": -152.665167,
+            "latitude": 59.980167
+        },
+        "locationName": "Los Angeles"
+    },
+    "imageName": "basti"
+},
+{
+    "username": "Mira",
+    "email": "sebastian.fox@me.com",
+    "id": "1001",
+    "searchParameter": {
+        "isFoodSelected": false,
+        "isSportSelected": true,
+        "isEntertainmentSelected": false,
+        "isActive": true,
+        "description": "Entertainment",
+        "location": {
+            "longitude": -152.665167,
+            "latitude": 59.980167
+        },
+        "locationName": "Anaheim"
+    },
+    "imageName": "mira"
+},
+{
+    "username": "Katha",
+    "email": "katha.fox@gmx.net",
+    "id": "1002",
+    "searchParameter": {
+        "isFoodSelected": true,
+        "isSportSelected": false,
+        "isEntertainmentSelected": true,
+        "isActive": true,
+        "description": "Entertainment",
+        "location": {
+            "longitude": -152.665167,
+            "latitude": 59.980167
+        },
+        "locationName": "Laguna Beach"
+    },
+    "imageName": "katha"
+}
+]
