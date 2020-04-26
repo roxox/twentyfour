@@ -111,8 +111,8 @@ struct SearchButtonView: View {
         
             ZStack(alignment: .top) {
 
-                Rectangle().fill(gradient)
-//                Rectangle().fill(Color .white)
+//                Rectangle().fill(gradient)
+                Rectangle().fill(Color .white)
                     .frame(height: 120)
                 .shadow(radius: 0.4)
                 
