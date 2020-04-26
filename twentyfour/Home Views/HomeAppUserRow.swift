@@ -58,8 +58,10 @@ struct RowItem: View {
                     gradient: Gradient(
                         colors:
                         [
-                            Color ("Peach"),
-                            .pink,
+//                            Color ("Peach"),
+//                            .pink,
+                            Color ("Midnight"),
+                            Color ("Darknight"),
                     ]),
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing)
@@ -111,7 +113,7 @@ struct RowItem: View {
                                         .frame(width: 25, height: 25)
                                         .scaledToFill()
 //                                        .foreground(Color ("Midnight"))
-                                        .foreground(Color .white)
+                                        .foreground(Color ("BabyBlue"))
                             )
                             .frame(width: 44, height: 44)
                         }

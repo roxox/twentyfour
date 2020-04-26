@@ -39,8 +39,10 @@ struct ExploreView: View {
                 gradient: Gradient(
                     colors:
                     [
-                        Color ("AmaGreen"),
-                        Color ("AmaBlue"),
+//                        Color ("AmaGreen"),
+//                        Color ("AmaBlue"),
+                        Color ("Midnight"),
+                        Color ("Darknight"),
                         
 //                        Color ("Sea"),
 //                        Color ("AmaBlue"),
@@ -88,7 +90,7 @@ struct ExploreView: View {
                             .frame(height: 10.0)
                             .padding(.horizontal)
                             .padding(.vertical, 10.0)
-                            .foreground(Color(selectedScreen == 0 ? "Midnight" : "DarkGray"))
+                            .foreground(Color(selectedScreen == 0 ? "BabyBlue" : "DarkGray"))
                             
 //                                .foregroundColor(.white)
                         )
@@ -110,7 +112,7 @@ struct ExploreView: View {
                                     .frame(height: 10.0)
                                     .padding(.horizontal)
                                     .padding(.vertical, 10.0)
-                                    .foreground(Color(selectedScreen == 1 ? "Midnight" : "DarkGray"))
+                                    .foreground(Color(selectedScreen == 1 ? "BabyBlue" : "DarkGray"))
                         )
                         .frame(width: 48, height: 48)
 
