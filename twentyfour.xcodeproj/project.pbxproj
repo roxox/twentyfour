@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -40,6 +40,7 @@
 		405F2BAA24484B09002E44CF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405F2BA924484B09002E44CF /* Extensions.swift */; };
 		405F2BAC24484B56002E44CF /* HelperStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405F2BAB24484B56002E44CF /* HelperStructs.swift */; };
 		405F2BAE244E2AC0002E44CF /* ButtonBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405F2BAD244E2AC0002E44CF /* ButtonBarView.swift */; };
+		40B14D352455BC460027B242 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40B14D342455BC460027B242 /* GoogleService-Info.plist */; };
 		FA4B32CFDF863682875A8981 /* Pods_twentyfour.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F7DEEAD7D4A7784A646F7A9 /* Pods_twentyfour.framework */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +82,7 @@
 		405F2BA924484B09002E44CF /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		405F2BAB24484B56002E44CF /* HelperStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperStructs.swift; sourceTree = "<group>"; };
 		405F2BAD244E2AC0002E44CF /* ButtonBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonBarView.swift; sourceTree = "<group>"; };
+		40B14D342455BC460027B242 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		623159FD19D20559FA45FAF3 /* Pods-twentyfour.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twentyfour.debug.xcconfig"; path = "Target Support Files/Pods-twentyfour/Pods-twentyfour.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -136,6 +138,7 @@
 				404558D6244475FB00CF12CD /* LaunchScreen.storyboard */,
 				404558D1244475FB00CF12CD /* Assets.xcassets */,
 				404558D9244475FB00CF12CD /* Info.plist */,
+				40B14D342455BC460027B242 /* GoogleService-Info.plist */,
 				404558D3244475FB00CF12CD /* Preview Content */,
 				405F2BA924484B09002E44CF /* Extensions.swift */,
 				405F2BAB24484B56002E44CF /* HelperStructs.swift */,
@@ -225,7 +228,6 @@
 				623159FD19D20559FA45FAF3 /* Pods-twentyfour.debug.xcconfig */,
 				1EF491E7C38552EE83EFE752 /* Pods-twentyfour.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -298,6 +300,7 @@
 				404558FB2444E42000CF12CD /* carolina.jpg in Resources */,
 				404558FE244507D100CF12CD /* basti.png in Resources */,
 				400F104E244F1B4F009C7598 /* mira.png in Resources */,
+				40B14D352455BC460027B242 /* GoogleService-Info.plist in Resources */,
 				40455900244507E500CF12CD /* katha.png in Resources */,
 				404558D2244475FB00CF12CD /* Assets.xcassets in Resources */,
 				40174905244714890058532B /* basti.jpg in Resources */,
