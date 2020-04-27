@@ -16,11 +16,13 @@ struct SearchButtonView: View {
             gradient: Gradient(
                 colors:
                 [
-                    Color ("AmaGreen"),
-                    Color ("AmaBlue"),
-                    
-//                    Color ("Sea"),
+                Color.black.opacity(0.2),
+                Color.black.opacity(0.0),
+//                    Color ("AmaGreen"),
 //                    Color ("AmaBlue"),
+                    
+//                    Color ("AmaBlue"),
+//                    Color ("Sea"),
 //
 //                    Color("Cherry"),
 //                    Color ("Peach"),
@@ -42,8 +44,10 @@ struct SearchButtonView: View {
 //                                        Color ("Darknight"),
 //                    .orange
             ]),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing)
+//            startPoint: .topLeading,
+//            endPoint: .bottomTrailing)
+            startPoint: .top,
+            endPoint: .bottom)
     }
         
         var gradientGray: LinearGradient {
@@ -112,9 +116,9 @@ struct SearchButtonView: View {
             ZStack(alignment: .top) {
 
                 Rectangle().fill(gradient)
-//                Rectangle().fill(Color .white)
+//                Rectangle().fill(Color .clear)
                     .frame(height: 120)
-                .shadow(radius: 0.4)
+//                .shadow(radius: 0.4)
                 
                 
 //                    .edgesIgnoringSafeArea(.all)
@@ -124,91 +128,62 @@ struct SearchButtonView: View {
                     self.showButtons.toggle()
                 }) {
                     HStack() {
-//                        Image(systemName: "location")
-//                            .font(.headline)
-//                            .fixedSize()
-//                            .padding(.leading)
                         
-                        Image("locationBlack")
-//                            .font(.avenirNextRegular(size: 18))
+                        Image("locator")
                             .resizable()
                             .renderingMode(.original)
                             .frame(width: 20, height: 20)
                             .scaledToFill()
-                            .foreground(Color("DarkGray"))
-                        
+
                         Text("Los Angeles (Californ...")
                             .font(.avenirNextRegular(size: 15))
                             .fontWeight(.semibold)
                             .fixedSize()
                             .truncationMode(.head)
-                            .foreground(Color("DarkGray"))
-                        
+
                         Divider()
                             .foreground(Color .black)
-                        
-                        
-                        
-                        Text("Suche anpassen")
+
+
+
+                        Text("ändern")
                             .font(.avenirNextRegular(size: 15))
-                            .fontWeight(.semibold)
+                            .fontWeight(.bold)
                             .fixedSize()
                             .truncationMode(.head)
-                            .foreground(Color("DarkGray"))
-                            
-//                        Button(action: {
-//                        }) {
-//                                    Image("cook")
-//                                        .resizable()
-//                                        .renderingMode(.original)
-//                                        .frame(width: 20, height: 20)
-//                                        .scaledToFill()
-//                                        .foreground(Color("DarkGray"))
-//                        }
-//
-//
-//                        Button(action: {
-//                        }) {
-//                                    Image("clap")
-//                                        .resizable()
-//                                        .renderingMode(.original)
-//                                        .frame(width: 20, height: 20)
-//                                        .scaledToFill()
-//                        }
-//
-//
-//                        Button(action: {
-//                        }) {
-//                            Image(systemName: "person.3")
-//                            .foreground(Color("DarkGray"))
-//                            .font(.avenirNextRegular(size: 18))
-//                        }
-                        
-//                        Divider()
-//                            .foreground(Color .black)
                         
                         Image(systemName: "chevron.down")
                             .font(.headline)
                             .fixedSize()
-                            .padding(.trailing)
-                            .foreground(Color("DarkGray"))
+//                            .padding(.trailing)
                     }
-                    .foreground(Color("DarkGray"))
+                    .foreground(Color("Darknight"))
+
+//                    .foreground(makeGradient(colors: [
+//                        Color ("Sea"),
+//                        Color ("AmaBlue")
+//                        ]
+//                    ))
                     
                 }
                 .fixedSize()
 //                .foregroundColor(.black)
-                .frame(height: 45)
-                .frame(minWidth: 0, maxWidth: .infinity)
-                .background(Color .white)
-                .cornerRadius(8.0)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color ("DarkGray"), lineWidth: 0.1)
-                )
-                .shadow(radius: 3, x: 0, y: 2)
+                .frame(height: 46)
+                    .padding(.horizontal)
+//                .frame(minWidth: 0, maxWidth: .infinity)
+                .background(makeGradient(colors: [
+//                Color ("AmaGreen"),
+                        Color ("Sea"),
+                        Color ("AmaBlue"),
+                ]))
+                .cornerRadius(23.0)
+//                    .overlay(
+//                        RoundedRectangle(cornerRadius: 23)
+//                            .stroke(Color ("DarkGray"), lineWidth: 0.1)
+//                )
+//                .shadow(radius: 3, x: 0, y: 2)
                 .padding([.leading, .trailing], 20)
-                .padding([.top], 50)
+                .padding([.top], 60)
 //            }
             
             Spacer()

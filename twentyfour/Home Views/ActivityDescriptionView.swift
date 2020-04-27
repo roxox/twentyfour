@@ -12,13 +12,14 @@ struct ActivityDescriptionView: View {
     var body: some View {
         VStack(alignment: .leading) {
 
-            Text("Das steckt hinter den Symbolen in der Aktivitäten in dieser App.")
-            .font(.avenirNextRegular(size: 16))
-                .fontWeight(.bold)
-                .padding([.leading, .trailing], 20)
-                .foreground(Color ("DarkGray"))
-                .fixedSize(horizontal: false, vertical: true)
-                .lineLimit(4)
+            Text("Das steckt hinter den Symbolen.")
+            .font(.avenirNextRegular(size: 21))
+            .fontWeight(.semibold)
+            .foreground(Color ("DarkGray"))
+            .fixedSize(horizontal: false, vertical: true)
+            .lineLimit(4)
+            .padding([.leading, .trailing], 20)
+//            .padding(.vertical, 10)
                     
 //                Necessary to get the whole width backgroundcolor
             HStack() {

@@ -36,7 +36,6 @@
 		4051B55A2451BE0500DB2658 /* ExploreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4051B5592451BE0500DB2658 /* ExploreView.swift */; };
 		4051B55C2452550D00DB2658 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4051B55B2452550D00DB2658 /* UserData.swift */; };
 		4051B55E2452687800DB2658 /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4051B55D2452687800DB2658 /* ActivityType.swift */; };
-		4051B5602453A2FA00DB2658 /* ExploreUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4051B55F2453A2F900DB2658 /* ExploreUserView.swift */; };
 		405F2BAA24484B09002E44CF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405F2BA924484B09002E44CF /* Extensions.swift */; };
 		405F2BAC24484B56002E44CF /* HelperStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405F2BAB24484B56002E44CF /* HelperStructs.swift */; };
 		405F2BAE244E2AC0002E44CF /* ButtonBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405F2BAD244E2AC0002E44CF /* ButtonBarView.swift */; };
@@ -78,7 +77,6 @@
 		4051B5592451BE0500DB2658 /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
 		4051B55B2452550D00DB2658 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		4051B55D2452687800DB2658 /* ActivityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityType.swift; sourceTree = "<group>"; };
-		4051B55F2453A2F900DB2658 /* ExploreUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreUserView.swift; sourceTree = "<group>"; };
 		405F2BA924484B09002E44CF /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		405F2BAB24484B56002E44CF /* HelperStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperStructs.swift; sourceTree = "<group>"; };
 		405F2BAD244E2AC0002E44CF /* ButtonBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonBarView.swift; sourceTree = "<group>"; };
@@ -164,7 +162,6 @@
 				405F2BAD244E2AC0002E44CF /* ButtonBarView.swift */,
 				4051B55724519E3400DB2658 /* SearchButtonView.swift */,
 				4051B5592451BE0500DB2658 /* ExploreView.swift */,
-				4051B55F2453A2F900DB2658 /* ExploreUserView.swift */,
 			);
 			path = "Home Views";
 			sourceTree = "<group>";
@@ -375,7 +372,6 @@
 				4051B55E2452687800DB2658 /* ActivityType.swift in Sources */,
 				404559022445090700CF12CD /* MapView.swift in Sources */,
 				404558EA24447E7C00CF12CD /* AppUser.swift in Sources */,
-				4051B5602453A2FA00DB2658 /* ExploreUserView.swift in Sources */,
 				404558E4244477BB00CF12CD /* Data.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

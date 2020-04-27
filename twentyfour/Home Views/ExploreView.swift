@@ -17,6 +17,8 @@ struct ExploreView: View {
         @State var showButtons = false
         
         @State var requets: [AppUser] = []
+    
+        @Binding var groupList: [AppUser]
         
         func addAppUserToRequests(appUser: AppUser) {
             requets.append(appUser)
@@ -41,11 +43,12 @@ struct ExploreView: View {
                     [
 //                        Color ("AmaGreen"),
 //                        Color ("AmaBlue"),
-                        Color ("DarkGray"),
-                        Color ("DarkGray"),
-                        
-//                        Color ("Sea"),
 //                        Color ("AmaBlue"),
+//                        Color ("Darknight"),
+//                        Color ("Darknight"),
+                        
+                        Color ("Sea"),
+                        Color ("AmaBlue"),
                 ]),
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing)
@@ -65,13 +68,32 @@ struct ExploreView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Finde Personen und Gruppen, die in 24 Stunden das gleiche suchen wie du!")
-                .font(.avenirNextRegular(size: 16))
-                .fontWeight(.bold)
-                .padding([.leading, .trailing], 20)
+//            Text("Finde Personen und Gruppen, die in 24 Stunden das gleiche suchen wie du!")
+//                .font(.avenirNextRegular(size: 16))
+//                .fontWeight(.bold)
+//                .padding([.leading, .trailing], 20)
+//                .foreground(Color ("DarkGray"))
+//                .fixedSize(horizontal: false, vertical: true)
+//                .lineLimit(4)
+
+
+            Text("Erkunde die Gegend.")
+                .font(.avenirNextRegular(size: 21))
+                .fontWeight(.semibold)
                 .foreground(Color ("DarkGray"))
                 .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(4)
+                .padding([.leading, .trailing], 20)
+                .padding(.vertical, 10)
+            
+            Text("Finde Personen und Gruppen, die innerhalb der nächsten 24 Stunden das gleiche suchen wie du! Wähle mindestens eine Person um eine Gruppe zu erstellen.")
+                .font(.avenirNextRegular(size: 16))
+//                .fontWeight(.semibold)
+                .foreground(Color ("DarkGray"))
+                .fixedSize(horizontal: false, vertical: true)
+                .lineLimit(4)
+                .padding([.leading, .trailing], 20)
+                .padding(.top, 10)
             
             HStack() {
                 Spacer()
@@ -84,20 +106,20 @@ struct ExploreView: View {
 //                        .fill(Color ("BrightGray"))
                         .overlay(
                             Image(systemName: "person.fill")
-                                .font(.avenirNextRegular(size: selectedScreen == 0 ? 22 : 16))
+                                .font(.avenirNextRegular(size: selectedScreen == 0 ? 18 : 16))
                                 .animation(.easeInOut(duration: 0.5))
                             .fixedSize()
                             .frame(height: 10.0)
                             .padding(.horizontal)
                             .padding(.vertical, 10.0)
-                            .foreground(Color(selectedScreen == 0 ? "SuperLightGray" : "DarkGray"))
+                            .foreground(Color(selectedScreen == 0 ? "Darknight" : "DarkGray"))
                             
 //                                .foregroundColor(.white)
                         )
-                        .frame(width: 48, height: 48)
+                            .frame(width: 48, height: 48)
 
                     }
-
+                
     //                Button Group
                     Button(action: {
                         self.setSelectedScreen(screenIndex: 1)
@@ -106,26 +128,47 @@ struct ExploreView: View {
                             .fill(selectedScreen == 1 ? gradient : gradientGray)
                             .overlay(
                                 Image(systemName: "person.3.fill")
-                                    .font(.avenirNextRegular(size: selectedScreen == 1 ? 22 : 16))
+                                    .font(.avenirNextRegular(size: selectedScreen == 1 ? 18 : 16))
                                     .animation(.easeInOut(duration: 0.5))
                                     .fixedSize()
                                     .frame(height: 10.0)
                                     .padding(.horizontal)
                                     .padding(.vertical, 10.0)
-                                    .foreground(Color(selectedScreen == 1 ? "SuperLightGray" : "DarkGray"))
+                                    .foreground(Color(selectedScreen == 1 ? "Darknight" : "DarkGray"))
                         )
                         .frame(width: 48, height: 48)
 
                     }
+                    
                 Spacer()
             }
-            .padding(.bottom, 20)
+            .padding(.bottom, 10)
+            .padding(.horizontal, 20)
             
+            
+//
+//            Text("Erkunde die Gegend.")
+//                .font(.avenirNextRegular(size: 21))
+//                .fontWeight(.semibold)
+//                .foreground(Color ("DarkGray"))
+//                .fixedSize(horizontal: false, vertical: true)
+//                .lineLimit(4)
+//                .padding([.leading, .trailing], 20)
+//                .padding(.vertical, 10)
+//
+//            Text("Finde Personen und Gruppen, die innerhalb der nächsten 24 Stunden das gleiche suchen wie du! Wähle mindestens eine Person um eine Gruppe zu erstellen.")
+//                .font(.avenirNextRegular(size: 16))
+////                .fontWeight(.semibold)
+//                .foreground(Color ("DarkGray"))
+//                .fixedSize(horizontal: false, vertical: true)
+//                .lineLimit(4)
+//                .padding([.leading, .trailing], 20)
+//                .padding(.vertical, 10)
             
             // Person
             if selectedScreen == 0 {
-                HomeAppUserRow(items: appUserData)
-                .frame(height: 460)
+                HomeAppUserRow(items: appUserData, groupList: $groupList)
+                .frame(height: 390)
             }
             
             if selectedScreen == 1 {
@@ -148,10 +191,10 @@ struct ExploreView: View {
     }
 }
 
-struct SearchView_Previews: PreviewProvider {
-    static var previews: some View {
-        ExploreView(
-        items: Array(appUserData.prefix(4))
-        )
-    }
-}
+//struct SearchView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ExploreView(
+//        items: Array(appUserData.prefix(4))
+//        )
+//    }
+//}

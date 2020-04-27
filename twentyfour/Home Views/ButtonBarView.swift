@@ -10,14 +10,15 @@ import SwiftUI
 
 struct ButtonBarView: View {
     
-    @State var tabBarIndex: Int = 0
+//    @State var tabBarIndex: Int = 0
+    @Binding var tabBarIndex: Int
     
     var gradient: LinearGradient {
         LinearGradient(
             gradient: Gradient(
-                colors: [Color.black.opacity(0.5), Color.black.opacity(0.0)]),
+                colors: [Color.black.opacity(0.2), Color.black.opacity(0.0)]),
             startPoint: .bottom,
-            endPoint: .center)
+            endPoint: .top)
     }
     
     var barGradient: LinearGradient {
@@ -27,9 +28,19 @@ struct ButtonBarView: View {
 //                colors: [Color.pink, Color("Cherry")]),
 //                colors: [Color("AmaGreen"), Color("AmaBlue")]),
 //                colors: [Color("AmaGreen"), Color("AmaBlue")]),
-                colors: [Color("Peach"), .pink]),
+//                colors: [.pink, .pink]),
+                colors: [Color("Peach"), Color ("Peach")]),
             startPoint: .topLeading,
             endPoint: .bottomTrailing)
+    }
+    
+    func colorReturn(value: Int) -> Color {
+        if tabBarIndex == value {
+            return Color ("Peach")
+//            return Color .pink
+        } else {
+            return Color ("DarkGray")
+        }
     }
     
     var barGradientWhite: LinearGradient {
@@ -52,28 +63,30 @@ struct ButtonBarView: View {
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(Color ("DarkGray"), lineWidth: 0.1)
                 )
-                .shadow(radius: 3, x: 0, y: 2)
+//                .shadow(radius: 3, x: 0, y: 2)
                 .padding([.leading, .trailing], 20)
-                .padding(.bottom, 30)
+                .padding(.bottom, 40)
             
             VStack(alignment: .leading) {
             HStack() {
                 Spacer()
                 VStack() {
                     Rectangle().fill(tabBarIndex == 0 ? barGradient : barGradientWhite)
-                        .frame(width: 50, height: 4)
-                        .cornerRadius(8.0)
+                        .frame(width: 50, height: 2)
+                        .cornerRadius(4.0)
                         .fixedSize()
-                        .padding(.top, 8)
-                        .offset(x: 0, y: 8)
+                        .padding(.top, 6)
+                        .offset(x: 0, y: 6)
                         .animation(.easeInOut(duration: 0.2))
                     // Button 1
                     Button(action: {
                         self.tabBarIndex = 0
                     }) {
-                        Image(systemName: "house")
-                            .font(.avenirNextRegular(size: 20))
-                            .foregroundColor(Color("DarkGray"))
+                        Image(systemName: "magnifyingglass")
+                        .font(.system(size: 20, weight: .medium))
+//                            .font(.avenirNextRegular(size: 20))
+//                            foreground(barGradient)
+                            .foregroundColor(colorReturn(value: 0))
                         }
                         .fixedSize()
                         .padding()
@@ -83,19 +96,19 @@ struct ButtonBarView: View {
 
                 VStack() {
                     Rectangle().fill(tabBarIndex == 1 ? barGradient : barGradientWhite)
-                        .frame(width: 50, height: 4)
+                        .frame(width: 50, height: 2)
                         .cornerRadius(8.0)
                         .fixedSize()
-                        .padding(.top, 8)
-                        .offset(x: 0, y: 8)
+                        .padding(.top, 6)
+                        .offset(x: 0, y: 6)
                         .animation(.easeInOut(duration: 0.2))
                     // Button 1
                     Button(action: {
                         self.tabBarIndex = 1
                     }) {
-                        Image(systemName: "heart")
-                        .font(.avenirNextRegular(size: 20))
-                        .foregroundColor(Color("DarkGray"))
+                        Image(systemName: "person.3")
+                        .font(.system(size: 20, weight: .medium))
+                        .foregroundColor(colorReturn(value: 1))
                     }
                     .fixedSize()
                     .padding()
@@ -104,19 +117,19 @@ struct ButtonBarView: View {
 
                 VStack() {
                     Rectangle().fill(tabBarIndex == 2 ? barGradient : barGradientWhite)
-                        .frame(width: 50, height: 4)
+                        .frame(width: 50, height: 2)
                         .cornerRadius(8.0)
                         .fixedSize()
-                        .padding(.top, 8)
-                        .offset(x: 0, y: 8)
+                        .padding(.top, 6)
+                        .offset(x: 0, y: 6)
                         .animation(.easeInOut(duration: 0.2))
                     // Button 1
                     Button(action: {
                         self.tabBarIndex = 2
                     }) {
                         Image(systemName: "envelope")
-                            .font(.avenirNextRegular(size: 20))
-                            .foregroundColor(Color("DarkGray"))
+                        .font(.system(size: 20, weight: .medium))
+                            .foregroundColor(colorReturn(value: 2))
                         }
                         .fixedSize()
                         .padding()
@@ -125,19 +138,19 @@ struct ButtonBarView: View {
 
                 VStack() {
                     Rectangle().fill(tabBarIndex == 3 ? barGradient : barGradientWhite)
-                        .frame(width: 50, height: 4)
+                        .frame(width: 50, height: 2)
                         .cornerRadius(8.0)
                         .fixedSize()
-                        .padding(.top, 8)
-                        .offset(x: 0, y: 8)
+                        .padding(.top, 6)
+                        .offset(x: 0, y: 6)
                         .animation(.easeInOut(duration: 0.2))
                     // Button 1
                     Button(action: {
                         self.tabBarIndex = 3
                     }) {
                         Image(systemName: "person")
-                            .font(.avenirNextRegular(size: 20))
-                            .foregroundColor(Color("DarkGray"))
+                        .font(.system(size: 20, weight: .medium))
+                            .foregroundColor(colorReturn(value: 3))
                         }
                         .fixedSize()
                         .padding()
@@ -145,7 +158,7 @@ struct ButtonBarView: View {
                 Spacer()
                 
                 }
-                .padding(.bottom, 35)
+                .padding(.bottom, 45)
             }
         }
         .foregroundColor(.white)
@@ -160,8 +173,8 @@ struct ButtonBarView: View {
     }
 }
 
-struct ButtonBar_Previews: PreviewProvider {
-    static var previews: some View {
-        ButtonBarView()
-    }
-}
+//struct ButtonBar_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ButtonBarView()
+//    }
+//}

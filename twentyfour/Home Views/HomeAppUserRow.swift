@@ -10,10 +10,10 @@ import SwiftUI
 
 struct HomeAppUserRow: View {
     var items: [AppUser]
+    @Binding var groupList: [AppUser]
     
     @State var showingMenu = false
     @State var activateGroup = false
-    
     @State var requets: [AppUser] = []
     
     func addAppUserToRequests(appUser: AppUser) {
@@ -25,7 +25,7 @@ struct HomeAppUserRow: View {
             HStack(alignment: .top, spacing: 0) {
                 ForEach(self.items) { appUser in
                     VStack() {
-                            RowItem(appUser: appUser)
+                        RowItem(appUser: appUser, groupList: self.$groupList)
                     }
                 }
             }
@@ -40,44 +40,11 @@ struct HomeAppUserRow: View {
         )
         }
     }
-    
-    func makeGradient(colors: [Color]) -> some View {
-        LinearGradient(
-            gradient: .init(colors: colors),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-    }
 }
 
 struct RowItem: View {
     var appUser: AppUser
-            
-            var gradient: LinearGradient {
-                LinearGradient(
-                    gradient: Gradient(
-                        colors:
-                        [
-//                            Color ("Peach"),
-//                            .pink,
-                            Color ("DarkGray"),
-                            Color ("DarkGray"),
-                    ]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing)
-            }
-                
-                var gradientGray: LinearGradient {
-                    LinearGradient(
-                        gradient: Gradient(
-                            colors:
-                            [
-                                Color ("SuperLightGray"),
-                                Color ("SuperLightGray"),
-                        ]),
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing)
-                }
+    @Binding var groupList: [AppUser]
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -85,86 +52,10 @@ struct RowItem: View {
                 .renderingMode(.original)
                 .resizable()
                 .scaledToFill()
-                .frame(width: 280 ,height:390)
-//                .frame(width: 210 ,height:293)
-                .overlay(AppUserTextOverlay(appUser: appUser))
-                .cornerRadius(8)
+                .frame(width: 280 ,height:360)
+                .overlay(AppUserTextOverlay(appUser: appUser, groupList: $groupList))
+                .cornerRadius(10)
                 .shadow(radius: 3, x: 0, y: 2)
-                
-//                .frame(height: 410)
-                
-                HStack(){
-                    Spacer()
-                    
-                    // Button 1
-                    if appUser.searchParameter.isFoodSelected {
-                        
-                        Button(action: {
-//                            self.setSelectedScreen(screenIndex: 1)
-                        }) {
-                            Circle()
-                                .fill(gradient)
-//                                .fill(selectedScreen == 1 ? gradient : gradientGray)
-                                .overlay(
-                                              
-                                    Image("cook")
-                                        .resizable()
-                                        .renderingMode(.original)
-                                        .frame(width: 25, height: 25)
-                                        .scaledToFill()
-//                                        .foreground(Color ("Midnight"))
-                                        .foreground(Color ("SuperLightGray"))
-                            )
-                            .frame(width: 44, height: 44)
-                        }
-                    }
-                    
-                    // Button 2
-                    if appUser.searchParameter.isEntertainmentSelected {
-                        
-                        Button(action: {
-//                            self.setSelectedScreen(screenIndex: 1)
-                        }) {
-                            Circle()
-                                .fill(gradientGray)
-//                                .fill(selectedScreen == 1 ? gradient : gradientGray)
-                                .overlay(
-                                              
-                                    Image("clap")
-                                        .resizable()
-                                        .renderingMode(.original)
-                                        .frame(width: 25, height: 25)
-                                        .scaledToFill()
-                                        .foreground(Color ("BrightGray"))
-                            )
-                            .frame(width: 44, height: 44)
-                        }
-                    }
-                    
-                    // Button 3
-                    if appUser.searchParameter.isSportSelected {
-                        Button(action: {
-//                            self.setSelectedScreen(screenIndex: 1)
-                        }) {
-                            Circle()
-                                .fill(gradientGray)
-                                .overlay(
-                                    Image(systemName: "person.3.fill")
-                                        .font(.avenirNextRegular(size: 16))
-//                                        .animation(.easeInOut(duration: 0.5))
-                                        .fixedSize()
-                                        .frame(height: 10.0)
-                                        .padding(.horizontal)
-                                        .padding(.vertical, 10.0)
-                                        .foreground(Color("BrightGray"))
-                            )
-                            .frame(width: 44, height: 44)
-                            
-                        }
-                    }
-
-                    Spacer()
-                }
                 .background(Color .white)
                 .cornerRadius(4.0)
         }
@@ -174,14 +65,43 @@ struct RowItem: View {
 
 struct AppUserTextOverlay: View {
     var appUser: AppUser
+    @Binding var groupList: [AppUser]
+    
     @State var tempUser: AppUser?
+    @State var showInfoPanel: Bool = true
+    @State var topOpacity: Double = 0.0
+    @State var bottomOpacity: Double = 0.8
+    @State var unitPointTop: UnitPoint = .center
+    
+    func toggleInfoPanel(newValue: Bool) {
+        topOpacity = (!showInfoPanel ? 0.0 : 0.7)
+        bottomOpacity = (!showInfoPanel ? 0.6 : 0.7)
+        if newValue == true {
+            unitPointTop = .top
+            groupList.append(appUser)
+        } else {
+            unitPointTop = .center
+            if groupList.contains(appUser) {
+                groupList.remove(at: self.groupList.firstIndex(of: appUser)!)
+            }
+        }
+        showInfoPanel = !newValue
+    }
     
     var gradient: LinearGradient {
         LinearGradient(
             gradient: Gradient(
-                colors: [Color.black.opacity(0.8), Color.black.opacity(0.0)]),
+                colors: [Color.black.opacity(bottomOpacity), Color.black.opacity(topOpacity)]),
             startPoint: .bottom,
-            endPoint: .center)
+            endPoint: unitPointTop)
+    }
+    
+    func makeGradient(colors: [Color]) -> some View {
+        LinearGradient(
+            gradient: .init(colors: colors),
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
     }
     
     var body: some View {
@@ -197,7 +117,7 @@ struct AppUserTextOverlay: View {
                             
                             // Button 1
                             Button(action: {
-                                
+                                self.toggleInfoPanel(newValue: self.showInfoPanel)
                             }) {
                                 VStack(){
                                     HStack(){
@@ -238,22 +158,14 @@ struct AppUserTextOverlay: View {
         }
         .foregroundColor(.white)
     }
-    
-    func makeGradient(colors: [Color]) -> some View {
-        LinearGradient(
-            gradient: .init(colors: colors),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-    }
 }
 
-struct HomeAppUserRow_Previews: PreviewProvider {
-    
-    static var previews: some View {
-            HomeAppUserRow(
-                items: Array(appUserData.prefix(4))
-                
-            )
-        }
-}
+//struct HomeAppUserRow_Previews: PreviewProvider {
+//
+//    static var previews: some View {
+//            HomeAppUserRow(
+//                items: Array(appUserData.prefix(4))
+//
+//            )
+//        }
+//}
