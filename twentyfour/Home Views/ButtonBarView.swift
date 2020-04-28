@@ -24,19 +24,16 @@ struct ButtonBarView: View {
     var barGradient: LinearGradient {
         LinearGradient(
             gradient: Gradient(
-//                colors: [Color.pink, Color.pink]),
-//                colors: [Color.pink, Color("Cherry")]),
-//                colors: [Color("AmaGreen"), Color("AmaBlue")]),
-//                colors: [Color("AmaGreen"), Color("AmaBlue")]),
-//                colors: [.pink, .pink]),
-                colors: [Color("Peach"), Color ("Peach")]),
+                colors: [
+                    Color ("RedPeach"),
+                    Color ("RedPeach")]),
             startPoint: .topLeading,
             endPoint: .bottomTrailing)
     }
     
     func colorReturn(value: Int) -> Color {
         if tabBarIndex == value {
-            return Color ("Peach")
+            return Color ("RedPeach")
 //            return Color .pink
         } else {
             return Color ("DarkGray")
@@ -63,7 +60,7 @@ struct ButtonBarView: View {
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(Color ("DarkGray"), lineWidth: 0.1)
                 )
-//                .shadow(radius: 3, x: 0, y: 2)
+                .shadow(radius: 2, x: 0, y: 2)
                 .padding([.leading, .trailing], 20)
                 .padding(.bottom, 40)
             

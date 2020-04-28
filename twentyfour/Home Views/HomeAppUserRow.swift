@@ -26,10 +26,12 @@ struct HomeAppUserRow: View {
                 ForEach(self.items) { appUser in
                     VStack() {
                         RowItem(appUser: appUser, groupList: self.$groupList)
+//                        .shadow(radius: 3, x: 0, y: 2)
                     }
                 }
             }
             .padding(.horizontal, 10)
+            .padding(.vertical, 10)
         }
 //        .frame(height: 340)
         .frame(height: 440)
@@ -54,12 +56,12 @@ struct RowItem: View {
                 .scaledToFill()
                 .frame(width: 280 ,height:360)
                 .overlay(AppUserTextOverlay(appUser: appUser, groupList: $groupList))
-                .cornerRadius(10)
-                .shadow(radius: 3, x: 0, y: 2)
                 .background(Color .white)
-                .cornerRadius(4.0)
+                .cornerRadius(15.0)
+                .shadow(radius: 5, x: 0, y: 2)
         }
         .padding(.horizontal, 10)
+        .padding(.vertical, 10)
     }
 }
 

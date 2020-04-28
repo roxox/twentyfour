@@ -27,7 +27,7 @@ struct ActivityDescriptionView: View {
             }
         }
         .padding(.vertical, 25)
-        .padding(.bottom, 60)
+        .padding(.bottom, 360)
     }
 }
 
