@@ -15,3 +15,12 @@ extension View {
         self.overlay(overlay).mask(self)
     }
 }
+extension Font {
+    static func avenirNext(size: Int) -> Font {
+        return Font.custom("Avenir Next", size: CGFloat(size))
+    }
+    
+    static func avenirNextRegular(size: Int) -> Font {
+        return Font.custom("AvenirNext-Regular", size: CGFloat(size))
+    }
+}

@@ -15,7 +15,8 @@
         },
         "locationName": "Los Angeles"
     },
-    "imageName": "basti"
+    "imageName": "basti",
+    "searchTypes": [{"rawValue": 0}, {"rawValue": 1}, {"rawValue": 2}]
 },
 {
     "username": "Mira",
@@ -33,7 +34,8 @@
         },
         "locationName": "Anaheim"
     },
-    "imageName": "mira"
+    "imageName": "mira",
+    "searchTypes": [{"rawValue": 0}, {"rawValue": 1}, {"rawValue": 2}]
 },
 {
     "username": "Katha",
@@ -51,6 +53,26 @@
         },
         "locationName": "Laguna Beach"
     },
-    "imageName": "katha"
+    "imageName": "katha",
+    "searchTypes": [{"rawValue": 0}, {"rawValue": 1}, {"rawValue": 2}]
+},
+{
+    "username": "Caro",
+    "email": "sebastian.fox@me.com",
+    "id": "1003",
+    "searchParameter": {
+        "isFoodSelected": false,
+        "isSportSelected": true,
+        "isEntertainmentSelected": false,
+        "isActive": true,
+        "description": "Entertainment",
+        "location": {
+            "longitude": -152.665167,
+            "latitude": 59.980167
+        },
+        "locationName": "Hollywood"
+    },
+    "imageName": "carolina",
+    "searchTypes": [{"rawValue": 0}]
 }
 ]

@@ -1,5 +1,5 @@
 //
-//  AppUserDetail.swift
+//  ProfileDetail.swift
 //  twentyfour
 //
 //  Created by Sebastian Fox on 13.04.20.
@@ -8,18 +8,9 @@
 
 import SwiftUI
 
-extension Font {
-    static func avenirNext(size: Int) -> Font {
-        return Font.custom("Avenir Next", size: CGFloat(size))
-    }
-    
-    static func avenirNextRegular(size: Int) -> Font {
-        return Font.custom("AvenirNext-Regular", size: CGFloat(size))
-    }
-}
-
-struct AppUserDetail: View {
-    var appUser: AppUser
+struct ProfileDetail: View {
+    var profile: Profile
+    @Binding var showProfile : Bool
     
     private let imageHeight: CGFloat = 250
     private let collapsedImageHeight: CGFloat = 75
@@ -107,7 +98,7 @@ struct AppUserDetail: View {
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {
 //                        Image("basti")
-                        appUser.image
+                        profile.image
                             .resizable()
                             .scaledToFill()
                             .frame(width: 55, height: 55)
@@ -118,7 +109,7 @@ struct AppUserDetail: View {
                             Text("Article Written By")
                                 .font(.avenirNext(size: 12))
                                 .foregroundColor(.gray)
-                            Text(appUser.username)
+                            Text(profile.username)
                                 .font(.avenirNext(size: 17))
                         }
                     }
@@ -144,7 +135,7 @@ struct AppUserDetail: View {
             GeometryReader { geometry in
                 // 3
                 ZStack(alignment: .bottom) {
-                    Image("mira-1")
+                    self.profile.image
                         .resizable()
                         .scaledToFill()
                         .frame(width: geometry.size.width, height: self.getHeightForHeaderImage(geometry))
@@ -153,27 +144,50 @@ struct AppUserDetail: View {
                         .background(GeometryGetter(rect: self.$headerImageRect))
 
                     // 4
-                    Text("How to build a parallax scroll view")
-                        .font(.avenirNext(size: 17))
-                        .foregroundColor(.white)
-                        .offset(x: 0, y: self.getHeaderTitleOffset())
+                    HStack(){
+                                        Button(action: {
+                                            self.showProfile = false
+                                        }) {
+//                                            Circle()
+//                                                .fill(Color .white.opacity(0.8))
+//                                                .overlay(
+//                                                    HStack() {
+                                                        Image(systemName: "xmark.circle.fill")
+                                                            .padding()
+                                                            .imageScale(.large)
+                                                            .foregroundColor(.white)
+//                                            )
+//                                                .frame(width: 55, height: 55)
+//                                                .offset(x: -4, y: 0)
+                                        }
+                        Spacer()
+                        Text(self.profile.username)
+                            .font(.avenirNext(size: 17))
+                            .foregroundColor(.white)
+                            .offset(x: 0, y: self.getHeaderTitleOffset())
+                        Spacer()
+                    }
                 }
                 .clipped()
                 .offset(x: 0, y: self.getOffsetForHeaderImage(geometry))
             }.frame(height: imageHeight)
             .offset(x: 0, y: -(articleContent.startingRect?.maxY ?? UIScreen.main.bounds.height))
-        }.edgesIgnoringSafeArea(.all)
+        }
+//        .edgesIgnoringSafeArea(.all)
 //        .navigationBarTitle("\(appUser.username)", displayMode: .inline)
             .navigationBarTitle("", displayMode: .inline)
-//        .navigationBarBackButtonHidden(true)
-//        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarHidden(true)
     }
 }
 
 
-struct AppUserDetail_Previews: PreviewProvider {
+struct ProfileDetail_Previews: PreviewProvider {
+    
+    @State static var showProfile = true
+    
     static var previews: some View {
-        AppUserDetail(appUser: appUserData[0])
+        ProfileDetail(profile: appUserData[0], showProfile: $showProfile)
     }
 }
 

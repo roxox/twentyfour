@@ -1,5 +1,5 @@
 //
-//  AppUserImage.swift
+//  ProfileImage.swift
 //  twentyfour
 //
 //  Created by Sebastian Fox on 14.04.20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct AppUserImage: View {
+struct ProfileImage: View {
     var image: Image
     
     var body: some View {
@@ -16,8 +16,8 @@ struct AppUserImage: View {
     }
 }
 
-struct AppUserImage_Previews: PreviewProvider {
+struct ProfileImage_Previews: PreviewProvider {
         static var previews: some View {
-            AppUserImage(image: Image("turtlerock"))
+            ProfileImage(image: Image("turtlerock"))
         }
     }

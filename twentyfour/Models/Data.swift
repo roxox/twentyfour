@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 import SwiftUI
 
-let appUserData: [AppUser] = load("appUser.json")
+let appUserData: [Profile] = load("appUser.json")
 
 func load<T: Decodable>(_ filename: String) -> T {
     let data: Data

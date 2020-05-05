@@ -23,3 +23,13 @@ private struct _CustomForeground<Content: View, Overlay: View>: View {
         content.overlay(overlay).mask(content)
     }
 }
+
+struct MyShape : Shape {
+    func path(in rect: CGRect) -> Path {
+        var p = Path()
+
+        p.addArc(center: CGPoint(x: 100, y:100), radius: 50, startAngle: .degrees(0), endAngle: .degrees(90), clockwise: true)
+
+        return p.strokedPath(.init(lineWidth: 3, dash: [5, 3], dashPhase: 10))
+    }
+}

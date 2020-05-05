@@ -16,22 +16,22 @@ struct ExploreGroupView: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top, spacing: 0) {
-                    ForEach(self.items) { appUser in
-                        NavigationLink(
-                            destination: ProfileDetail(
-                                appUser: appUser
-                            )
-                        ) {
-                            GroupRowItem(items: self.items, appUser: appUser)
-                        }
+                    ForEach(self.items) { profile in
+//                        NavigationLink(
+//                            destination: ProfileDetail(
+//                                profile: profile
+//                            )
+//                        ) {
+                            GroupRowItem(items: self.items, profile: profile)
+//                        }
                         .buttonStyle(ListButtonStyle())
                     }
                 }
+                .padding(10)
             }
-            .shadow(radius: 5)
+            .shadow(radius: 10)
             .frame(height: 330)
         }
-        .padding(.vertical, 25)
     }
     
     func makeGradient() -> some View {
@@ -49,7 +49,7 @@ struct ExploreGroupView: View {
 // Origin item size h290 x w210
 struct GroupRowItem: View {
         var items: [Profile]
-        var appUser: Profile
+        var profile: Profile
     
         var body: some View {
                 HStack(){
@@ -60,17 +60,16 @@ struct GroupRowItem: View {
                         .renderingMode(.original)
                         .scaledToFill()
                             .frame(width: CGFloat(350/self.items.count), height: 280.0)
-                            .padding(0)
                     }
                 }
-            .overlay(GroupTextOverlay(appUser: appUser))
-            .cornerRadius(8)
-            .padding(.leading, 15)
+            .overlay(GroupTextOverlay(profile: profile))
+            .cornerRadius(15)
+            .padding(10)
         }
     }
 
 struct GroupTextOverlay: View {
-    var appUser: Profile
+    var profile: Profile
     
     var gradient: LinearGradient {
         LinearGradient(
@@ -96,12 +95,6 @@ struct GroupTextOverlay: View {
                                 
                             }) {
                                 VStack(){
-//                                    HStack(){
-//                                        Text(appUser.username)
-//                                            .font(.avenirNextRegular(size: 22))
-//                                            .fontWeight(.bold)
-//                                            .offset(y: 15)
-//                                        Spacer()
 //                                    }
                                     HStack(){
                                                                 
@@ -115,7 +108,7 @@ struct GroupTextOverlay: View {
 //                                        Image(systemName: "location")
 //                                            .font(.avenirNextRegular(size: 16))
                                         
-                                        Text(appUser.searchParameter.locationName)
+                                        Text(profile.searchParameter.locationName)
                                             .font(.avenirNextRegular(size: 16))
                                             .allowsTightening(true)
                                             .lineLimit(1)
@@ -145,7 +138,7 @@ struct GroupTextOverlay: View {
     }
 }
 
-struct HomeGroupRow_Previews: PreviewProvider {
+struct ExploreGroupView_Previews: PreviewProvider {
     static var previews: some View {
             ExploreGroupView(
 //                categoryName: "Andere User",
