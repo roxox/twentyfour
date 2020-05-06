@@ -27,6 +27,9 @@ struct ExploreView: View {
     @State var tempEventSelection: [EventType] = [.food, .sport, .activity]
     @State var selectedEventType: EventType?
     @State private var currentPage = 0
+    @State var lockScreenIndex = 0
+    @State var mainScreenIndex = 1
+    @State var createGroupScreenIndex = 2
         
     
     func addAppUserToRequests(appUser: Profile) {
@@ -58,6 +61,22 @@ struct ExploreView: View {
             return 1.0
         }
         return 0.85
+    }
+    
+    func setLockScreen() -> Double {
+        if groupList.count != 0 && screenLock {
+            return 1
+        } else {
+            return 0
+        }
+    }
+    
+    func setMainScreen() -> Double {
+        if groupList.count != 0 && screenLock {
+            return 0
+        } else {
+            return 1
+        }
     }
         
     var gradient: LinearGradient {
@@ -117,13 +136,13 @@ struct ExploreView: View {
 //                VStack(alignment: .leading) {
 
                 Rectangle().fill(Color .clear)
-                    .frame(height: 60)
+                    .frame(height: 100)
 
                         VStack() {
                             if pageIndex == 0 {
                                 Spacer()
                                 
-                                HomeProfileView(items: appUserData,
+                                ExploreProfileView(items: appUserData,
                                                 groupList: $groupList,
                                                 screenLock: $screenLock,
                                                 profiles: $profiles,
@@ -137,26 +156,22 @@ struct ExploreView: View {
                             }
                         }
             }
-
-            if groupList.count != 0 && screenLock {
-//                Button(action: {
-//                        self.resetScreenLock()
-//                }) {
-//                    ZStack(){
-
+            .background(Color .white)
+            .zIndex(setMainScreen())
+            .edgesIgnoringSafeArea(.all)
                                            
-                        Rectangle().fill(Color .black.opacity(setOpacity()))
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .frame(minHeight: 0, maxHeight: .infinity)
-                            .edgesIgnoringSafeArea(.all)
-////                    }
-//                }
-            }
+            Rectangle().fill(Color .black.opacity(setOpacity()))
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .frame(minHeight: 0, maxHeight: .infinity)
+                .edgesIgnoringSafeArea(.all)
+                .zIndex(setLockScreen())
             
             VStack(){
                 ExploreSearchView()
                         .offset(y: 10)
+                
                 Spacer()
+                
                 ExploreCreateGroupView(
                     groupList: $groupList,
                     screenLock: $screenLock,
@@ -167,6 +182,7 @@ struct ExploreView: View {
                 )
                     .offset(y: userData.createGroupMenuOffset)
             }
+            .zIndex(Double(createGroupScreenIndex))
             .animation(.spring())
         }
 //        .background(setBackgroundColor())

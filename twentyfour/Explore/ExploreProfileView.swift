@@ -9,7 +9,7 @@
 import SwiftUI
 import UIKit
 
-struct HomeProfileView: View {
+struct ExploreProfileView: View {
     @EnvironmentObject var userData: UserData
     
     var items: [Profile]
@@ -90,13 +90,21 @@ struct HomeProfileView: View {
             HStack(alignment: .top, spacing: 0) {
 
                 ForEach(self.profiles) { profile in
+                    GeometryReader { geometry in
                         RowItem(
                             profile: profile,
                             groupList: self.$groupList,
                             selectedEventType: self.$selectedEventType,
                             screenLock: self.$screenLock)
-                            .frame(height: 600)
-            
+                            .rotation3DEffect(Angle(degrees:
+                                (Double(geometry.frame(in: .global).minX) - 0) / -20
+                            ), axis: (x:0, y:15, z:0))
+//                        .rotation3DEffect()
+                        
+                    }
+//                    .frame(width: 246, height: 150)
+
+                    .frame(width: UIScreen.main.bounds.width, height: 650)
                 }
             }
             .padding(.horizontal, 10)
@@ -123,7 +131,7 @@ struct RowItem: View {
 //                .frame(width: 310 ,height: 400)
                     .overlay(AppUserTextOverlay(profile: self.profile, groupList: self.$groupList, selectedEventType: self.$selectedEventType, screenLock: self.$screenLock))
 //                .background(Color .white)
-                .cornerRadius(15.0)
+                .cornerRadius(25.0)
                 .shadow(color: .init(red: 0.5, green: 0.5, blue: 0.5)
                 , radius: 9 , x: 0, y: 4)
             }
@@ -315,7 +323,10 @@ struct AppUserTextOverlay: View {
                             Spacer()
 
                             Button(action: {
-                                self.didPressAddRemoveButton(profile: self.profile)
+                                
+                                withAnimation(.linear(duration: 0.2)) {
+                                    self.didPressAddRemoveButton(profile: self.profile)
+                                }
                             }) {
                                 Circle()
                                     .fill(groupList.contains(profile) ? gradientColorPrimary : gradientColorSecondary)
@@ -341,7 +352,7 @@ struct AppUserTextOverlay: View {
     }
 }
 
-struct HomeProfileView_Previews: PreviewProvider {
+struct ExploreProfileView_Previews: PreviewProvider {
     @State static var groupList = appUserData // Note: it must be static
     @State static var profiles = appUserData // Note: it must be static
     @State static var screenLock = false // Note: it must be static
@@ -350,7 +361,7 @@ struct HomeProfileView_Previews: PreviewProvider {
     @State static var selectedEventType: EventType? = EventType.food // Note: it must be static
 
     static var previews: some View {
-            return HomeProfileView(
+            return ExploreProfileView(
                 items: Array(appUserData.prefix(4)),
                 groupList: $groupList,
                 screenLock: $screenLock,

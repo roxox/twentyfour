@@ -204,7 +204,9 @@ struct ExploreCreateGroupView: View {
 
                             if userData.createGroupMenuOffset == CGFloat (collapsedOffset) {
                                 Button(action: {
-                                    self.enlargeScreenLock()
+                                    withAnimation(.linear(duration: 0.2)) {
+                                        self.enlargeScreenLock()
+                                    }
                                 }) {
                                     VStack(){
                                         Image(systemName: "chevron.up")
@@ -219,7 +221,9 @@ struct ExploreCreateGroupView: View {
                                 }
                             } else {
                                 Button(action: {
-                                    self.resetScreenLock()
+                                    withAnimation(.linear(duration: 0.2)) {
+                                        self.resetScreenLock()
+                                    }
                                 }) {
                                     VStack(){
                                         Image(systemName: "chevron.down")
