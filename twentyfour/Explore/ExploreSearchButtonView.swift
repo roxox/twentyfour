@@ -8,46 +8,13 @@
 
 import SwiftUI
 
-struct ExploreSearchView: View {
+struct ExploreSearchButtonView: View {
+    
+    @EnvironmentObject var userData: UserData
+    
     @State var showButtons = false
     @State var selectedScreen = 0
     
-    var gradient: LinearGradient {
-        LinearGradient(
-            gradient: Gradient(
-                colors:
-                [
-                Color.black.opacity(0.2),
-                Color.black.opacity(0.0),
-            ]),
-            startPoint: .top,
-            endPoint: .bottom)
-    }
-    
-    var gradientColor: LinearGradient {
-        LinearGradient(
-            gradient: Gradient(
-                colors:
-                [
-                    Color ("RedPeach"),
-                    Color ("RedPeach"),
-                    Color ("Peach"),
-            ]),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing)
-    }
-        
-    var gradientColor2: LinearGradient {
-        LinearGradient(
-            gradient: Gradient(
-                colors:
-                [
-                Color ("Peach"),
-                    .pink
-            ]),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing)
-    }
         
     var gradientGray: LinearGradient {
         LinearGradient(
@@ -61,16 +28,8 @@ struct ExploreSearchView: View {
             endPoint: .bottomTrailing)
     }
     
-    func makeGradient(colors: [Color]) -> some View {
-        LinearGradient(
-            gradient: .init(colors: colors),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-    }
-    
-    func setSelectedScreen(screenIndex: Int){
-        self.selectedScreen = screenIndex
+    func openSearchView() {
+        userData.searchViewOffsetY = CGFloat (0)
     }
     
     var body: some View {
@@ -84,7 +43,9 @@ struct ExploreSearchView: View {
                     Spacer()
                 // Button 1
                 Button(action: {
-                    self.showButtons.toggle()
+                    withAnimation(.linear(duration: 0.2)) {
+                        self.openSearchView()
+                    }
                 }) {
                     HStack() {
                         
@@ -118,6 +79,6 @@ struct ExploreSearchView: View {
 
 struct ExploreSearchView_Previews: PreviewProvider {
     static var previews: some View {
-        ExploreSearchView()
+        ExploreSearchButtonView()
     }
 }

@@ -59,30 +59,30 @@ struct CategoryHome: View {
                         ExploreView(
                             items: appUserData,
                             pageIndex: $pageIndex,
-                            groupList: $groupList
+                            groupList: $groupList,
+                            tabBarIndex: $tabBarIndex
                         )
                     }
                 }
-                
+                    
                 VStack() {
-                
                     Spacer()
-                    
-//                    if (tabBarIndex == 0 && groupList.count == 0) {
-//                        ExplorePersonGroupToggle(pageIndex: $pageIndex)
-//                        .padding(0)
-//                    }
-
-//                    Custom TapBar
-                    
-                        ButtonBarView(tabBarIndex: $tabBarIndex)
-                            .offset(y: userData.mainMenuOffset)
-//                            .padding(.bottom, 30)
-//                    }
+                    ButtonBarView(tabBarIndex: $tabBarIndex)
+                        .background(Color .white)
+                        .offset(y: userData.buttonBarOffset)
                 }
-                .animation(.spring())            }
+                .animation(.spring())
+                    
+                VStack() {
+
+                    SearchView()
+                        .background(Color .white)
+                        .offset(y: userData.searchViewOffsetY)
+                }
+                .animation(.spring())
+                
+            }
         }
-//        .edgesIgnoringSafeArea(.bottom)
         .navigationBarHidden(true)
         .navigationBarTitle("", displayMode: .inline)
         .navigationBarBackButtonHidden(true)

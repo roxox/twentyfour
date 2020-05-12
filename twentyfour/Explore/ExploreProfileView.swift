@@ -66,12 +66,12 @@ struct ExploreProfileView: View {
         }
         
         if groupList.count != 0 {
-            userData.createGroupMenuOffset = CGFloat (35)
-            userData.mainMenuOffset = CGFloat (150)
+            userData.createGroupMenuOffsetY = CGFloat (35)
+            userData.buttonBarOffset = CGFloat (150)
             screenLock = true
         } else {
-            userData.createGroupMenuOffset = CGFloat (455)
-            userData.mainMenuOffset = CGFloat (0)
+            userData.createGroupMenuOffsetY = CGFloat (555)
+            userData.buttonBarOffset = CGFloat (0)
             screenLock = false
         }
     }
@@ -89,16 +89,17 @@ struct ExploreProfileView: View {
 //                    PagerView(pageCount: profiles.count, currentIndex: $currentPage) {
             HStack(alignment: .top, spacing: 0) {
 
-                ForEach(self.profiles) { profile in
+                ForEach(userData.appUsers) { profile in
                     GeometryReader { geometry in
                         RowItem(
                             profile: profile,
+//                            profile: self.userData.currentUser,
                             groupList: self.$groupList,
                             selectedEventType: self.$selectedEventType,
                             screenLock: self.$screenLock)
                             .rotation3DEffect(Angle(degrees:
-                                (Double(geometry.frame(in: .global).minX) - 0) / -20
-                            ), axis: (x:0, y:15, z:0))
+                                (Double(geometry.frame(in: .global).minX)) / -65
+                            ), axis: (x:0, y:10, z:0))
 //                        .rotation3DEffect()
                         
                     }
@@ -107,7 +108,7 @@ struct ExploreProfileView: View {
                     .frame(width: UIScreen.main.bounds.width, height: 650)
                 }
             }
-            .padding(.horizontal, 10)
+//            .padding(.horizontal, 10)
         }
     }
 }
@@ -256,18 +257,18 @@ struct AppUserTextOverlay: View {
     }
     
     func expandCreateGroupMenu() {
-        userData.createGroupMenuOffset = CGFloat (35)
-        userData.mainMenuOffset = CGFloat (150)
+        userData.createGroupMenuOffsetY = CGFloat (35)
+        userData.buttonBarOffset = CGFloat (150)
         screenLock = true
     }
     
     func collapseCreateGroupMenu() {
-        userData.createGroupMenuOffset = CGFloat (collapsedOffset)
+        userData.createGroupMenuOffsetY = CGFloat (collapsedOffset)
     }
     
     func closeCreateGroupMenu() {
-        userData.createGroupMenuOffset = CGFloat (455)
-        userData.mainMenuOffset = CGFloat (0)
+        userData.createGroupMenuOffsetY = CGFloat (555)
+        userData.buttonBarOffset = CGFloat (0)
         screenLock = false
     }
     
@@ -293,9 +294,9 @@ struct AppUserTextOverlay: View {
                                         isActive : self.$showProfile
                                     ) {
                                     Text(profile.username)
-                                        .font(.avenirNextRegular(size: 22))
-                                        .fontWeight(.bold)
-                                        .offset(y: 15)
+                                        .font(.avenirNextRegular(size: 30))
+                                        .fontWeight(.semibold)
+                                        .offset(y: 30)
                                         
                                     }
                                     Spacer()
@@ -305,12 +306,12 @@ struct AppUserTextOverlay: View {
                                     Image("locationBlack")
                                         .resizable()
                                         .renderingMode(.original)
-                                        .frame(width: 16, height: 16)
+                                        .frame(width: 20, height: 20)
                                         .scaledToFill()
                                         .foreground(makeGradient(colors: [.white, .white]))
                                     
                                     Text(profile.searchParameter.locationName)
-                                        .font(.avenirNextRegular(size: 16))
+                                        .font(.avenirNextRegular(size: 20))
                                         .allowsTightening(true)
                                         .lineLimit(1)
                                     
@@ -338,7 +339,7 @@ struct AppUserTextOverlay: View {
                                         .font(.system(size: 20, weight: .medium))
                                         .foreground(groupList.contains(profile) ? Color .white : Color .black)
                                 )
-                                    .frame(width: 40, height: 40)
+                                    .frame(width: 50, height: 50)
                                     .offset(x: -4, y: 0)
                             }
                             .padding(.bottom, 20)

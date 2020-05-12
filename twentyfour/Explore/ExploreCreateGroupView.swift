@@ -16,9 +16,6 @@ struct ExploreCreateGroupView: View {
     
     @Binding var groupList: [Profile]
     @Binding var screenLock: Bool
-    @Binding var profiles: [Profile]
-    @Binding var currentUserEventSelection: [EventType]
-    @Binding var tempEventSelection: [EventType]
     @Binding var selectedEventType: EventType?
 
     var gradientColorPrimary: LinearGradient {
@@ -40,47 +37,31 @@ struct ExploreCreateGroupView: View {
             gradient: Gradient(
                 colors:
                 [
-//                    Color ("Sea"),
-//                    Color ("Sea"),
+                    Color ("Sea"),
                     .blue,
-                    .purple
             ]),
             startPoint: .topLeading,
             endPoint: .bottomTrailing)
     }
     
-    
-    var gradientNozSelected: LinearGradient {
-        LinearGradient(
-            gradient: Gradient(
-                colors: [Color .black.opacity(0.0), Color .black.opacity(0.0)]),
-            startPoint: .bottom,
-            endPoint: .center)
-    }
-    
-    
-    var gradientSelected: LinearGradient {
-        LinearGradient(
-            gradient: Gradient(
-                colors: [Color .black.opacity(0.6), Color .black.opacity(0.0)]),
-            startPoint: .bottom,
-            endPoint: .center)
-    }
-    
     func deleteGroupList() {
-//        profiles.append(contentsOf: groupList)
         groupList.removeAll()
         resetGroupValues()
         
         if groupList.count != 0 {
-            userData.createGroupMenuOffset = CGFloat (35)
-            userData.mainMenuOffset = CGFloat (100)
+            userData.createGroupMenuOffsetY = CGFloat (0)
+            userData.buttonBarOffset = CGFloat (100)
             screenLock = true
         } else {
-            userData.createGroupMenuOffset = CGFloat (455)
-            userData.mainMenuOffset = CGFloat (0)
+            userData.createGroupMenuOffsetY = CGFloat (555)
+            userData.buttonBarOffset = CGFloat (0)
             screenLock = false
         }
+    }
+    
+    func addTilteAndDescription() {
+        userData.createGroupMenuOffsetX = CGFloat (-UIScreen.main.bounds.width)
+        userData.addTitleMenuOffsetX = 0
     }
     
     func removeFromGroupList(profile: Profile) {
@@ -89,15 +70,15 @@ struct ExploreCreateGroupView: View {
         }
         
         if groupList.count == 0  {
-            userData.createGroupMenuOffset = CGFloat (455)
-            userData.mainMenuOffset = CGFloat (0)
+            userData.createGroupMenuOffsetY = CGFloat (555)
+            userData.buttonBarOffset = CGFloat (0)
             screenLock = false
         }
     }
         
     func resetScreenLock() {
         screenLock.toggle()
-        userData.createGroupMenuOffset = CGFloat (collapsedOffset)
+        userData.createGroupMenuOffsetY = CGFloat (collapsedOffset)
     }
     
     func resetGroupValues() {
@@ -106,12 +87,12 @@ struct ExploreCreateGroupView: View {
         
     func enlargeScreenLock() {
         screenLock.toggle()
-        userData.createGroupMenuOffset = CGFloat (35)
+        userData.createGroupMenuOffsetY = CGFloat (35)
     }
     
     func isEventTypeAvailable(eventType: EventType) -> Bool {
         
-        if !currentUserEventSelection.contains(eventType){
+        if !userData.currentUser.searchTypes.contains(eventType){
                 return false
         }
         
@@ -124,25 +105,13 @@ struct ExploreCreateGroupView: View {
         return true
     }
     
-    func setSelectedEventType(eventType: EventType) {
-        selectedEventType = eventType
-    }
-    
-    func updateTempEventSelection(items: [EventType]) {
-        for eventType in tempEventSelection {
-            if !items.contains(eventType) {
-                tempEventSelection.remove(at: tempEventSelection.firstIndex(of: eventType)!)
-            }
-        }
-    }
-    
     var body: some View {
             
             VStack() {
                 Spacer()
 
 
-                if groupList.count != 0 && screenLock && profiles.count != 0 {
+                if groupList.count != 0 && screenLock {
                         Button(action: {
                                 self.resetScreenLock()
                         }) {
@@ -163,30 +132,6 @@ struct ExploreCreateGroupView: View {
                         .animation(.spring())
                     }
                 
-                if profiles.count == 0 {
-                    VStack(){
-                        Spacer()
-                        
-                         RoundedRectangle(cornerRadius: 19)
-                                
-                            .stroke(Color.white, lineWidth: 2)
-                            .overlay(
-                                    
-                                    Text("Keine weiteren Treffer")
-                                    .font(.avenirNextRegular(size: 16))
-                                    .fontWeight(.semibold)
-                                    .foreground(Color .white)
-                            )
-                            
-                                .frame(height: 45)
-                                .frame(minWidth: 0, maxWidth: .infinity)
-                                .padding(.horizontal, 20)
-                                .padding(.bottom, 20)
-                     
-                        Spacer()
-                    }
-                }
-                
                 ZStack() {
                     
                     VStack() {
@@ -202,56 +147,47 @@ struct ExploreCreateGroupView: View {
                             
                             Spacer()
 
-                            if userData.createGroupMenuOffset == CGFloat (collapsedOffset) {
+                            if userData.createGroupMenuOffsetY == CGFloat (collapsedOffset) {
                                 Button(action: {
                                     withAnimation(.linear(duration: 0.2)) {
                                         self.enlargeScreenLock()
                                     }
                                 }) {
-                                    VStack(){
                                         Image(systemName: "chevron.up")
                                             .font(.avenirNextRegular(size: 20))
                                             .frame(width: 40 ,height:40)
                                             .background(gradient)
                                             .foregroundColor(.white)
                                             .clipShape(Circle())
-                                            .padding(.top, 20)
-                                            .padding(.leading, 10)
-                                    }
                                 }
+                                .padding(.top, 20)
                             } else {
-                                Button(action: {
-                                    withAnimation(.linear(duration: 0.2)) {
-                                        self.resetScreenLock()
+                                    Button(action: {
+                                        withAnimation(.linear(duration: 0.2)) {
+                                            self.resetScreenLock()
+                                        }
+                                    }) {
+                                            Image(systemName: "chevron.down")
+                                                .font(.avenirNextRegular(size: 20))
+                                                .frame(width: 40 ,height:40)
+                                                .background(gradient)
+                                                .foregroundColor(.white)
+                                                .clipShape(Circle())
                                     }
-                                }) {
-                                    VStack(){
-                                        Image(systemName: "chevron.down")
-                                            .font(.avenirNextRegular(size: 20))
-                                            .frame(width: 40 ,height:40)
-                                            .background(gradient)
-                                            .foregroundColor(.white)
-                                            .clipShape(Circle())
-                                            .padding(.top, 20)
-                                            .padding(.leading, 10)
-                                    }
+                                    .padding(.top, 20)
                                 }
-                            }
-                            
-                            Button(action: {
-                                self.deleteGroupList()
-                            }) {
-                                VStack(){
+                                
+                                Button(action: {
+                                    self.deleteGroupList()
+                                }) {
                                     Image(systemName: "trash")
                                         .font(.avenirNextRegular(size: 16))
                                         .frame(width: 40 ,height:40)
                                         .background(gradientColorPrimary)
                                         .foregroundColor(.white)
                                         .clipShape(Circle())
-                                        .padding(.top, 20)
-                                        .padding(.leading, 10)
                                 }
-                            }
+                                .padding(.top, 20)
 
                         }
                         .padding([.leading, .trailing], 20)
@@ -262,7 +198,7 @@ struct ExploreCreateGroupView: View {
                                     HStack(alignment: .top, spacing: 0) {
                                         if groupList.count != 0 {
                                             ForEach(groupList, id: \.self) { profile in
-                                                VStack() {
+                                                ZStack() {
 
                                                     Button(action: {
                                                         self.removeFromGroupList(profile: profile)
@@ -275,6 +211,26 @@ struct ExploreCreateGroupView: View {
                                                         .clipShape(Circle())
                                                         .padding(.leading, 10)
                                                     }
+                                                    VStack() {
+                                                        Spacer()
+                                                        HStack() {
+                                                            Spacer()
+
+                                                            Button(action: {
+                                                                self.removeFromGroupList(profile: profile)
+                                                            }) {
+                                                                Image(systemName: "xmark")
+                                                                    .font(.avenirNextRegular(size: 13))
+                                                                    .frame(width: 25 ,height:25)
+//                                                                    .background(self.gradient)
+                                                                    .background(Color .gray)
+                                                                    .foregroundColor(.white)
+                                                                    .clipShape(Circle())
+                                                            }
+                                                            .offset(x: 10, y: 0)
+                                                        }
+                                                    }
+                                                    .frame(width: 80 ,height:80)
                                                 }
                                             }
                                         }
@@ -286,7 +242,6 @@ struct ExploreCreateGroupView: View {
                         }
                         
                         HStack(){
-    //                        Spacer()
                             VStack(alignment: .leading) {
                                 Text("Wähle eine Aktivität für die Gruppe")
                                         .font(.avenirNextRegular(size: 20))
@@ -309,166 +264,54 @@ struct ExploreCreateGroupView: View {
                         HStack() {
                             
                             
-
-                            Button(action: {
-                                withAnimation(.linear(duration: 0.2)) {
-                                    self.setSelectedEventType(eventType: .food)
-                                }
-                            }) {
-                                VStack(){
-                                    Image("pic")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 118 ,height:90)
-                                        .cornerRadius(11)
-                                        .shadow(radius: 5, x: 0, y: 2)
-                                        .overlay(
-                                            ZStack(){
-                                                RoundedRectangle(cornerRadius: 11)
-                                                    .fill(selectedEventType == .food ? gradientSelected : gradientNozSelected)
-        //                                            .stroke(gradient, lineWidth: 5)
-                                                VStack() {
-                                                    Spacer()
-                                                    HStack() {
-                                                        Spacer()
-                                                        if selectedEventType == .food {
-                                                        Image(systemName: "checkmark")
-                                                            .font(.system(size: 30, weight: .bold))
-                                                            .foregroundColor(Color .white.opacity(0.8))
-                                                            .padding()
-                                                        }
-//                                                        Spacer()
-                                                    }
-//                                                    Spacer()
-                                                }
-                                            }
-                                        )
-                                    
-                                    Text("Essen und Trinken")
-                                        .font(.avenirNextRegular(size: 14))
-                                        .fontWeight(.semibold)
-                                        .frame(width: 118)
-                                        .allowsTightening(true)
-                                        .lineLimit(2)
-                                }
-                            }
-                            .disabled(!isEventTypeAvailable(eventType: .food))
-                            .buttonStyle(ListButtonStyle())
-                            .opacity(isEventTypeAvailable(eventType: .food) ? 1.0 : 0.3)
+                            EventTypeSelectorButton(
+                                eventType: .food,
+                                imageString: "essen",
+                                buttonTextString: "Essen und Trinken",
+                                selectedEventType: $selectedEventType,
+                                groupList: $groupList
+                            )
                             
-                            Button(action: {
-                                withAnimation(.linear(duration: 0.2)) {
-                                    self.setSelectedEventType(eventType: .activity)
-                                }
-                            }) {
-                                VStack(){
-                                    Image("mira-1")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 118 ,height: 90)
-                                        .cornerRadius(11)
-                                        .shadow(radius: 5, x: 0, y: 2)
-                                        .overlay(
-                                            ZStack(){
-                                                RoundedRectangle(cornerRadius: 11)
-                                                    .fill(selectedEventType == .activity ? gradientSelected : gradientNozSelected)
-        //                                            .stroke(gradient, lineWidth: 5)
-                                                VStack() {
-                                                    Spacer()
-                                                    HStack() {
-                                                        Spacer()
-                                                        if selectedEventType == .activity {
-                                                        Image(systemName: "checkmark")
-                                                            .font(.system(size: 30, weight: .bold))
-                                                            .foregroundColor(Color .white.opacity(0.8))
-                                                            .padding()
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        )
-                                    
-                                    Text("Entertainment")
-                                    .font(.avenirNextRegular(size: 14))
-                                        .fontWeight(.semibold)
-                                        .frame(width: 118)
-                                        .allowsTightening(true)
-                                        .lineLimit(1)
-                                }
-                            }
-                            .disabled(!isEventTypeAvailable(eventType: .activity))
-                            .buttonStyle(ListButtonStyle())
-                            .opacity(isEventTypeAvailable(eventType: .activity) ? 1.0 : 0.3)
+                            EventTypeSelectorButton(
+                                eventType: .activity,
+                                imageString: "freizeit2",
+                                buttonTextString: "Freizeit",
+                                selectedEventType: $selectedEventType,
+                                groupList: $groupList
+                            )
                             
+                            EventTypeSelectorButton(
+                                eventType: .sport,
+                                imageString: "sport",
+                                buttonTextString: "Sport",
+                                selectedEventType: $selectedEventType,
+                                groupList: $groupList
+                            )
                             
-                            Button(action: {
-                                withAnimation(.linear(duration: 0.2)) {
-                                    self.setSelectedEventType(eventType: .sport)
-                                }
-                            }) {
-                                VStack(){
-                                    Image("turtlerock")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 118 ,height: 90)
-                                        .cornerRadius(11)
-                                        .shadow(radius: 5, x: 0, y: 2)
-                                        .overlay(
-                                            ZStack(){
-                                                RoundedRectangle(cornerRadius: 11)
-                                                    .fill(selectedEventType == .sport ? gradientSelected : gradientNozSelected)
-        //                                            .stroke(gradient, lineWidth: 5)
-                                                VStack() {
-                                                    Spacer()
-                                                    HStack() {
-                                                        Spacer()
-                                                        if selectedEventType == .sport {
-                                                        Image(systemName: "checkmark")
-                                                            .font(.system(size: 30, weight: .bold))
-                                                            .foregroundColor(Color .white.opacity(0.8))
-                                                            .padding()
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        )
-                                    
-                                    Text("Sport")
-                                    .font(.avenirNextRegular(size: 14))
-                                        .fontWeight(.semibold)
-                                        .frame(width: 118)
-                                        .allowsTightening(true)
-                                        .lineLimit(1)
-                                }
-                            }
-                            .disabled(!isEventTypeAvailable(eventType: .sport))
-                            .buttonStyle(ListButtonStyle())
-                            .opacity(isEventTypeAvailable(eventType: .sport) ? 1.0 : 0.3)
                         }
                         .padding(.bottom, 20)
                         
                         HStack(){
+                            Spacer()
                             Button(action: {
-                                self.deleteGroupList()
+                                self.addTilteAndDescription()
                             }) {
                                 Text("weiter")
-                                .font(.avenirNextRegular(size: 16))
+                                .font(.avenirNextRegular(size: 18))
                                 .fontWeight(.semibold)
                             }
+                            .disabled(selectedEventType == nil || groupList.count == 0)
                         }
+                        .padding(.trailing, 30)
                         .padding(.bottom, 20)
 
                     }
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .padding(.bottom, 30)
                     .background(Color .white)
-                    .transition(.move(edge: .top))
+//                    .transition(.move(edge: .top))
                     .cornerRadius(15)
-//                    .shadow(color: Color ("DarkGray"), radius: 40, x: 0, y: 15)
-                        .shadow(radius: 30, y: 10)
+                    .shadow(radius: 30, y: 10)
                 }
             }
     }
@@ -479,25 +322,126 @@ struct ExploreCreateGroupView_Previews: PreviewProvider {
         @State static var pageIndex = 0 // Note: it must be static
         @State static var screenLock = false // Note: it must be static
         @State static var groupList = appUserData // Note: it must be static
-        @State static var profiles = appUserData // Note: it must be static
-        @State static var currentUserEventSelection : [EventType] = [.food, .activity] // Note: it must be static
-        @State static var tempEventSelection : [EventType] = [.food, .activity] // Note: it must be static
         @State static var selectedEventType: EventType? = EventType.food // Note: it must be static
         
         static var previews: some View {
-    //        ForEach(["iPhone SE (2nd generation)", "iPhone 11 Pro Max"], id: \.self) { deviceName in
                 let userData = UserData()
                 return ExploreCreateGroupView(
                     groupList: $groupList,
                     screenLock: $screenLock,
-                    profiles: $profiles,
-                    currentUserEventSelection: $currentUserEventSelection,
-                    tempEventSelection: $tempEventSelection,
                     selectedEventType: $selectedEventType
                 )
-    //            .previewDevice(PreviewDevice(rawValue: deviceName))
-    //            .previewDisplayName(deviceName)
                 .environmentObject(userData)
-    //        }
         }
     }
+
+struct EventTypeSelectorButton: View {
+    
+    @EnvironmentObject var userData: UserData
+    
+    let eventType: EventType
+    let imageString: String
+    let buttonTextString: String
+    
+    @Binding var selectedEventType: EventType?
+    @Binding var groupList: [Profile]
+    
+    var gradientSelected: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(
+                colors: [Color .black.opacity(0.6), Color .black.opacity(0.0)]),
+            startPoint: .bottom,
+            endPoint: .center)
+    }
+    
+    var gradientNotSelected: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(
+                colors: [Color .black.opacity(0.0), Color .black.opacity(0.0)]),
+            startPoint: .bottom,
+            endPoint: .center)
+    }
+
+    var gradientColorPrimary: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(
+                colors:
+                [
+                    .pink,
+                    .pink,
+                    Color ("Peach")
+            ]),
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing)
+    }
+    
+    func setSelectedEventType(eventType: EventType) {
+        if selectedEventType != eventType {
+            selectedEventType = eventType
+        } else {
+            selectedEventType = nil
+        }
+        
+    }
+    
+    func isEventTypeAvailable(eventType: EventType) -> Bool {
+        
+        if !userData.currentUser.searchTypes.contains(eventType){
+                return false
+        }
+        
+        for profile in groupList {
+            if !profile.searchTypes.contains(eventType) {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    var body: some View {
+            
+            Button(action: {
+                withAnimation(.linear(duration: 0.2)) {
+                    self.setSelectedEventType(eventType: self.eventType)
+                }
+            }) {
+                VStack(){
+                    Image(imageString)
+                        .renderingMode(.original)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 118 ,height:90)
+                        .cornerRadius(11)
+                        .shadow(radius: 5, x: 0, y: 2)
+                        .overlay(
+                            VStack() {
+                                Spacer()
+                                HStack() {
+                                    Spacer()
+                                    if selectedEventType == eventType {
+
+                                        Image(systemName: "checkmark")
+                                            .font(.avenirNextRegular(size: 16))
+                                            .frame(width: 30 ,height:30)
+                                            .background(gradientColorPrimary)
+                                            .foregroundColor(.white)
+                                            .clipShape(Circle())
+                                            .padding(10)
+                                    }
+                                }
+                            }
+                        )
+
+                    Text(buttonTextString)
+                        .font(.avenirNextRegular(size: 14))
+                        .fontWeight(.semibold)
+                        .frame(width: 118)
+                        .lineLimit(2)
+                }
+            }
+        .disabled(!isEventTypeAvailable(eventType: eventType))
+        .opacity(isEventTypeAvailable(eventType: eventType) ? 1.0 : 0.3)
+        .buttonStyle(ListButtonStyle())
+    }
+}

@@ -48,8 +48,8 @@ struct ButtonBarView: View {
             gradient: Gradient(
                 colors:
                 [
-                    Color ("Midnight"),
-                    Color ("Sea"),
+                    Color ("White"),
+                    Color ("White"),
             ]),
             startPoint: .topLeading,
             endPoint: .bottomTrailing)
@@ -85,8 +85,8 @@ struct ButtonBarView: View {
             gradient: Gradient(
                 colors:
                 [
-                    Color ("SuperLightGray"),
-                    Color ("SuperLightGray"),
+                    Color ("AlmostBlack"),
+                    Color ("AlmostBlack"),
             ]),
             startPoint: .topLeading,
             endPoint: .bottomTrailing)
@@ -142,177 +142,108 @@ struct ButtonBarView: View {
 
 //                  Button Lupe
                 Button(action: {
-//                                        self.setSelectedTab(tabBarIndex: self.tabBarIndex)
                     self.tabBarIndex = 0
                 }) {
-                    Circle()
-                        .fill(tabBarIndex == 0 ? gradientColorPrimary : gradientGray)
-                        .overlay(
-                            HStack() {
+                    VStack() {
+                        Circle().fill(tabBarIndex == 0 ? gradientColorPrimary : gradientColorSecondary)
+                            .overlay(
                                 Image(systemName: "magnifyingglass")
                                     .padding(.vertical, 10.0)
-                            }
-                            .font(.system(size: 20, weight: .medium))
-                            .foreground(tabBarIndex == 0 ? .white : Color("DarkGray"))
-                    )
-                        .frame(width: 55, height: 55)
-                        .offset(x: -4, y: 0)
+                                    .font(.system(size: 20, weight: .medium))
+                                    .foreground(tabBarIndex == 0 ? gradientColorSecondary : gradientGray)
+                                    .frame(width: 40, height: 40)
+                                    .offset(x: 0, y: 0)
+                                )
+                            .frame(width: 45, height: 45)
+                        
+                    Text("Stöbern")
+                        .font(.avenirNextRegular(size: 11))
+                        .fontWeight(.semibold)
+                        .foreground(tabBarIndex == 0 ? gradientColorPrimary : gradientGray)
+                    }
                 }
 
-                    Spacer()
+                Spacer()
 
-//                  Button 3-People
+//                  Button My Groups
                 Button(action: {
-//                                        self.setSelectedTab(tabBarIndex: self.tabBarIndex)
                     self.tabBarIndex = 1
                 }) {
-                    Circle()
-                        .fill(tabBarIndex == 1 ? gradientColorPrimary : gradientGray)
-                        .overlay(
-                            HStack() {
+                    VStack() {
+                        Circle().fill(tabBarIndex == 1 ? gradientColorPrimary : gradientColorSecondary)
+                            .overlay(
                                 Image(systemName: "person.3")
                                     .padding(.vertical, 10.0)
-                            }
-                            .font(.system(size: 20, weight: .medium))
-                            .foreground(tabBarIndex == 1 ? .white : Color("DarkGray"))
-                    )
-                        .frame(width: 55, height: 55)
-                        .offset(x: -4, y: 0)
+                                    .font(.system(size: 20, weight: .medium))
+                                    .foreground(tabBarIndex == 1 ? gradientColorSecondary : gradientGray)
+                                    .frame(width: 40, height: 40)
+                                    .offset(x: 0, y: 0)
+                                )
+                            .frame(width: 45, height: 45)
+                        
+                        Text("Meine Gruppen")
+                            .font(.avenirNextRegular(size: 11))
+                            .fontWeight(.semibold)
+                            .foreground(tabBarIndex == 1 ? gradientColorPrimary : gradientGray)
+                    }
                 }
                 
                 Spacer()
 
 //                  Button Message
                 Button(action: {
-//                                        self.setSelectedTab(tabBarIndex: self.tabBarIndex)
                     self.tabBarIndex = 2
                 }) {
-                    Circle()
-                        .fill(tabBarIndex == 2 ? gradientColorPrimary : gradientGray)
-                        .overlay(
-                            HStack() {
+                    VStack() {
+                        Circle().fill(tabBarIndex == 2 ? gradientColorPrimary : gradientColorSecondary)
+                            .overlay(
                                 Image(systemName: "envelope")
                                     .padding(.vertical, 10.0)
-                            }
-                            .font(.system(size: 20, weight: .medium))
-                            .foreground(tabBarIndex == 2 ? .white : Color("DarkGray"))
-                    )
-//                        .overlay(
-//                            Circle()
-//                                .stroke(Color ("AlmostBlack"), lineWidth: 3.0)
-//                    )
-                        .frame(width: 55, height: 55)
-                        .offset(x: -4, y: 0)
+                                    .font(.system(size: 20, weight: .medium))
+                                    .foreground(tabBarIndex == 2 ? gradientColorSecondary : gradientGray)
+                                    .frame(width: 40, height: 40)
+                                    .offset(x: 0, y: 0)
+                                )
+                            .frame(width: 45, height: 45)
+                            
+                        Text("Nachrichten")
+                            .font(.avenirNextRegular(size: 11))
+                            .fontWeight(.semibold)
+                            .foreground(tabBarIndex == 2 ? gradientColorPrimary : gradientGray)
+                    }
                 }
                 
                 Spacer()
-                
-//                  Button Profile
+
+//                  Button Profil
                 Button(action: {
-//                                        self.setSelectedTab(tabBarIndex: self.tabBarIndex)
                     self.tabBarIndex = 3
                 }) {
-                    Circle()
-                        .fill(tabBarIndex == 3 ? gradientColorPrimary : gradientGray)
-                        .overlay(
-                            HStack() {
+                    VStack() {
+                        Circle().fill(tabBarIndex == 3 ? gradientColorPrimary : gradientColorSecondary)
+                            .overlay(
                                 Image(systemName: "person")
                                     .padding(.vertical, 10.0)
-                            }
-                            .font(.system(size: 20, weight: .medium))
-                            .foreground(tabBarIndex == 3 ? .white : Color("DarkGray"))
-                    )
-                        .frame(width: 55, height: 55)
-                        .offset(x: -4, y: 0)
+                                    .font(.system(size: 20, weight: .medium))
+                                    .foreground(tabBarIndex == 3 ? gradientColorSecondary : gradientGray)
+                                    .frame(width: 40, height: 40)
+                                    .offset(x: 0, y: 0)
+                                )
+                            .frame(width: 45, height: 45)
+                            
+                        Text("Profil")
+                            .font(.avenirNextRegular(size: 11))
+                            .fontWeight(.semibold)
+                            .foreground(tabBarIndex == 3 ? gradientColorPrimary : gradientGray)
+                    }
                 }
-                Spacer()
-                    
-                    // Button 1
-//                    Button(action: {
-//                        self.tabBarIndex = 0
-//                    }) {
-//                        Image(systemName: "magnifyingglass")
-//                        .font(.system(size: 20, weight: .medium))
-////                            .font(.avenirNextRegular(size: 20))
-////                            foreground(barGradient)
-//                            .foregroundColor(colorReturn(value: 0))
-//                        }
-//                        .fixedSize()
-//                        .padding()
-                        
-//                }
                 
-//                Spacer()
-//
-//                VStack() {
-//                    Rectangle().fill(tabBarIndex == 1 ? barGradient : barGradientWhite)
-//                        .frame(width: 50, height: 2)
-//                        .cornerRadius(8.0)
-//                        .fixedSize()
-//                        .padding(.top, 6)
-//                        .offset(x: 0, y: 6)
-//                        .animation(.easeInOut(duration: 0.2))
-//                    // Button 1
-//                    Button(action: {
-//                        self.tabBarIndex = 1
-//                    }) {
-//                        Image(systemName: "person.3")
-//                        .font(.system(size: 20, weight: .medium))
-//                        .foregroundColor(colorReturn(value: 1))
-//                    }
-//                    .fixedSize()
-//                    .padding()
-//                }
-//                Spacer()
-//
-//                VStack() {
-//                    Rectangle().fill(tabBarIndex == 2 ? barGradient : barGradientWhite)
-//                        .frame(width: 50, height: 2)
-//                        .cornerRadius(8.0)
-//                        .fixedSize()
-//                        .padding(.top, 6)
-//                        .offset(x: 0, y: 6)
-//                        .animation(.easeInOut(duration: 0.2))
-//                    // Button 1
-//                    Button(action: {
-//                        self.tabBarIndex = 2
-//                    }) {
-//                        Image(systemName: "envelope")
-//                        .font(.system(size: 20, weight: .medium))
-//                            .foregroundColor(colorReturn(value: 2))
-//                        }
-//                        .fixedSize()
-//                        .padding()
-//                }
-//                Spacer()
-//
-//                VStack() {
-//                    Rectangle().fill(tabBarIndex == 3 ? barGradient : barGradientWhite)
-//                        .frame(width: 50, height: 2)
-//                        .cornerRadius(8.0)
-//                        .fixedSize()
-//                        .padding(.top, 6)
-//                        .offset(x: 0, y: 6)
-//                        .animation(.easeInOut(duration: 0.2))
-//                    // Button 1
-//                    Button(action: {
-//                        self.tabBarIndex = 3
-//                    }) {
-//                        Image(systemName: "person")
-//                        .font(.system(size: 20, weight: .medium))
-//                            .foregroundColor(colorReturn(value: 3))
-//                        }
-//                        .fixedSize()
-//                        .padding()
-//                }
-//                Spacer()
-//
+                Spacer()
                 }
                 .padding(.bottom, 20)
 //                .padding()
             }
         }
-        .foregroundColor(.white)
     }
     
     func makeGradient(colors: [Color]) -> some View {

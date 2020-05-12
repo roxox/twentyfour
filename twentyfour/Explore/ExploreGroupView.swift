@@ -9,20 +9,21 @@
 import SwiftUI
 
 struct ExploreGroupView: View {
-    var items: [Profile]
+    
+    @EnvironmentObject var userData: UserData
     
     var body: some View {
         VStack(alignment: .leading) {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top, spacing: 0) {
-                    ForEach(self.items) { profile in
+                    ForEach(appUserData) { profile in
 //                        NavigationLink(
 //                            destination: ProfileDetail(
 //                                profile: profile
 //                            )
 //                        ) {
-                            GroupRowItem(items: self.items, profile: profile)
+                            GroupRowItem(items: appUserData, profile: profile)
 //                        }
                         .buttonStyle(ListButtonStyle())
                     }
@@ -138,15 +139,15 @@ struct GroupTextOverlay: View {
     }
 }
 
-struct ExploreGroupView_Previews: PreviewProvider {
-    static var previews: some View {
-            ExploreGroupView(
-//                categoryName: "Andere User",
-                items: Array(appUserData.prefix(4))
-            )
-//            .environmentObject(UserData())
-        }
-}
+//struct ExploreGroupView_Previews: PreviewProvider {
+//    static var previews: some View {
+//            ExploreGroupView(
+////                categoryName: "Andere User",
+//                items: Array(appUserData.prefix(4))
+//            )
+////            .environmentObject(UserData())
+//        }
+//}
 
 struct ListButtonStyle: ButtonStyle {
 

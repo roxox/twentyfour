@@ -17,6 +17,12 @@ struct Profile: Hashable, Codable, Identifiable {
     var searchParameter: SearchParameter
     fileprivate var imageName: String
     var searchTypes: [EventType]
+    var groups: [Group] = []
+    
+    mutating func addGroup(group: Group) {
+        groups.append(group)
+    }
+    
 }
 
 struct SearchParameter: Hashable, Codable {
@@ -73,7 +79,9 @@ struct Profile_Previews: PreviewProvider {
 }
 
 enum EventType: CaseIterable {
-    case food, activity, sport
+    case food
+    case activity
+    case sport
 }
 
 extension EventType: Codable {

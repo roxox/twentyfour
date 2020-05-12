@@ -15,11 +15,12 @@ struct ExploreView: View {
     var items: [Profile]
     @Binding var pageIndex: Int
     @Binding var groupList: [Profile]
+    @Binding var tabBarIndex: Int
     
     @State var showingMenu = false
     @State var activateGroup = false
     @State var showButtons = false
-    @State var menuOffset = CGFloat (455)
+    @State var menuOffset = CGFloat (555)
     @State var requets: [Profile] = []
     @State var screenLock: Bool = true
     @State var profiles: [Profile] = appUserData
@@ -136,7 +137,7 @@ struct ExploreView: View {
 //                VStack(alignment: .leading) {
 
                 Rectangle().fill(Color .clear)
-                    .frame(height: 100)
+                    .frame(height: 35)
 
                         VStack() {
                             if pageIndex == 0 {
@@ -157,33 +158,52 @@ struct ExploreView: View {
                         }
             }
             .background(Color .white)
-            .zIndex(setMainScreen())
-            .edgesIgnoringSafeArea(.all)
-                                           
-            Rectangle().fill(Color .black.opacity(setOpacity()))
-                .frame(minWidth: 0, maxWidth: .infinity)
-                .frame(minHeight: 0, maxHeight: .infinity)
-                .edgesIgnoringSafeArea(.all)
-                .zIndex(setLockScreen())
+//            .zIndex(setMainScreen())
+
+            VStack() {
+                
+                ExploreSearchButtonView()
+                        .offset(y: 10)
+                Spacer()
+            }
+
+            if groupList.count != 0 && screenLock {
+                Rectangle().fill(Color .black.opacity(setOpacity()))
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .frame(minHeight: 0, maxHeight: .infinity)
+                    .edgesIgnoringSafeArea(.all)
+                    .animation(.spring())
+    //                .zIndex(setLockScreen())
+            }
             
             VStack(){
-                ExploreSearchView()
-                        .offset(y: 10)
                 
                 Spacer()
                 
-                ExploreCreateGroupView(
-                    groupList: $groupList,
-                    screenLock: $screenLock,
-                    profiles: $profiles,
-                    currentUserEventSelection: $currentUserEventSelection,
-                    tempEventSelection: $tempEventSelection,
-                    selectedEventType: $selectedEventType
-                )
-                    .offset(y: userData.createGroupMenuOffset)
+                ZStack() {
+                    ExploreCreateGroupView(
+                        groupList: $groupList,
+                        screenLock: $screenLock,
+                        selectedEventType: $selectedEventType
+                    )
+                        .frame(width: UIScreen.main.bounds.width)
+                        .offset(x: userData.createGroupMenuOffsetX, y: userData.createGroupMenuOffsetY)
+                    
+                    ExploreGroupAddTitleView(
+                        tabBarIndex: $tabBarIndex,
+                        groupList: $groupList,
+                        screenLock: $screenLock,
+                        selectedEventType: $selectedEventType
+                    )
+                        .frame(width: UIScreen.main.bounds.width)
+                        .offset(x: userData.addTitleMenuOffsetX, y: userData.createGroupMenuOffsetY)
+                }
+                
             }
-            .zIndex(Double(createGroupScreenIndex))
             .animation(.spring())
+//            .zIndex(Double(createGroupScreenIndex))
+            
+            
         }
 //        .background(setBackgroundColor())
 //        .edgesIgnoringSafeArea(.all)
@@ -193,8 +213,9 @@ struct ExploreView: View {
     }
 }
 
-struct SearchView_Previews: PreviewProvider {
+struct ExploreView_Previews: PreviewProvider {
     @State static var pageIndex = 0 // Note: it must be static
+    @State static var tabBarIndex = 0 // Note: it must be static
     @State static var groupList = appUserData // Note: it must be static
     
     static var previews: some View {
@@ -203,7 +224,8 @@ struct SearchView_Previews: PreviewProvider {
             return ExploreView(
                 items: Array(appUserData.prefix(4)),
                 pageIndex: $pageIndex,
-                groupList: $groupList
+                groupList: $groupList,
+                tabBarIndex: $tabBarIndex
             )
 //            .previewDevice(PreviewDevice(rawValue: deviceName))
 //            .previewDisplayName(deviceName)

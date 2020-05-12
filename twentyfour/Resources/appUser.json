@@ -16,7 +16,8 @@
         "locationName": "Los Angeles"
     },
     "imageName": "basti",
-    "searchTypes": [{"rawValue": 0}, {"rawValue": 1}, {"rawValue": 2}]
+    "searchTypes": [{"rawValue": 0}, {"rawValue": 1}, {"rawValue": 2}],
+    "groups": []
 },
 {
     "username": "Mira",
@@ -35,7 +36,8 @@
         "locationName": "Anaheim"
     },
     "imageName": "mira",
-    "searchTypes": [{"rawValue": 0}, {"rawValue": 1}, {"rawValue": 2}]
+    "searchTypes": [{"rawValue": 0}, {"rawValue": 1}, {"rawValue": 2}],
+    "groups": []
 },
 {
     "username": "Katha",
@@ -54,7 +56,8 @@
         "locationName": "Laguna Beach"
     },
     "imageName": "katha",
-    "searchTypes": [{"rawValue": 0}, {"rawValue": 1}, {"rawValue": 2}]
+    "searchTypes": [{"rawValue": 0}, {"rawValue": 1}, {"rawValue": 2}],
+    "groups": []
 },
 {
     "username": "Caro",
@@ -73,6 +76,7 @@
         "locationName": "Hollywood"
     },
     "imageName": "carolina",
-    "searchTypes": [{"rawValue": 0}]
+    "searchTypes": [{"rawValue": 0}],
+    "groups": []
 }
 ]

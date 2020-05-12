@@ -24,3 +24,14 @@ extension Font {
         return Font.custom("AvenirNext-Regular", size: CGFloat(size))
     }
 }
+
+func openMenu<T>(_ view: T)  {
+    print("open")
+}
+
+// extension for keyboard to dismiss
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}

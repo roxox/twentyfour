@@ -96,35 +96,42 @@ struct ProfileDetail: View {
         ScrollView {
             VStack {
                 VStack(alignment: .leading, spacing: 10) {
-                    HStack {
-//                        Image("basti")
-                        profile.image
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 55, height: 55)
-                            .clipShape(Circle())
-                            .shadow(radius: 4)
-                        
-                        VStack(alignment: .leading) {
-                            Text("Article Written By")
-                                .font(.avenirNext(size: 12))
-                                .foregroundColor(.gray)
-                            Text(profile.username)
-                                .font(.avenirNext(size: 17))
-                        }
-                    }
+//                    HStack {
+////                        Image("basti")
+//                        profile.image
+//                            .resizable()
+//                            .scaledToFill()
+//                            .frame(width: 55, height: 55)
+//                            .clipShape(Circle())
+//                            .shadow(radius: 4)
+//
+//                        VStack(alignment: .leading) {
+//                            Text("Article Written By")
+//                                .font(.avenirNext(size: 12))
+//                                .foregroundColor(.gray)
+//                            Text(profile.username)
+//                                .font(.avenirNext(size: 17))
+//                        }
+//                    }
                     
                     Text("02 January 2019 • 5 min read")
                         .font(.avenirNextRegular(size: 12))
                         .foregroundColor(.gray)
                     
-                    Text("How to build a parallax scroll view")
+                    Text(profile.username)
                         .font(.avenirNext(size: 28))
                         .background(GeometryGetter(rect: self.$titleRect)) // 2
                     
-                    Text(loremIpsum)
-                        .lineLimit(nil)
-                        .font(.avenirNextRegular(size: 17))
+                    VStack() {
+                        ForEach(self.profile.groups) { group in
+                            Text(String(group.id!))
+                            .font(.avenirNextRegular(size: 12))
+                            .foregroundColor(.gray)
+                        }
+                    }
+//                    Text(loremIpsum)
+//                        .lineLimit(nil)
+//                        .font(.avenirNextRegular(size: 17))
                 }
                 .padding(.horizontal)
                 .padding(.top, 16.0)
