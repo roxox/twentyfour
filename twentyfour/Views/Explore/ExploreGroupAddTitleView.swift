@@ -13,8 +13,8 @@ struct ExploreGroupAddTitleView: View {
     
     @EnvironmentObject var userData: UserData
     
-    @Binding var tabBarIndex: Int
-    @Binding var groupList: [Profile]
+    @Binding var pageIndex: Int
+//    @Binding var groupList: [Profile]
     @Binding var screenLock: Bool
     @Binding var selectedEventType: EventType?
     
@@ -29,12 +29,12 @@ struct ExploreGroupAddTitleView: View {
     
     func backToCreateToGroup() {
         UIApplication.shared.endEditing()
-        userData.createGroupMenuOffsetX = 0
-        userData.addTitleMenuOffsetX = CGFloat (-UIScreen.main.bounds.width)
+        userData.createGroupMenuOffsetX = menuIn
+        userData.addTitleMenuOffsetX = menuLeftOut
     }
 
     func resetValues() {
-        groupList.removeAll()
+        userData.groupList.removeAll()
         screenLock = false
         selectedEventType = nil
     }
@@ -52,7 +52,7 @@ struct ExploreGroupAddTitleView: View {
         print(userData.currentUser.groups.count)
         
         
-        for profile in groupList {
+        for profile in userData.groupList {
             userData.appUsers[userData.appUsers.firstIndex(of: profile)!].groups.append(newGroup)
         }
 
@@ -64,32 +64,38 @@ struct ExploreGroupAddTitleView: View {
         
         resetValues()
         
-        userData.createGroupMenuOffsetX = 0
-        userData.addTitleMenuOffsetX = CGFloat (-UIScreen.main.bounds.width)
+        userData.createGroupMenuOffsetX = menuIn
+        userData.addTitleMenuOffsetX = menuLeftOut
         
-        userData.createGroupMenuOffsetY = CGFloat (700)
+        userData.createGroupMenuOffsetY = menuCollapsed
         userData.buttonBarOffset = CGFloat (0)
-        tabBarIndex = 1
+        pageIndex = 1
     }
     
     func resetGroupValues() {
-            selectedEventType = nil
+        selectedEventType = nil
+        title = ""
+        description = ""
     }
     
     func deleteGroupList() {
-        groupList.removeAll()
+        userData.groupList.removeAll()
         resetGroupValues()
         
         UIApplication.shared.endEditing()
-        if groupList.count != 0 {
-            userData.createGroupMenuOffsetY = CGFloat (0)
+        
+        if userData.groupList.count != 0 {
+            userData.createGroupMenuOffsetY = menuExpanded
             userData.buttonBarOffset = CGFloat (100)
             screenLock = true
         } else {
-            userData.createGroupMenuOffsetY = CGFloat (555)
+            userData.createGroupMenuOffsetY = menuMinimized3
             userData.buttonBarOffset = CGFloat (0)
             screenLock = false
         }
+        
+        userData.createGroupMenuOffsetX = menuIn
+        userData.addTitleMenuOffsetX = menuLeftOut
     }
     
     var body: some View {
@@ -156,7 +162,7 @@ struct ExploreGroupAddTitleView: View {
                                
                 HStack() {
                     
-                    TextField("Schreibe mehr über das was du vor hast.", text: $title)
+                    TextField("Schreibe mehr über das was du vor hast.", text: $description)
 //                    .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
                 .padding(.bottom, 20)
@@ -187,8 +193,9 @@ struct ExploreGroupAddTitleView: View {
                 .background(Color .white)
                 .transition(.move(edge: .top))
                 .cornerRadius(15)
-                .shadow(radius: 30, y: 10)
+//                .shadow(radius: 30, y: 10)
         }
+        .edgesIgnoringSafeArea(.bottom)
         .offset(y: -self.offsetValue).animation(.spring())
         .onAppear() {
             NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { (noti)  in
@@ -196,115 +203,14 @@ struct ExploreGroupAddTitleView: View {
                 let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
                 let height = value.height
                 
-                self.offsetValue = height+60
+                self.offsetValue = height-60
             }
             
             NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (noti)  in
                 
                 self.offsetValue = 0
             }
-                
-                
         }
     }
 
 }
-
-struct TitleTextFieldView: View {
-    
-    @Binding var showTextFieldView : Bool
-    @Binding var title: String
-    
-    var body: some View {
-        VStack() {
-            
-            HStack() {
-                Text("Titel")
-                        .font(.avenirNextRegular(size: 20))
-                        .fontWeight(.semibold)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .padding(.horizontal, 20)
-                        .lineLimit(1)
-//                        .padding(20)
-                Spacer()
-            }
-                           
-            HStack() {
-                CustomTextField(text: $title, isFirstResponder: true)
-                        .font(.avenirNextRegular(size: 20))
-                        .padding(.horizontal, 5)
-                        .frame(width: UIScreen.main.bounds.width - 40, height: 50)
-                        .background(Color ("SuperLightGray"))
-                        .cornerRadius(8)
-            }
-            
-             Button(action: {
-                self.showTextFieldView = false
-            }) {
-                Text("zurück")
-                .font(.avenirNextRegular(size: 18))
-                .fontWeight(.semibold)
-            }
-            Spacer()
-        }
-        .padding(20)
-        .navigationBarHidden(true)
-        .navigationBarTitle("", displayMode: .inline)
-        .navigationBarBackButtonHidden(true)
-    }
-}
-
-struct DescriptionTextFieldView: View {
-    
-    @Binding var showDescriptionFieldView : Bool
-    @Binding var description: String
-    
-    var body: some View {
-        VStack() {
-            
-            HStack() {
-                Text("Beschreibung")
-                        .font(.avenirNextRegular(size: 20))
-                        .fontWeight(.semibold)
-                        .fixedSize(horizontal: true, vertical: true)
-                        .padding(.horizontal, 20)
-                        .lineLimit(1)
-//                        .padding(20)
-                Spacer()
-            }
-                           
-            HStack(alignment: .top) {
-                CustomTextField(text: $description, isFirstResponder: true)
-                        .font(.avenirNextRegular(size: 20))
-                        .fixedSize(horizontal: true, vertical: true)
-                        .padding(.horizontal, 5)
-                        .frame(width: UIScreen.main.bounds.width - 40, height: 200)
-                        .background(Color ("SuperLightGray"))
-                        .cornerRadius(8)
-                        .lineLimit(4)
-            }
-            
-            
-            HStack() {
-                Button(action: {
-                    self.showDescriptionFieldView = false
-                    }) {
-                        Text("zurück")
-                        .font(.avenirNextRegular(size: 18))
-                        .fontWeight(.semibold)
-                    }
-            }
-            Spacer()
-        }
-        .padding(20)
-        .navigationBarHidden(true)
-        .navigationBarTitle("", displayMode: .inline)
-        .navigationBarBackButtonHidden(true)
-    }
-}
-
-//struct ExploreGroupAddTitleView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ExploreGroupAddTitleView()
-//    }
-//}

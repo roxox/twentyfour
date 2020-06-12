@@ -12,9 +12,8 @@ struct ExploreCreateGroupView: View {
     
     @EnvironmentObject var userData: UserData
     
-    @State var collapsedOffset: Int = 290
+    @State var collapsedOffset: CGFloat = 290
     
-    @Binding var groupList: [Profile]
     @Binding var screenLock: Bool
     @Binding var selectedEventType: EventType?
 
@@ -45,40 +44,42 @@ struct ExploreCreateGroupView: View {
     }
     
     func deleteGroupList() {
-        groupList.removeAll()
+        userData.groupList.removeAll()
         resetGroupValues()
         
-        if groupList.count != 0 {
-            userData.createGroupMenuOffsetY = CGFloat (0)
+        if userData.groupList.count != 0 {
+            userData.createGroupMenuOffsetY = menuMinimized3
             userData.buttonBarOffset = CGFloat (100)
             screenLock = true
         } else {
-            userData.createGroupMenuOffsetY = CGFloat (555)
+            userData.createGroupMenuOffsetY = menuCollapsed
             userData.buttonBarOffset = CGFloat (0)
             screenLock = false
         }
     }
     
     func addTilteAndDescription() {
-        userData.createGroupMenuOffsetX = CGFloat (-UIScreen.main.bounds.width)
-        userData.addTitleMenuOffsetX = 0
+        userData.createGroupMenuOffsetX = menuLeftOut
+        userData.addTitleMenuOffsetX = menuIn
     }
     
     func removeFromGroupList(profile: Profile) {
-        if groupList.contains(profile) {
-            groupList.remove(at: groupList.firstIndex(of: profile)!)
+        if userData.groupList.contains(profile) {
+            userData.groupList.remove(at: userData.groupList.firstIndex(of: profile)!)
         }
         
-        if groupList.count == 0  {
-            userData.createGroupMenuOffsetY = CGFloat (555)
+        if userData.groupList.count == 0  {
+            userData.createGroupMenuOffsetY = menuCollapsed
             userData.buttonBarOffset = CGFloat (0)
             screenLock = false
+            resetGroupValues()
         }
     }
         
     func resetScreenLock() {
         screenLock.toggle()
-        userData.createGroupMenuOffsetY = CGFloat (collapsedOffset)
+        userData.createGroupMenuOffsetY = menuMinimized3
+        print(userData.groupList.count)
     }
     
     func resetGroupValues() {
@@ -87,7 +88,8 @@ struct ExploreCreateGroupView: View {
         
     func enlargeScreenLock() {
         screenLock.toggle()
-        userData.createGroupMenuOffsetY = CGFloat (35)
+        userData.createGroupMenuOffsetY = menuExpanded
+        print(userData.groupList.count)
     }
     
     func isEventTypeAvailable(eventType: EventType) -> Bool {
@@ -96,7 +98,7 @@ struct ExploreCreateGroupView: View {
                 return false
         }
         
-        for profile in groupList {
+        for profile in userData.groupList {
             if !profile.searchTypes.contains(eventType) {
                 return false
             }
@@ -110,15 +112,14 @@ struct ExploreCreateGroupView: View {
             VStack() {
                 Spacer()
 
-
-                if groupList.count != 0 && screenLock {
+                if userData.groupList.count != 0 && screenLock {
                         Button(action: {
                                 self.resetScreenLock()
                         }) {
                             VStack(){
                                 Spacer()
                                 Image(systemName: "plus.circle.fill")
-                                .font(.avenirNextRegular(size: 42))
+                                    .font(.avenirNextRegular(size: 42))
                                     .padding(.vertical, 10.0)
                                     .padding(.top, 20)
                                     .foregroundColor(.white)
@@ -132,114 +133,87 @@ struct ExploreCreateGroupView: View {
                         .animation(.spring())
                     }
                 
-                ZStack() {
-                    
                     VStack() {
-
-                        HStack(){
+                            HStack(){
+                                Text("\(userData.groupList.count) User ausgewählt.")
+                                        .font(.avenirNextRegular(size: 20))
+                                        .fontWeight(.semibold)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .lineLimit(1)
                                 
-                            Text("\(groupList.count) User ausgewählt.")
-                                    .font(.avenirNextRegular(size: 20))
-                                    .fontWeight(.semibold)
-                                    .fixedSize(horizontal: false, vertical: true)
-                                    .lineLimit(1)
-                                    .padding(.top, 20)
-                            
-                            Spacer()
+                                Spacer()
 
-                            if userData.createGroupMenuOffsetY == CGFloat (collapsedOffset) {
-                                Button(action: {
-                                    withAnimation(.linear(duration: 0.2)) {
-                                        self.enlargeScreenLock()
-                                    }
-                                }) {
-                                        Image(systemName: "chevron.up")
-                                            .font(.avenirNextRegular(size: 20))
-                                            .frame(width: 40 ,height:40)
-                                            .background(gradient)
-                                            .foregroundColor(.white)
-                                            .clipShape(Circle())
-                                }
-                                .padding(.top, 20)
-                            } else {
+                                if userData.createGroupMenuOffsetY == menuMinimized3 {
                                     Button(action: {
                                         withAnimation(.linear(duration: 0.2)) {
-                                            self.resetScreenLock()
+                                            self.enlargeScreenLock()
                                         }
                                     }) {
-                                            Image(systemName: "chevron.down")
+                                            Image(systemName: "chevron.up")
                                                 .font(.avenirNextRegular(size: 20))
                                                 .frame(width: 40 ,height:40)
-                                                .background(gradient)
+                                                .background(gradientSeaAndBlue)
                                                 .foregroundColor(.white)
                                                 .clipShape(Circle())
                                     }
-                                    .padding(.top, 20)
-                                }
-                                
-                                Button(action: {
-                                    self.deleteGroupList()
-                                }) {
-                                    Image(systemName: "trash")
-                                        .font(.avenirNextRegular(size: 16))
-                                        .frame(width: 40 ,height:40)
-                                        .background(gradientColorPrimary)
-                                        .foregroundColor(.white)
-                                        .clipShape(Circle())
-                                }
-                                .padding(.top, 20)
+                                } else {
+                                        Button(action: {
+                                            withAnimation(.linear(duration: 0.2)) {
+                                                self.resetScreenLock()
+                                            }
+                                        }) {
+                                                Image(systemName: "chevron.down")
+                                                    .font(.avenirNextRegular(size: 20))
+                                                    .frame(width: 40 ,height:40)
+                                                    .background(gradientSeaAndBlue)
+                                                    .foregroundColor(.white)
+                                                    .clipShape(Circle())
+                                        }
+                                    }
+                                    
+                                    Button(action: {
+                                        self.deleteGroupList()
+                                    }) {
+                                        Image(systemName: "trash")
+                                            .font(.avenirNextRegular(size: 16))
+                                            .frame(width: 40 ,height:40)
+//                                            .background(gradientColorPrimary)
+                                            .background(Color .black)
+                                            .foregroundColor(.white)
+                                            .clipShape(Circle())
+                                    }
 
-                        }
-                        .padding([.leading, .trailing], 20)
+                            }
+                            .padding(.top, 20)
+                            .padding([.leading, .trailing], 20)
                         
-                        HStack(){
-                                                    
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(alignment: .top, spacing: 0) {
-                                        if groupList.count != 0 {
-                                            ForEach(groupList, id: \.self) { profile in
-                                                ZStack() {
-
-                                                    Button(action: {
-                                                        self.removeFromGroupList(profile: profile)
-                                                    }) {
-                                                    profile.image
-                                                        .renderingMode(.original)
-                                                        .resizable()
-                                                        .scaledToFill()
-                                                        .frame(width: 80 ,height:80)
-                                                        .clipShape(Circle())
-                                                        .padding(.leading, 10)
-                                                    }
-                                                    VStack() {
-                                                        Spacer()
-                                                        HStack() {
-                                                            Spacer()
-
-                                                            Button(action: {
-                                                                self.removeFromGroupList(profile: profile)
-                                                            }) {
-                                                                Image(systemName: "xmark")
-                                                                    .font(.avenirNextRegular(size: 13))
-                                                                    .frame(width: 25 ,height:25)
-//                                                                    .background(self.gradient)
-                                                                    .background(Color .gray)
-                                                                    .foregroundColor(.white)
-                                                                    .clipShape(Circle())
-                                                            }
-                                                            .offset(x: 10, y: 0)
-                                                        }
-                                                    }
+//                        VStack(alignment: .leading) {
+//                        HStack() {
+                            HStack() {
+                                if userData.groupList.count != 0 {
+                                    ForEach(userData.groupList, id: \.self) { profile in
+                                                Button(action: {
+                                                    self.removeFromGroupList(profile: profile)
+                                                }) {
+                                                profile.image
+                                                    .renderingMode(.original)
+                                                    .resizable()
+                                                    .scaledToFill()
+                                                    .clipShape(Circle())
+    //                                                        .padding(.leading, 10)
                                                     .frame(width: 80 ,height:80)
                                                 }
-                                            }
-                                        }
                                         
+//                                        }
+                                        }
                                     }
+                                Spacer()
                                 }
+                                .padding(.leading, 20)
                                 .padding(.bottom, 20)
-                                .padding(.leading, 10)
-                        }
+//                            }
+//                            }
+                        .zIndex(0)
                         
                         HStack(){
                             VStack(alignment: .leading) {
@@ -254,7 +228,7 @@ struct ExploreCreateGroupView: View {
                                         .fixedSize(horizontal: false, vertical: true)
                                         .lineLimit(1)
                             }
-                            
+
                             Spacer()
 
                         }
@@ -262,32 +236,32 @@ struct ExploreCreateGroupView: View {
                         
                         
                         HStack() {
-                            
-                            
+
+
                             EventTypeSelectorButton(
                                 eventType: .food,
                                 imageString: "essen",
                                 buttonTextString: "Essen und Trinken",
-                                selectedEventType: $selectedEventType,
-                                groupList: $groupList
+                                selectedEventType: $selectedEventType
+//                                groupList: $groupList
                             )
-                            
+
                             EventTypeSelectorButton(
                                 eventType: .activity,
                                 imageString: "freizeit2",
                                 buttonTextString: "Freizeit",
-                                selectedEventType: $selectedEventType,
-                                groupList: $groupList
+                                selectedEventType: $selectedEventType
+//                                groupList: $groupList
                             )
-                            
+
                             EventTypeSelectorButton(
                                 eventType: .sport,
-                                imageString: "sport",
+                                imageString: "essen",
                                 buttonTextString: "Sport",
-                                selectedEventType: $selectedEventType,
-                                groupList: $groupList
+                                selectedEventType: $selectedEventType
+//                                groupList: $groupList
                             )
-                            
+
                         }
                         .padding(.bottom, 20)
                         
@@ -300,20 +274,19 @@ struct ExploreCreateGroupView: View {
                                 .font(.avenirNextRegular(size: 18))
                                 .fontWeight(.semibold)
                             }
-                            .disabled(selectedEventType == nil || groupList.count == 0)
+                            .disabled(selectedEventType == nil || userData.groupList.count == 0)
                         }
                         .padding(.trailing, 30)
                         .padding(.bottom, 20)
+                        .background(Color .white)
 
                     }
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                    .padding(.bottom, 30)
+//                    .padding(.bottom, 30)
                     .background(Color .white)
-//                    .transition(.move(edge: .top))
-                    .cornerRadius(15)
-                    .shadow(radius: 30, y: 10)
+                    .cornerRadius(10)
                 }
-            }
+                .edgesIgnoringSafeArea(.bottom)
+//            }
     }
     
 }
@@ -321,13 +294,13 @@ struct ExploreCreateGroupView: View {
 struct ExploreCreateGroupView_Previews: PreviewProvider {
         @State static var pageIndex = 0 // Note: it must be static
         @State static var screenLock = false // Note: it must be static
-        @State static var groupList = appUserData // Note: it must be static
+//        @State static var groupList = appUserData // Note: it must be static
         @State static var selectedEventType: EventType? = EventType.food // Note: it must be static
         
         static var previews: some View {
                 let userData = UserData()
                 return ExploreCreateGroupView(
-                    groupList: $groupList,
+//                    groupList: $groupList,
                     screenLock: $screenLock,
                     selectedEventType: $selectedEventType
                 )
@@ -338,13 +311,14 @@ struct ExploreCreateGroupView_Previews: PreviewProvider {
 struct EventTypeSelectorButton: View {
     
     @EnvironmentObject var userData: UserData
+    @ObservedObject var searchData = SearchData()
     
     let eventType: EventType
     let imageString: String
     let buttonTextString: String
     
     @Binding var selectedEventType: EventType?
-    @Binding var groupList: [Profile]
+//    @Binding var groupList: [Profile]
     
     var gradientSelected: LinearGradient {
         LinearGradient(
@@ -385,12 +359,13 @@ struct EventTypeSelectorButton: View {
     }
     
     func isEventTypeAvailable(eventType: EventType) -> Bool {
-        
-        if !userData.currentUser.searchTypes.contains(eventType){
+        // TODO
+        if !searchData.selectedEventTypes.contains(eventType){
+//        if !userData.currentUser.searchTypes.contains(eventType){
                 return false
         }
         
-        for profile in groupList {
+        for profile in userData.groupList {
             if !profile.searchTypes.contains(eventType) {
                 return false
             }
@@ -412,8 +387,8 @@ struct EventTypeSelectorButton: View {
                         .resizable()
                         .scaledToFill()
                         .frame(width: 118 ,height:90)
-                        .cornerRadius(11)
-                        .shadow(radius: 5, x: 0, y: 2)
+                        .clipShape(RoundedRectangle(cornerRadius: 11))
+//                        .cornerRadius(11)
                         .overlay(
                             VStack() {
                                 Spacer()
@@ -434,14 +409,15 @@ struct EventTypeSelectorButton: View {
                         )
 
                     Text(buttonTextString)
-                        .font(.avenirNextRegular(size: 14))
+                        .font(.avenirNextRegular(size: 12))
                         .fontWeight(.semibold)
                         .frame(width: 118)
+                        .foregroundColor(.black)
                         .lineLimit(2)
                 }
             }
         .disabled(!isEventTypeAvailable(eventType: eventType))
         .opacity(isEventTypeAvailable(eventType: eventType) ? 1.0 : 0.3)
-        .buttonStyle(ListButtonStyle())
+//        .buttonStyle(ListButtonStyle())
     }
 }

@@ -15,15 +15,7 @@ struct ExplorePersonGroupToggle: View {
     var gradient: LinearGradient {
         LinearGradient(
             gradient: Gradient(
-                colors: [Color.black.opacity(0.2), Color.black.opacity(0.0)]),
-            startPoint: .bottom,
-            endPoint: .top)
-    }
-    
-    var gradientMenu: LinearGradient {
-        LinearGradient(
-            gradient: Gradient(
-                colors: [Color.black.opacity(0.2), Color.black.opacity(0.0)]),
+            colors: [Color.black.opacity(0.2), Color.black.opacity(0.0)]),
             startPoint: .bottom,
             endPoint: .top)
     }
@@ -55,27 +47,8 @@ struct ExplorePersonGroupToggle: View {
             endPoint: .bottomTrailing)
     }
     
-    var gradientWhite: LinearGradient {
-        LinearGradient(
-            gradient: Gradient(
-                colors:
-                [
-                    .white,
-                    .white,
-            ]),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing)
-    }
-    
     func setSelectedScreen(newPageIndex: Int){
         self.pageIndex = newPageIndex
-    }
-    
-    func makeGradient(colors: [Color]) -> some View {
-        LinearGradient(
-            gradient: .init(colors: colors),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing)
     }
     
     var body: some View {
@@ -122,7 +95,6 @@ struct ExplorePersonGroupToggle: View {
                                     }
                                     .font(.avenirNextRegular(size: 16))
                                     .foreground(pageIndex == 1 ? .white : Color("DarkGray"))
-//                                    .foreground(makeGradient(colors: [Color ("Sea"), Color ("Peach")]))
                                 
                                 
                         )

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ButtonBarView: View {
     
-    @Binding var tabBarIndex: Int
+    @Binding var pageIndex: Int
     
     var gradient: LinearGradient {
         LinearGradient(
@@ -105,7 +105,7 @@ struct ButtonBarView: View {
     }
     
     func colorReturn(value: Int) -> Color {
-        if tabBarIndex == value {
+        if pageIndex == value {
             return Color ("RedPeach")
         } else {
             return Color ("DarkGray")
@@ -120,8 +120,8 @@ struct ButtonBarView: View {
             endPoint: .bottomTrailing)
     }
     
-    func setSelectedTab(tabBarIndex: Int){
-        self.tabBarIndex = tabBarIndex
+    func setSelectedTab(pageIndex: Int){
+        self.pageIndex = pageIndex
     }
     
     var body: some View {
@@ -130,27 +130,18 @@ struct ButtonBarView: View {
             VStack(alignment: .leading) {
             HStack() {
                 Spacer()
-//                VStack() {
-//                    Rectangle().fill(tabBarIndex == 0 ? barGradient : barGradientWhite)
-//                        .frame(width: 50, height: 2)
-//                        .cornerRadius(4.0)
-//                        .fixedSize()
-//                        .padding(.top, 6)
-//                        .offset(x: 0, y: 6)
-//                        .animation(.easeInOut(duration: 0.2))
-                    
-
-//                  Button Lupe
+                
+                // Lupe
                 Button(action: {
-                    self.tabBarIndex = 0
+                    self.pageIndex = 0
                 }) {
                     VStack() {
-                        Circle().fill(tabBarIndex == 0 ? gradientColorPrimary : gradientColorSecondary)
+                        Circle().fill(pageIndex == 0 ? gradientColorPrimary : gradientColorSecondary)
                             .overlay(
-                                Image(systemName: "magnifyingglass")
+                                Image(systemName: "house")
                                     .padding(.vertical, 10.0)
                                     .font(.system(size: 20, weight: .medium))
-                                    .foreground(tabBarIndex == 0 ? gradientColorSecondary : gradientGray)
+                                    .foreground(pageIndex == 0 ? gradientColorSecondary : gradientGray)
                                     .frame(width: 40, height: 40)
                                     .offset(x: 0, y: 0)
                                 )
@@ -159,7 +150,7 @@ struct ButtonBarView: View {
                     Text("Stöbern")
                         .font(.avenirNextRegular(size: 11))
                         .fontWeight(.semibold)
-                        .foreground(tabBarIndex == 0 ? gradientColorPrimary : gradientGray)
+                        .foreground(pageIndex == 0 ? gradientColorPrimary : gradientGray)
                     }
                 }
 
@@ -167,15 +158,15 @@ struct ButtonBarView: View {
 
 //                  Button My Groups
                 Button(action: {
-                    self.tabBarIndex = 1
+                    self.pageIndex = 1
                 }) {
                     VStack() {
-                        Circle().fill(tabBarIndex == 1 ? gradientColorPrimary : gradientColorSecondary)
+                        Circle().fill(pageIndex == 1 ? gradientColorPrimary : gradientColorSecondary)
                             .overlay(
                                 Image(systemName: "person.3")
                                     .padding(.vertical, 10.0)
                                     .font(.system(size: 20, weight: .medium))
-                                    .foreground(tabBarIndex == 1 ? gradientColorSecondary : gradientGray)
+                                    .foreground(pageIndex == 1 ? gradientColorSecondary : gradientGray)
                                     .frame(width: 40, height: 40)
                                     .offset(x: 0, y: 0)
                                 )
@@ -184,7 +175,7 @@ struct ButtonBarView: View {
                         Text("Meine Gruppen")
                             .font(.avenirNextRegular(size: 11))
                             .fontWeight(.semibold)
-                            .foreground(tabBarIndex == 1 ? gradientColorPrimary : gradientGray)
+                            .foreground(pageIndex == 1 ? gradientColorPrimary : gradientGray)
                     }
                 }
                 
@@ -192,15 +183,15 @@ struct ButtonBarView: View {
 
 //                  Button Message
                 Button(action: {
-                    self.tabBarIndex = 2
+                    self.pageIndex = 2
                 }) {
                     VStack() {
-                        Circle().fill(tabBarIndex == 2 ? gradientColorPrimary : gradientColorSecondary)
+                        Circle().fill(pageIndex == 2 ? gradientColorPrimary : gradientColorSecondary)
                             .overlay(
                                 Image(systemName: "envelope")
                                     .padding(.vertical, 10.0)
                                     .font(.system(size: 20, weight: .medium))
-                                    .foreground(tabBarIndex == 2 ? gradientColorSecondary : gradientGray)
+                                    .foreground(pageIndex == 2 ? gradientColorSecondary : gradientGray)
                                     .frame(width: 40, height: 40)
                                     .offset(x: 0, y: 0)
                                 )
@@ -209,7 +200,7 @@ struct ButtonBarView: View {
                         Text("Nachrichten")
                             .font(.avenirNextRegular(size: 11))
                             .fontWeight(.semibold)
-                            .foreground(tabBarIndex == 2 ? gradientColorPrimary : gradientGray)
+                            .foreground(pageIndex == 2 ? gradientColorPrimary : gradientGray)
                     }
                 }
                 
@@ -217,15 +208,15 @@ struct ButtonBarView: View {
 
 //                  Button Profil
                 Button(action: {
-                    self.tabBarIndex = 3
+                    self.pageIndex = 3
                 }) {
                     VStack() {
-                        Circle().fill(tabBarIndex == 3 ? gradientColorPrimary : gradientColorSecondary)
+                        Circle().fill(pageIndex == 3 ? gradientColorPrimary : gradientColorSecondary)
                             .overlay(
                                 Image(systemName: "person")
                                     .padding(.vertical, 10.0)
                                     .font(.system(size: 20, weight: .medium))
-                                    .foreground(tabBarIndex == 3 ? gradientColorSecondary : gradientGray)
+                                    .foreground(pageIndex == 3 ? gradientColorSecondary : gradientGray)
                                     .frame(width: 40, height: 40)
                                     .offset(x: 0, y: 0)
                                 )
@@ -234,7 +225,7 @@ struct ButtonBarView: View {
                         Text("Profil")
                             .font(.avenirNextRegular(size: 11))
                             .fontWeight(.semibold)
-                            .foreground(tabBarIndex == 3 ? gradientColorPrimary : gradientGray)
+                            .foreground(pageIndex == 3 ? gradientColorPrimary : gradientGray)
                     }
                 }
                 

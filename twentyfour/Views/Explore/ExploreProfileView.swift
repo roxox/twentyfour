@@ -11,17 +11,13 @@ import UIKit
 
 struct ExploreProfileView: View {
     @EnvironmentObject var userData: UserData
-    
-    var items: [Profile]
      
-    @Binding var groupList: [Profile]
     @Binding var screenLock: Bool
     @Binding var profiles: [Profile]
     @Binding var currentUserEventSelection: [EventType]
     @Binding var tempEventSelection: [EventType]
     @Binding var selectedEventType: EventType?
     
-//    @State var deviceWidth: UIScreen.main.bounds.width
     @State var showingMenu = false
     @State var activateGroup = false
     @State var requets: [Profile] = []
@@ -33,20 +29,14 @@ struct ExploreProfileView: View {
     }
     
     func addToGroupList(profile: Profile) {
-        if !groupList.contains(profile) {
-            groupList.append(profile)
-//            if (profiles.contains(profile)) {
-//                profiles.remove(at: profiles.firstIndex(of: profile)!)
-//            }
+        if !userData.groupList.contains(profile) {
+            userData.groupList.append(profile)
         }
     }
     
     func removeFromGroupList(profile: Profile) {
-        if groupList.contains(profile) {
-            groupList.remove(at: self.groupList.firstIndex(of: profile)!)
-//            if !profiles.contains(profile) {
-//                profiles.append(profile)
-//            }
+        if userData.groupList.contains(profile) {
+            userData.groupList.remove(at: userData.groupList.firstIndex(of: profile)!)
         }
     }
     
@@ -54,61 +44,23 @@ struct ExploreProfileView: View {
             selectedEventType = nil
     }
     
-    func didPressAddRemoveButton(profile: Profile) {
-        if !groupList.contains(profile) {
-            addToGroupList(profile: profile)
-        } else {
-            removeFromGroupList(profile: profile)
-
-            if groupList.count == 0 {
-                resetGroupValues()
-            }
-        }
-        
-        if groupList.count != 0 {
-            userData.createGroupMenuOffsetY = CGFloat (35)
-            userData.buttonBarOffset = CGFloat (150)
-            screenLock = true
-        } else {
-            userData.createGroupMenuOffsetY = CGFloat (555)
-            userData.buttonBarOffset = CGFloat (0)
-            screenLock = false
-        }
-    }
-    
-    func updateTempEventSelection(items: [EventType]) {
-        for eventType in tempEventSelection {
-            if !items.contains(eventType) {
-                tempEventSelection.remove(at: tempEventSelection.firstIndex(of: eventType)!)
-            }
-        }
-    }
-    
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-//                    PagerView(pageCount: profiles.count, currentIndex: $currentPage) {
             HStack(alignment: .top, spacing: 0) {
 
                 ForEach(userData.appUsers) { profile in
                     GeometryReader { geometry in
                         RowItem(
                             profile: profile,
-//                            profile: self.userData.currentUser,
-                            groupList: self.$groupList,
                             selectedEventType: self.$selectedEventType,
                             screenLock: self.$screenLock)
                             .rotation3DEffect(Angle(degrees:
                                 (Double(geometry.frame(in: .global).minX)) / -65
                             ), axis: (x:0, y:10, z:0))
-//                        .rotation3DEffect()
-                        
                     }
-//                    .frame(width: 246, height: 150)
-
                     .frame(width: UIScreen.main.bounds.width, height: 650)
                 }
             }
-//            .padding(.horizontal, 10)
         }
     }
 }
@@ -117,7 +69,6 @@ struct RowItem: View {
     var profile: Profile
     @State var deviceWidth = UIScreen.main.bounds.width - 40
     @State var deviceHeight = UIScreen.main.bounds.height - 350
-    @Binding var groupList: [Profile]
     @Binding var selectedEventType: EventType?
     @Binding var screenLock: Bool
     
@@ -128,10 +79,11 @@ struct RowItem: View {
                 .resizable()
                 .scaledToFill()
                 .frame(width: deviceWidth ,height: deviceHeight)
-//                .frame(width: 280 ,height: 360)
-//                .frame(width: 310 ,height: 400)
-                    .overlay(AppUserTextOverlay(profile: self.profile, groupList: self.$groupList, selectedEventType: self.$selectedEventType, screenLock: self.$screenLock))
-//                .background(Color .white)
+                    .overlay(AppUserTextOverlay(
+                        profile: self.profile,
+                        selectedEventType: self.$selectedEventType,
+                        screenLock: self.$screenLock)
+                )
                 .cornerRadius(25.0)
                 .shadow(color: .init(red: 0.5, green: 0.5, blue: 0.5)
                 , radius: 9 , x: 0, y: 4)
@@ -145,7 +97,6 @@ struct AppUserTextOverlay: View {
     @EnvironmentObject var userData: UserData
     
     var profile: Profile
-    @Binding var groupList: [Profile]
     @Binding var selectedEventType: EventType?
     @Binding var screenLock: Bool
     
@@ -155,87 +106,43 @@ struct AppUserTextOverlay: View {
     @State var collapsedOffset: Int = 290
     
     func setTopOpacity(profile: Profile) -> Color {
-        if groupList.contains(profile) {
+        if userData.groupList.contains(profile) {
             return Color.black.opacity(0.7)
-//            return Color.black.opacity(0.0)
         } else {
             return Color.black.opacity(0.0)
         }
     }
     
     func setBottomOpacity(profile: Profile) -> Color {
-        if groupList.contains(profile) {
+        if userData.groupList.contains(profile) {
             return Color.black.opacity(0.7)
-//            return Color.black.opacity(0.6)
         } else {
             return Color.black.opacity(0.6)
         }
     }
     
     func setOverlayPosition(profile: Profile) -> UnitPoint {
-        if groupList.contains(profile) {
-//            return .top
-            return .center
+        if userData.groupList.contains(profile) {
+            return .top
         } else {
             return .center
         }
     }
-    
-    var gradient: LinearGradient {
-        LinearGradient(
-            gradient: Gradient(
-                colors: [setBottomOpacity(profile: profile), setTopOpacity(profile: profile)]),
-            startPoint: .bottom,
-            endPoint: setOverlayPosition(profile: profile))
-    }
-
-    var gradientColorPrimary: LinearGradient {
-        LinearGradient(
-            gradient: Gradient(
-                colors:
-                [
-                    .pink,
-                    .pink,
-                    Color ("Peach")
-            ]),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing)
-    }
-        
-    var gradientColorSecondary: LinearGradient {
-        LinearGradient(
-            gradient: Gradient(
-                colors:
-                [
-                    Color .white,
-                    Color .white,
-            ]),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing)
-    }
-    
-    func makeGradient(colors: [Color]) -> some View {
-        LinearGradient(
-            gradient: .init(colors: colors),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-    }
         
     func addToGroupList(profile: Profile) {
-        if !groupList.contains(profile) {
-            groupList.append(profile)
-            if groupList.count == 1 {
+        if !userData.groupList.contains(profile) {
+            userData.groupList.append(profile)
+            if userData.groupList.count == 1 {
                 expandCreateGroupMenu()
             }
         }
     }
     
     func removeFromGroupList(profile: Profile) {
-        if groupList.contains(profile) {
-            groupList.remove(at: self.groupList.firstIndex(of: profile)!)
+        if userData.groupList.contains(profile) {
+            userData.groupList.remove(at: userData.groupList.firstIndex(of: profile)!)
         }
-        if groupList.count == 0 {
+        if userData.groupList.count == 0 {
             closeCreateGroupMenu()
         }
     }
@@ -245,31 +152,39 @@ struct AppUserTextOverlay: View {
     }
     
     func didPressAddRemoveButton(profile: Profile) {
-        if !groupList.contains(profile) {
+        if !userData.groupList.contains(profile) {
             addToGroupList(profile: profile)
         } else {
             removeFromGroupList(profile: profile)
 
-            if groupList.count == 0 {
+            if userData.groupList.count == 0 {
                 resetGroupValues()
             }
         }
     }
     
     func expandCreateGroupMenu() {
-        userData.createGroupMenuOffsetY = CGFloat (35)
+        userData.createGroupMenuOffsetY = menuExpanded
         userData.buttonBarOffset = CGFloat (150)
         screenLock = true
     }
     
     func collapseCreateGroupMenu() {
-        userData.createGroupMenuOffsetY = CGFloat (collapsedOffset)
+        userData.createGroupMenuOffsetY = menuMinimized3
     }
     
     func closeCreateGroupMenu() {
-        userData.createGroupMenuOffsetY = CGFloat (555)
+        userData.createGroupMenuOffsetY = menuCollapsed
         userData.buttonBarOffset = CGFloat (0)
         screenLock = false
+    }
+    
+    var gradient: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(
+                colors: [setBottomOpacity(profile: profile), setTopOpacity(profile: profile)]),
+            startPoint: .bottom,
+            endPoint: setOverlayPosition(profile: profile))
     }
     
     var body: some View {
@@ -308,7 +223,7 @@ struct AppUserTextOverlay: View {
                                         .renderingMode(.original)
                                         .frame(width: 20, height: 20)
                                         .scaledToFill()
-                                        .foreground(makeGradient(colors: [.white, .white]))
+                                        .foreground(Color .white)
                                     
                                     Text(profile.searchParameter.locationName)
                                         .font(.avenirNextRegular(size: 20))
@@ -330,14 +245,15 @@ struct AppUserTextOverlay: View {
                                 }
                             }) {
                                 Circle()
-                                    .fill(groupList.contains(profile) ? gradientColorPrimary : gradientColorSecondary)
+                                    .fill(userData.groupList.contains(profile) ? gradientPinkPinkAndPeach : gradientWhite)
                                     .overlay(
                                         HStack() {
-                                            Image(systemName: groupList.contains(profile) ? "checkmark" : "plus")
+                                            Image(systemName: userData.groupList.contains(profile) ? "checkmark" : "plus")
+                                            .font(.system(size: 24, weight: .medium))
                                                 .padding(.vertical, 10.0)
                                         }
                                         .font(.system(size: 20, weight: .medium))
-                                        .foreground(groupList.contains(profile) ? Color .white : Color .black)
+                                        .foreground(userData.groupList.contains(profile) ? Color .white : Color .black)
                                 )
                                     .frame(width: 50, height: 50)
                                     .offset(x: -4, y: 0)
@@ -354,7 +270,7 @@ struct AppUserTextOverlay: View {
 }
 
 struct ExploreProfileView_Previews: PreviewProvider {
-    @State static var groupList = appUserData // Note: it must be static
+//    @State static var groupList = appUserData // Note: it must be static
     @State static var profiles = appUserData // Note: it must be static
     @State static var screenLock = false // Note: it must be static
     @State static var currentUserEventSelection: [EventType] = [.food, .activity] // Note: it must be static
@@ -363,8 +279,7 @@ struct ExploreProfileView_Previews: PreviewProvider {
 
     static var previews: some View {
             return ExploreProfileView(
-                items: Array(appUserData.prefix(4)),
-                groupList: $groupList,
+                
                 screenLock: $screenLock,
                 profiles: $profiles,
                 currentUserEventSelection: $currentUserEventSelection,

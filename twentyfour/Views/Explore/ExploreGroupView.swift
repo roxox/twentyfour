@@ -30,8 +30,8 @@ struct ExploreGroupView: View {
                 }
                 .padding(10)
             }
-            .shadow(radius: 10)
             .frame(height: 330)
+            .shadow(radius: 10)
         }
     }
     

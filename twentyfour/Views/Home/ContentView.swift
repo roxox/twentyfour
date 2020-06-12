@@ -7,16 +7,20 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseAuth
+import FirebaseCore
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
-struct CategoryHome: View {
+struct ContentView: View {
     
     @EnvironmentObject var userData: UserData
     
     @State var showingProfile = false
     @State var showButtons = false
+    @State var pageIndex_old = 0
     @State var pageIndex = 0
-    @State var tabBarIndex = 0
-    @State var groupList: [Profile] = []
     @State var lockScreen: Bool = false
     
     var gradient: LinearGradient {
@@ -41,33 +45,38 @@ struct CategoryHome: View {
         )
     }
     
-    func didPressAddRemoveButton(profile: Profile) {
-        if !groupList.contains(profile) {
-            groupList.append(profile)
-        } else {
-            groupList.remove(at: self.groupList.firstIndex(of: profile)!)
-        }
-    }
-    
     var body: some View {
-        NavigationView {
+             
+        
+//        NavigationView {
+        VStack() {
+            if !userData.isLogged {
+                ZStack(){
+                    SignInView()
+                }
+            } else {
+                
             ZStack() {
+                
+                
+                // USER IS ALREADY LOGGED IN
+                // VERIFIED BY FIREBASE USER STORE + LOCAL USER STORE (COMPLETE PROFILE ENTITY OR JUST DOCUMENT ID OF USER)
                 
                 VStack(alignment: .leading) {
                     // ExploreView
-                    if tabBarIndex == 0 {
+                    if pageIndex == 0 {
                         ExploreView(
                             items: appUserData,
-                            pageIndex: $pageIndex,
-                            groupList: $groupList,
-                            tabBarIndex: $tabBarIndex
+                            pageIndex_old: $pageIndex_old,
+//                            groupList: $groupList,
+                            pageIndex: $pageIndex
                         )
                     }
                 }
                     
                 VStack() {
                     Spacer()
-                    ButtonBarView(tabBarIndex: $tabBarIndex)
+                    ButtonBarView(pageIndex: $pageIndex)
                         .background(Color .white)
                         .offset(y: userData.buttonBarOffset)
                 }
@@ -82,11 +91,13 @@ struct CategoryHome: View {
                 .animation(.spring())
                 
             }
+            }
         }
-        .navigationBarHidden(true)
-        .navigationBarTitle("", displayMode: .inline)
-        .navigationBarBackButtonHidden(true)
+//        .navigationBarHidden(true)
+//        .navigationBarTitle("", displayMode: .inline)
+//        .navigationBarBackButtonHidden(true)
     }
+    
 }
 
 struct CurrentUser: View {
@@ -100,7 +111,7 @@ struct CurrentUser: View {
 struct CategoryHome_Previews: PreviewProvider {
     static var previews: some View{
         ForEach(["iPhone SE (2nd generation)", "iPhone 11 Pro Max"], id: \.self) { deviceName in
-            CategoryHome()
+            ContentView()
             .previewDevice(PreviewDevice(rawValue: deviceName))
             .previewDisplayName(deviceName)
         }

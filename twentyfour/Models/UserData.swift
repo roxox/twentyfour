@@ -8,24 +8,40 @@ A model object that stores app data.
 import Combine
 import SwiftUI
 
+let menuCollapsed: CGFloat = UIScreen.main.bounds.height
+let menuMinimized3: CGFloat = UIScreen.main.bounds.height/3
+let menuExpanded: CGFloat = 0
+
+let menuIn: CGFloat = 0
+let menuLeftOut: CGFloat = -UIScreen.main.bounds.width
+
 final class UserData: ObservableObject {
     @Published var showFavoritesOnly = false
     @Published var appUsers = appUserData
     @Published var currentUser = appUserData[0]
+    @Published var groupList: [Profile] = []
     
 //    Menu offsets
     // Button Bar
     @Published var buttonBarOffset = CGFloat (0)
     
     // CreateGroup
-    @Published var createGroupMenuOffsetY = CGFloat (555)
-    @Published var createGroupMenuOffsetX = CGFloat (0)
+    @Published var createGroupMenuOffsetY = menuCollapsed
+    @Published var createGroupMenuOffsetX = menuIn
     
     // AddTitleAndDescription
-    @Published var addTitleMenuOffsetX = -UIScreen.main.bounds.width
+    @Published var addTitleMenuOffsetX = menuLeftOut
     
     // SearchView
     @Published var searchViewOffsetY = UIScreen.main.bounds.height
+    
+    
+    @Published var isLogged: Bool = UserDefaults.standard.bool(forKey: "isLogged") {
+        didSet {
+            UserDefaults.standard.set(self.isLogged, forKey: "isLogged")
+        }
+    }
+    @Published var showLogin = false
     
 //    @Published var profile: Profile.default
 }

@@ -15,6 +15,7 @@ extension View {
         self.overlay(overlay).mask(self)
     }
 }
+
 extension Font {
     static func avenirNext(size: Int) -> Font {
         return Font.custom("Avenir Next", size: CGFloat(size))
@@ -34,4 +35,12 @@ extension UIApplication {
     func endEditing() {
         sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
+}
+
+extension Date {
+
+    static func - (lhs: Date, rhs: Date) -> TimeInterval {
+        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
+    }
+
 }

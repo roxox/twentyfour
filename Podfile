@@ -9,6 +9,7 @@ target 'twentyfour' do
   pod 'Firebase/Storage'
   pod 'Firebase/Firestore'
   pod 'FirebaseFirestoreSwift'
+  pod 'lottie-ios'
   post_install do |installer|
       installer.pods_project.targets.each do |target|
           if target.name == 'MessageKit'
