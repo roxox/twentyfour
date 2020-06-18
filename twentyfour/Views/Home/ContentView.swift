@@ -16,12 +16,15 @@ import FirebaseFirestoreSwift
 struct ContentView: View {
     
     @EnvironmentObject var userData: UserData
+    @ObservedObject var searchDataContainer = SearchDataContainer()
     
     @State var showingProfile = false
     @State var showButtons = false
     @State var pageIndex_old = 0
     @State var pageIndex = 0
     @State var lockScreen: Bool = false
+    
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var gradient: LinearGradient {
         LinearGradient(
@@ -65,12 +68,18 @@ struct ContentView: View {
                 VStack(alignment: .leading) {
                     // ExploreView
                     if pageIndex == 0 {
-                        ExploreView(
-                            items: appUserData,
-                            pageIndex_old: $pageIndex_old,
-//                            groupList: $groupList,
-                            pageIndex: $pageIndex
-                        )
+                        if self.searchDataContainer.targetDate > self.searchDataContainer.currentTime {
+                            ExploreView(
+                                searchDataContainer: searchDataContainer,
+                                items: appUserData,
+                                pageIndex_old: $pageIndex_old,
+                                pageIndex: $pageIndex
+                            )
+                        }
+                        else {
+                            ExploreNoSearchView(searchDataContainer: searchDataContainer)
+                        }
+                        
                     }
                 }
                     
@@ -83,8 +92,8 @@ struct ContentView: View {
                 .animation(.spring())
                     
                 VStack() {
-
-                    SearchView()
+                    SearchView(
+                        searchDataContainer: searchDataContainer)
                         .background(Color .white)
                         .offset(y: userData.searchViewOffsetY)
                 }
@@ -92,6 +101,8 @@ struct ContentView: View {
                 
             }
             }
+        }.onReceive(timer) { time in
+            self.searchDataContainer.currentTime = Date()
         }
 //        .navigationBarHidden(true)
 //        .navigationBarTitle("", displayMode: .inline)

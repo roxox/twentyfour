@@ -24,6 +24,7 @@ var gradientCherryPink: LinearGradient {
 struct ExploreSearchButtonView: View {
     
     @EnvironmentObject var userData: UserData
+    @ObservedObject var searchDataContainer: SearchDataContainer
     
     @State var showButtons = false
     @State var selectedScreen = 0
@@ -36,31 +37,10 @@ struct ExploreSearchButtonView: View {
         
         try! Auth.auth().signOut()
         userData.isLogged = false
-        
-        
-        
-//        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-//            self.isLoading = false
-//
-//            if error != nil {
-//                self.alertMessage = error?.localizedDescription ?? ""
-//                self.showAlert = true
-//            } else {
-//                self.isSuccessful = true
-//                self.user.isLogged = true
-//                UserDefaults.standard.set(true, forKey: "isLogged")
-//
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                    self.email = ""
-//                    self.password = ""
-//                    self.isSuccessful = false
-//                    self.user.showLogin = false
-//                }
-//            }
-//        }
     }
     
     func openSearchView() {
+//        searchDataContainer.copyValuesToTmpValues()
         userData.searchViewOffsetY = CGFloat (0)
     }
     
@@ -81,8 +61,6 @@ struct ExploreSearchButtonView: View {
                         }
                     }) {
                         HStack() {
-                            
-                            
                             Image(systemName: "magnifyingglass")
                                 .font(.system(size: 22, weight: .medium))
                                 .foregroundColor(.black)
@@ -90,91 +68,12 @@ struct ExploreSearchButtonView: View {
                                 .frame(width: 45, height: 45)
                                 .background(gradientGray)
                                 .clipShape(Circle())
-                            
-//                            Text("Suche ändern oder beenden")
-//    //                            .font(.avenirNextRegular(size: 20))
-//    //                            .fontWeight(.semibold)
-//                                    .font(.avenirNextRegular(size: 14))
-//                                    .fontWeight(.light)
-//                                    .foregroundColor(.black)
-//                                .fixedSize()
-//                                .truncationMode(.head)
                         }
-                        
                     }
-//                    .fixedSize()
-//                    .padding(.horizontal, 20)
-//                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    
-                    
-//                    Spacer()
-
-//                    HStack() {
-//
-//                        Spacer()
-//                        Button(action: {
-//    //                        self.addOrRemoveOperator(operatorType: .minus)
-//                        }) {
-//                            VStack() {
-//                            Image(systemName: "person")
-//                                .font(.avenirNextRegular(size: 16))
-//                                .frame(width: 46, height:30)
-//                                .background(gradientCherryPink)
-//                                .foregroundColor(Color ("LightGray"))
-//    //                            .background(userData.selectedOperations.contains(.minus) ? gradientCherryAndPink : gradientGray)
-//    //                            .foregroundColor(userData.selectedOperations.contains(.minus) ? Color .white : Color .gray)
-//                                .clipShape(RoundedRectangle(cornerRadius: 15))
-//
-//                                Text("Benutzer")
-//                                    .font(.avenirNextRegular(size: 10))
-//                                    .fontWeight(.semibold)
-//                                    .fixedSize(horizontal: false, vertical: true)
-//                                    .lineLimit(1)
-//                                    .foreground(gradientCherryPink)
-//                                    .offset(y: -5)
-//
-//                            }
-//                        .buttonStyle(BorderlessButtonStyle())
-//                        }
-//
-//                        Button(action: {
-//                            self.logout()
-//    //                        self.addOrRemoveOperator(operatorType: .minus)
-//                        }) {
-//                            VStack() {
-//                            Image(systemName: "person.3")
-//                                .font(.avenirNextRegular(size: 16))
-//                                .frame(width: 52, height:30)
-//                                .background(gradientGray)
-//                                .foregroundColor(Color ("DarkGray"))
-//    //                            .background(userData.selectedOperations.contains(.minus) ? gradientCherryAndPink : gradientGray)
-//    //                            .foregroundColor(userData.selectedOperations.contains(.minus) ? Color .white : Color .gray)
-//                                .clipShape(RoundedRectangle(cornerRadius: 15))
-//
-//                                Text("Gruppen")
-//                                    .font(.avenirNextRegular(size: 10))
-//                                    .fontWeight(.semibold)
-//                                    .fixedSize(horizontal: false, vertical: true)
-//                                    .lineLimit(1)
-//                                    .foreground(Color ("DarkGray"))
-//                                    .offset(y: -5)
-//                        }
-//                        .buttonStyle(BorderlessButtonStyle())
-//                        }
-//
-//
-//                    }
             
                 }
                 .padding([.leading, .trailing], 20)
-//                .padding([.top], 60)
         }
         .navigationBarHidden(true)
-    }
-}
-
-struct ExploreSearchView_Previews: PreviewProvider {
-    static var previews: some View {
-        ExploreSearchButtonView()
     }
 }

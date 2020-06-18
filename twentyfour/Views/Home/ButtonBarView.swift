@@ -136,7 +136,7 @@ struct ButtonBarView: View {
                     self.pageIndex = 0
                 }) {
                     VStack() {
-                        Circle().fill(pageIndex == 0 ? gradientColorPrimary : gradientColorSecondary)
+                        Circle().fill(pageIndex == 0 ? gradientPeachPink : gradientColorSecondary)
                             .overlay(
                                 Image(systemName: "house")
                                     .padding(.vertical, 10.0)
@@ -150,7 +150,7 @@ struct ButtonBarView: View {
                     Text("Stöbern")
                         .font(.avenirNextRegular(size: 11))
                         .fontWeight(.semibold)
-                        .foreground(pageIndex == 0 ? gradientColorPrimary : gradientGray)
+                        .foreground(pageIndex == 0 ? gradientPeachPink : gradientPeachPink)
                     }
                 }
 
@@ -161,7 +161,7 @@ struct ButtonBarView: View {
                     self.pageIndex = 1
                 }) {
                     VStack() {
-                        Circle().fill(pageIndex == 1 ? gradientColorPrimary : gradientColorSecondary)
+                        Circle().fill(pageIndex == 1 ? gradientPinkPurple : gradientColorSecondary)
                             .overlay(
                                 Image(systemName: "person.3")
                                     .padding(.vertical, 10.0)
@@ -175,7 +175,7 @@ struct ButtonBarView: View {
                         Text("Meine Gruppen")
                             .font(.avenirNextRegular(size: 11))
                             .fontWeight(.semibold)
-                            .foreground(pageIndex == 1 ? gradientColorPrimary : gradientGray)
+                            .foreground(pageIndex == 1 ? gradientPinkPurple : gradientPinkPurple)
                     }
                 }
                 
@@ -186,11 +186,13 @@ struct ButtonBarView: View {
                     self.pageIndex = 2
                 }) {
                     VStack() {
-                        Circle().fill(pageIndex == 2 ? gradientColorPrimary : gradientColorSecondary)
+//                        Circle().fill(pageIndex == 2 ? gradientColorPrimary : gradientColorSecondary)
+                        Circle().fill(pageIndex == 2 ? gradientPurpleBlue : gradientColorSecondary)
                             .overlay(
                                 Image(systemName: "envelope")
                                     .padding(.vertical, 10.0)
                                     .font(.system(size: 20, weight: .medium))
+//                                    .foreground(pageIndex == 2 ? gradientColorSecondary : gradientGray)
                                     .foreground(pageIndex == 2 ? gradientColorSecondary : gradientGray)
                                     .frame(width: 40, height: 40)
                                     .offset(x: 0, y: 0)
@@ -200,7 +202,8 @@ struct ButtonBarView: View {
                         Text("Nachrichten")
                             .font(.avenirNextRegular(size: 11))
                             .fontWeight(.semibold)
-                            .foreground(pageIndex == 2 ? gradientColorPrimary : gradientGray)
+//                            .foreground(pageIndex == 2 ? gradientColorPrimary : gradientGray)
+                            .foreground(pageIndex == 2 ? gradientPurpleBlue : gradientPurpleBlue)
                     }
                 }
                 
@@ -211,7 +214,7 @@ struct ButtonBarView: View {
                     self.pageIndex = 3
                 }) {
                     VStack() {
-                        Circle().fill(pageIndex == 3 ? gradientColorPrimary : gradientColorSecondary)
+                        Circle().fill(pageIndex == 3 ? gradientBlueAccent : gradientColorSecondary)
                             .overlay(
                                 Image(systemName: "person")
                                     .padding(.vertical, 10.0)
@@ -225,7 +228,7 @@ struct ButtonBarView: View {
                         Text("Profil")
                             .font(.avenirNextRegular(size: 11))
                             .fontWeight(.semibold)
-                            .foreground(pageIndex == 3 ? gradientColorPrimary : gradientGray)
+                            .foreground(pageIndex == 3 ? gradientBlueAccent : gradientBlueAccent)
                     }
                 }
                 

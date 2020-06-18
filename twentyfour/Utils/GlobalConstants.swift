@@ -57,3 +57,111 @@ var gradientGray: LinearGradient {
         startPoint: .topLeading,
         endPoint: .bottomTrailing)
 }
+    
+var gradientPinkBlueAccent: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(
+            colors:
+            [
+//                .pink,
+            Color ("Violet"),
+//                .purple,
+//                Color ("Violet"),
+                .blue,
+            Color ("accent"),
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing)
+}
+
+// Button Bar
+    
+var gradientPeachPink: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(
+            colors:
+            [
+                Color ("Peach"),
+                .pink,
+//            Color ("accent"),
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing)
+}
+    
+var gradientPinkPurple: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(
+            colors:
+            [
+//                Color ("Orange"),
+                .pink,
+//                .purple
+            Color ("Violet"),
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing)
+}
+    
+var gradientPurpleBlue: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(
+            colors:
+            [
+//                Color ("Orange"),
+//                .purple,
+                Color ("Violet"),
+                .blue
+//            Color ("accent"),
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing)
+}
+    
+var gradientBlueAccent: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(
+            colors:
+            [
+//                Color ("Orange"),
+//                .purple,
+                .blue,
+            Color ("accent"),
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing)
+}
+
+    
+var gradientPinkPurpleBlueAccent: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(
+            colors:
+            [
+//            Color ("Violet"),
+                .pink,
+                .purple,
+//                Color ("Violet"),
+                .blue,
+            Color ("accent"),
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing)
+}
+
+  
+var gradientPinkVioletBlueAccent: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(
+            colors:
+            [
+                .pink,
+            Color ("Violet"),
+//                .purple,
+//                Color ("Violet"),
+                .blue,
+            Color ("accent"),
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing)
+}

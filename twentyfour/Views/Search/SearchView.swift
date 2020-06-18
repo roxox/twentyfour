@@ -11,35 +11,38 @@ import SwiftUI
 struct SearchView: View {
     
     @EnvironmentObject var userData: UserData
-    @ObservedObject var searchData = SearchData()
+    @ObservedObject var searchDataContainer: SearchDataContainer
     @State var isFocused = false
     @State var keyboardHeight = CGFloat (0)
     @State var showKeyboard = false
+    @State var remainingTime: Int = 0
     
-    
-    @State var localEventType: [EventType] = []
-    @State var localMaxDistance: Double = 0
-    @State var localLocationString: String = ""
+    @State var tmpLocationString: String = ""
+    @State var tmpMaxDistance: Double = 0
+    @State var tmpEventTypes: [EventType] = []
     
     func closeSearchView() {
         hideKeyboard()
         userData.searchViewOffsetY = UIScreen.main.bounds.height
-        self.localEventType = self.searchData.selectedEventTypes
-        self.localMaxDistance = self.searchData.maxDistance
-        self.localLocationString = self.searchData.locationString
     }
     
-    func anyChange() -> Bool {
-        if localLocationString != searchData.locationString {
+    func copyValuesToTmpValues() {
+        self.tmpLocationString = self.searchDataContainer.locationString
+        self.tmpMaxDistance = self.searchDataContainer.maxDistance
+        self.tmpEventTypes = self.searchDataContainer.eventTypes
+    }
+    
+    func isModified() -> Bool {
+        if self.tmpLocationString != searchDataContainer.locationString {
             return true
         }
         
-        if localMaxDistance != searchData.maxDistance {
+        if self.tmpMaxDistance != searchDataContainer.maxDistance {
             return true
         }
         
         
-        if localEventType != searchData.selectedEventTypes {
+        if self.tmpEventTypes != searchDataContainer.eventTypes {
             return true
         }
         
@@ -47,245 +50,314 @@ struct SearchView: View {
     }
     
     func saveValues() {
-        if searchData.selectedEventTypes != localEventType {
-            searchData.selectedEventTypes.removeAll()
-            searchData.selectedEventTypes.append(contentsOf: localEventType)
-        }
+        searchDataContainer.copyTmpValuesToValues(tmpLocationString: tmpLocationString, tmpMaxDistance: tmpMaxDistance, tmpEventTypes: tmpEventTypes)
+        self.searchDataContainer.createOrUpdate()
         
-        if searchData.maxDistance != localMaxDistance {
-            searchData.maxDistance = localMaxDistance
-        }
+        self.closeSearchView()
         
-        if searchData.locationString != localLocationString {
-            searchData.locationString = localLocationString
-        }
-        
+        self.searchDataContainer.createOrUpdate()
         self.closeSearchView()
     }
     
+    func getLabel() -> String {
+        if self.remainingTime > 0 {
+            return "Übernehmen"
+        }
+        return "Erstellen"
+    }
+    
     var body: some View {
-        ZStack() {
-        ScrollView() {
-            
-                HStack() {
-                    Spacer()
-                        Text("Standort")
-                            .font(.avenirNextRegular(size: 20))
-                            .fontWeight(.semibold)
-                    Spacer()
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 20)
-            
-                HStack() {
-                        Image("locationBlack")
-                            .resizable()
-                            .renderingMode(.original)
-                            .frame(width: 20, height: 20)
-                            .scaledToFill()
-                    
-                    VStack() {
-                        TextField("Location", text: $localLocationString)
-                            .font(.avenirNextRegular(size: 22))
-                            .offset(y: 5)
-                            .onTapGesture {
-                                self.isFocused = true
-                            }
-                        Divider()
-                    }
-                    .padding(.trailing, 40)
-                        
+        GeometryReader { geometry in
+            ZStack() {
+            ScrollView() {
+                
+                    HStack() {
+                        Spacer()
+                            Text("Standort")
+                                .font(.avenirNextRegular(size: 20))
+                                .fontWeight(.semibold)
                         Spacer()
                     }
-                .padding(.horizontal, 20)
-                .padding(.top, 10)
-            HStack() {
-                HStack() {
-                    
-                    Image(systemName: "location.fill")
-                        .font(.system(size: 14, weight: .medium))
-                        .fixedSize()
-                        .frame(width: 20, height: 20)
-                        .foreground(gradientSeaAndBlue)
-                    
-                    Text("In der Umgebung")
-                        .font(.avenirNextRegular(size: 14))
-                }
-                .frame(height: 30)
-                .padding(.horizontal, 7)
-                .background(gradientGray)
-                .clipShape(RoundedRectangle(cornerRadius: 15))
-            Spacer()
-            }
-                .padding(.horizontal, 45)
-                .padding(.top, 5)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 20)
+                
+                    HStack() {
+                            Image("locationBlack")
+                                .resizable()
+                                .renderingMode(.original)
+                                .frame(width: 20, height: 20)
+                                .scaledToFill()
                         
+                        VStack() {
+                            TextField("Location", text: self.$tmpLocationString)
+                                .font(.avenirNextRegular(size: 22))
+                                .offset(y: 5)
+                                .onTapGesture {
+                                    self.isFocused = true
+                                }
+                            Divider()
+                        }
+                        .padding(.trailing, 40)
+                            
+                            Spacer()
+                        }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 10)
                 HStack() {
-                    
-                    Image(systemName: "mappin.and.ellipse")
-                        .font(.system(size: 18, weight: .medium))
-                        .foregroundColor(.black)
-                        .fixedSize()
-                        .frame(width: 20, height: 20)
-                    
-                    Text("max. Enterfernung: ")
-                        .font(.avenirNextRegular(size: 22))
-//                        .fontWeight(.semibold)
-                    
-                    Spacer()
-                    
-                    Text("\(Int(localMaxDistance)) km")
-                    .font(.avenirNextRegular(size: 20))
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 25)
-                                    
-                HStack() {
-                    Slider(value: $localMaxDistance, in: 2...150, step: 1)
-                }
-                .padding(.horizontal, 50)
-                .padding(.bottom, 20)
-                
-                Divider()
-            ButtonAreaView(localEventType: $localEventType)
-            
-            RequestView()
-            .padding(.bottom, 80)
-            
-        }
-        .foregroundColor(.black)
-        .frame(minWidth: 0, maxWidth: .infinity)
-            
-            VStack() {
-                Spacer()
-                
-                HStack(){
-                    Spacer()
-
-                    // SAVE BUTTON
-                    if anyChange() && localEventType.count != 0 && self.localLocationString != "" {
-                        Button(action: {
-                            withAnimation(.linear(duration: 0.2)) {
-                                self.saveValues()
-                            }
-                        }) {
-                            HStack(){
-                            Image(systemName: "checkmark")
-                                .font(.system(size: 20, weight: .medium))
-                                .frame(width: 36, height: 36)
-                                .padding(.leading, 10)
-                                Text(self.searchData.remainingTime > 0 ? "Übernehmen" : "Erstellen")
-                                    .font(.avenirNextRegular(size: 16))
-                                    .fontWeight(.semibold)
-                                    .padding(.trailing, 20)
-                            }
-                        }
-                        .frame(height: 45)
-                        .foregroundColor(.white)
-                        .background(gradientSeaAndBlue)
-                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                    HStack() {
+                        
+                        Image(systemName: "location.fill")
+                            .font(.system(size: 14, weight: .medium))
+                            .fixedSize()
+                            .frame(width: 20, height: 20)
+                            .foreground(gradientSeaAndBlue)
+                        
+                        Text("In der Umgebung")
+                            .font(.avenirNextRegular(size: 14))
                     }
-                    
-                    // CANCEL BUTTON
-                    Button(action: {
-                        withAnimation(.linear(duration: 0.2)) {
-                            self.closeSearchView()
-                        }
-                    }) {
-                        HStack(){
-                        Image(systemName: "xmark")
-                            .font(.system(size: 20, weight: .medium))
-                            .frame(width: 36, height: 36)
-                            .padding(.leading, 10)
-                        Text("Verwerfen")
-                            .font(.avenirNextRegular(size: 16))
-                            .fontWeight(.semibold)
-                            .padding(.trailing, 20)
-                        }
-                    }
-                    .frame(height: 45)
-                    .foregroundColor(.white)
-                    .background(Color.black)
+                    .frame(height: 30)
+                    .padding(.horizontal, 7)
+                    .background(gradientGray)
                     .clipShape(RoundedRectangle(cornerRadius: 15))
-                    
-                    Spacer()
+                Spacer()
                 }
-                .padding(showKeyboard ? 10 : 30)
-                .background(BlurView(style: .systemMaterial))
-//                .offset(y: -self.keyboardHeight)
-
-                    .offset(y: -self.keyboardHeight).animation(.spring())
-                .animation(isFocused ? .easeInOut : nil)
-//                .animation(nil)
-
-                .onAppear() {
-                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { (noti)  in
-                    
-                        let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-                        let height = value.height
+                    .padding(.horizontal, 45)
+                    .padding(.top, 5)
+                            
+                    HStack() {
                         
-                        self.keyboardHeight = height
-                        self.showKeyboard = true
-                    }
-                    
-                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (noti)  in
+                        Image(systemName: "mappin.and.ellipse")
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundColor(.black)
+                            .fixedSize()
+                            .frame(width: 20, height: 20)
                         
-//                        self.isFocused = false
-                        self.keyboardHeight = 0
-                        self.showKeyboard = false
+                        Text("max. Enterfernung: ")
+                            .font(.avenirNextRegular(size: 22))
+    //                        .fontWeight(.semibold)
+                        
+                        Spacer()
+                        
+                        Text("\(Int(self.tmpMaxDistance)) km")
+                        .font(.avenirNextRegular(size: 20))
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 25)
+                                        
+                    HStack() {
+                        Slider(value: self.$tmpMaxDistance, in: 2...150, step: 1)
+                    }
+                    .padding(.horizontal, 50)
+                    .padding(.bottom, 20)
+                    
+                    Divider()
+                
+                ButtonAreaView(searchDataContainer: self.searchDataContainer, tmpEventTypes: self.$tmpEventTypes)
+                
+                if self.searchDataContainer.targetDate > self.searchDataContainer.currentTime {
+                RequestView(searchDataContainer: self.searchDataContainer)
+                .padding(.bottom, 80)
+                }
+                
+            }
+            .foregroundColor(.black)
+            .frame(minWidth: 0, maxWidth: .infinity)
+                VStack() {
+                    Spacer()
+                    
+                    VStack() {
+                        Spacer()
+                        
+                        HStack(){
+                            Spacer()
+
+                            // SAVE BUTTON
+                            if self.isModified() && self.tmpEventTypes.count != 0 && self.tmpLocationString != "" {
+                                Button(action: {
+                                    withAnimation(.linear(duration: 0.2)) {
+                                        self.saveValues()
+                                    }
+                                }) {
+                                    HStack(){
+                                    Image(systemName: "checkmark")
+                                        .font(.system(size: 20, weight: .medium))
+                                        .frame(width: 36, height: 36)
+                                        .padding(.leading, 10)
+                                        Text(self.getLabel())
+                                            .font(.avenirNextRegular(size: 16))
+                                            .fontWeight(.semibold)
+                                            .padding(.trailing, 20)
+                                    }
+                                }
+                                .frame(height: 45)
+                                .foregroundColor(.white)
+                                .background(gradientSeaAndBlue)
+                                .clipShape(RoundedRectangle(cornerRadius: 15))
+                            }
+                            
+                            // CANCEL BUTTON
+                            Button(action: {
+                                withAnimation(.linear(duration: 0.2)) {
+                                    self.closeSearchView()
+                                }
+                            }) {
+                                HStack(){
+                                    Image(systemName: "xmark")
+                                        .font(.system(size: 20, weight: .medium))
+                                        .frame(width: 36, height: 36)
+                                        .padding(.leading, 10)
+                                    Text("Verwerfen")
+                                        .font(.avenirNextRegular(size: 16))
+                                        .fontWeight(.semibold)
+                                        .padding(.trailing, 20)
+                                }
+                            }
+                            .frame(height: 45)
+                            .foregroundColor(.white)
+                            .background(Color.black)
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                            
+                            Spacer()
+                        }
+                        .padding(15)
+//                        .padding(.bottom, 15)
+                        .background(BlurView(style: .systemMaterial))
+                        .animation(self.isFocused ? .easeInOut : nil)
+
+                        .onAppear() {
+                            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { (noti)  in
+                            
+                                let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+                                let height = value.height
+                                
+                                self.keyboardHeight = height
+                                self.showKeyboard = true
+                            }
+                            
+                            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (noti)  in
+                                self.keyboardHeight = 0
+                                self.showKeyboard = false
+                            }
+                        }
+                    }
+                    .offset(y: 15)
+                    Rectangle().fill(Color .clear)
+                        .background(BlurView(style: .systemMaterial))
+                        .frame(height: max(0, geometry.safeAreaInsets.bottom - 20))
+                }
+                .edgesIgnoringSafeArea(.bottom)
+                
+                if self.showKeyboard == true {
+                    VStack(){
+                        Spacer()
+                        HStack(){
+                            Spacer()
+                            // Hide Keyboard
+                            Button(action: {
+                                withAnimation(.linear(duration: 0.2)) {
+                                    hideKeyboard()
+                                }
+                            }) {
+                                HStack(){
+                                Image(systemName: "keyboard.chevron.compact.down")
+                                    .font(.system(size: 20, weight: .medium))
+                                    .frame(width: 36, height: 36)
+                                    .padding(.trailing, 10)
+                                }
+                            }
+                            .foregroundColor(.black)
+
+                            .onAppear() {
+                                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { (noti)  in
+                                
+                                    let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+                                    let height = value.height
+                                    
+                                    self.keyboardHeight = height
+                                    self.showKeyboard = true
+                                }
+                                
+                                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (noti)  in
+                                    self.keyboardHeight = 0
+                                    self.showKeyboard = false
+                                }
+                            }
+                        }
+                        .padding(.top, 10)
+                        .padding(.bottom, 5)
+                        .frame(minWidth: 0, maxWidth: .infinity)
+//                        .padding(self.showKeyboard ? 15 : 15)
+                        .background(BlurView(style: .systemMaterial))
+                    }
+                    .offset(y: -self.keyboardHeight)
+                    .animation(.spring())
+                    .edgesIgnoringSafeArea(.bottom)
                 }
             }
-            .edgesIgnoringSafeArea(.bottom)
+            .onTapGesture {
+                hideKeyboard()
+                self.isFocused = false
+            }
+            .onReceive(self.searchDataContainer.remainingTimeWillChange) { newValue in
+                withAnimation(.linear(duration: 0.2)) {
+                    self.remainingTime = newValue
+                }
+            }
+            .onReceive(self.searchDataContainer.eventTypesWillChange) { newValue in
+                withAnimation(.linear(duration: 0.2)) {
+                    self.tmpEventTypes = newValue
+                }
+            }
+            .onReceive(self.searchDataContainer.locationStringWillChange) { newValue in
+                withAnimation(.linear(duration: 0.2)) {
+                    self.tmpLocationString = newValue
+                }
+            }
+            .onReceive(self.searchDataContainer.maxDistanceWillChange) { newValue in
+                withAnimation(.linear(duration: 0.2)) {
+                    self.tmpMaxDistance = newValue
+                }
+            }
+            .onAppear() {
+                self.copyValuesToTmpValues()
+            }
+            .animation(.spring())
         }
-        .onTapGesture {
-            hideKeyboard()
-            self.isFocused = false
-        }
-        
-        .onAppear {
-            self.localEventType = self.searchData.selectedEventTypes
-            self.localMaxDistance = self.searchData.maxDistance
-            self.localLocationString = self.searchData.locationString
-        }
-        
-        .onReceive(searchData.objectWillChange, perform: { _ in
-            print("hallo")
-        })
     }
 }
 
 struct ButtonAreaView: View {
     
     @EnvironmentObject var userData: UserData
-    @ObservedObject var searchData = SearchData()
-    @Binding var localEventType: [EventType]
+    @ObservedObject var searchDataContainer: SearchDataContainer
     
+//    @Binding var tmpLocationString: String
+//    @Binding var tmpMaxDistance: Double
+    @Binding var tmpEventTypes: [EventType]
 
     func addOrRemoveEventTyoe(eventType: EventType) {
-        if !localEventType.contains(eventType){
+        if !self.tmpEventTypes.contains(eventType){
             self.addEventType(eventType: eventType)
         } else {
             self.removeEventType(eventType: eventType)
         }
-        print(localEventType.count)
     }
     
     func addEventType(eventType: EventType) {
-        if !localEventType.contains(eventType){
-            localEventType.append(eventType)
+        if !self.tmpEventTypes.contains(eventType){
+            self.tmpEventTypes.append(eventType)
         }
     }
     
     func removeEventType(eventType: EventType) {
-        let removeIndex: Int = localEventType.firstIndex(of: eventType)!
-        if localEventType.contains(eventType){
-            localEventType.remove(at: removeIndex)
+        let removeIndex: Int = self.tmpEventTypes.firstIndex(of: eventType)!
+        if self.tmpEventTypes.contains(eventType){
+            self.tmpEventTypes.remove(at: removeIndex)
         }
     }
     
     func containsType(eventType: EventType) -> Bool {
-        if localEventType.contains(eventType){
+        if self.tmpEventTypes.contains(eventType){
             return true
         }
         return false
@@ -301,7 +373,7 @@ struct ButtonAreaView: View {
                         Text("Aktivität")
                             .font(.avenirNextRegular(size: 20))
                             .fontWeight(.semibold)
-                        if localEventType.count == 0 {
+                        if self.tmpEventTypes.count == 0 {
                             Text("Wähle mindestens eine Aktivität")
                                 .font(.avenirNextRegular(size: 10))
                                 .fontWeight(.semibold)
@@ -323,15 +395,13 @@ struct ButtonAreaView: View {
                     VStack(alignment: .leading){
                         Text("Essen und Trinken")
                             .font(.avenirNextRegular(size: 22))
-//                                    .fontWeight(.semibold)
                         Text("Hier gibt es auch etwas Text")
                         .font(.avenirNextRegular(size: 14))
                         .fontWeight(.light)
-//                                .foreground(gradientCherryPink)
                     }
                     Spacer()
                     EventTypeImage(imageString: "essen")
-                        .saturation(localEventType.contains(.food) ? 1.0 : 0.0)
+                        .saturation(self.tmpEventTypes.contains(.food) ? 1.0 : 0.0)
                         .padding(.leading, 5)
                 
                 }
@@ -356,7 +426,7 @@ struct ButtonAreaView: View {
                     }
                     Spacer()
                     EventTypeImage(imageString: "freizeit2")
-                        .saturation(localEventType.contains(.activity) ? 1.0 : 0.0)
+                        .saturation(self.tmpEventTypes.contains(.activity) ? 1.0 : 0.0)
                         .padding(.leading, 5)
                 
                 }
@@ -380,7 +450,7 @@ struct ButtonAreaView: View {
                     }
                     Spacer()
                     EventTypeImage(imageString: "sport")
-                        .saturation(localEventType.contains(.sport) ? 1.0 : 0.0)
+                        .saturation(self.tmpEventTypes.contains(.sport) ? 1.0 : 0.0)
                         .padding(.leading, 5)
                 
                 }
@@ -388,7 +458,6 @@ struct ButtonAreaView: View {
                 .frame(width: UIScreen.main.bounds.width)
             }
             
-            Divider()
         }
     }
     
@@ -398,17 +467,12 @@ struct ButtonAreaView: View {
 struct RequestView: View {
     
     @EnvironmentObject var userData: UserData
-    @ObservedObject var searchData = SearchData()
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @ObservedObject var searchDataContainer: SearchDataContainer
     
-    func setNowPlus24() {
-//        searchData.targetDate = Date().addingTimeInterval(86400)
-        if searchData.isSearchActive {
-            searchData.targetDate = Date().addingTimeInterval(10)
-        } else {
-            searchData.targetDate = Date().addingTimeInterval(20)
-        }
-    }
+//    @Binding var tmpEventTypes: [EventType]
+    
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State var remainingTime: Int = 0
 
     func secondsToHours (seconds : Int) -> (Int) {
         return (Int(seconds) / 3600)
@@ -424,15 +488,15 @@ struct RequestView: View {
     
     func getFormattedDate() -> String {
         let formatter = DateFormatter()
-//        formatter.timeStyle = .long
         formatter.dateStyle = .short
-        let dateString = formatter.string(from: searchData.created)
+        let dateString = formatter.string(from: searchDataContainer.created)
         return dateString
     }
     
     var body: some View {
         VStack() {
             
+            Divider()
             // HEADLINE
             HStack() {
                 Spacer()
@@ -447,6 +511,7 @@ struct RequestView: View {
             .padding(.top, 20)
             
             
+            
             HStack() {
                 Text("Erstellt am: \(self.getFormattedDate())")
                         .font(.avenirNextRegular(size: 14))
@@ -455,20 +520,18 @@ struct RequestView: View {
             .frame(minWidth: 0, maxWidth: .infinity)
             .padding(.top, 20)
             
-//            isSearchActive
-//            Text("IS ACTIVE: \(searchData.isSearchActive ? "YES" : "NO")")
             
             HStack() {
-                if secondsToHours(seconds: searchData.remainingTime) != 0 {
-                    Text("Aktiv für die nächsten \(secondsToHours(seconds: searchData.remainingTime)):\(secondsToMinutes(seconds: searchData.remainingTime)):\(secondsToSeconds(seconds: searchData.remainingTime)) Stunden")
+                if secondsToHours(seconds: remainingTime) != 0 {
+                    Text("Aktiv für die nächsten \(secondsToHours(seconds: remainingTime)):\(secondsToMinutes(seconds: remainingTime)):\(secondsToSeconds(seconds: remainingTime)) Stunden")
                             .font(.avenirNextRegular(size: 14))
                             .fontWeight(.light)
-                } else if secondsToHours(seconds: searchData.remainingTime) == 0 && secondsToMinutes(seconds: searchData.remainingTime) != 0{
-                    Text("Aktiv für die nächsten \(secondsToMinutes(seconds: searchData.remainingTime)):\(secondsToSeconds(seconds: searchData.remainingTime)) Minuten")
+                } else if secondsToHours(seconds: remainingTime) == 0 && secondsToMinutes(seconds: remainingTime) != 0{
+                    Text("Aktiv für die nächsten \(secondsToMinutes(seconds: remainingTime)):\(secondsToSeconds(seconds: remainingTime)) Minuten")
                             .font(.avenirNextRegular(size: 14))
                             .fontWeight(.light)
                 } else {
-                    Text("Aktiv für die nächsten \(secondsToSeconds(seconds: searchData.remainingTime)) Sekunden")
+                    Text("Aktiv für die nächsten \(secondsToSeconds(seconds: remainingTime)) Sekunden")
                             .font(.avenirNextRegular(size: 14))
                             .fontWeight(.light)
                 }
@@ -476,32 +539,65 @@ struct RequestView: View {
             .frame(minWidth: 0, maxWidth: .infinity)
             .padding(.bottom, 20)
             
-            //BUTTON CNACEL
+
+            // Verlängern
             Button(action: {
                 withAnimation(.linear(duration: 0.2)) {
-                    self.setNowPlus24()
+                    self.searchDataContainer.extendTimer()
                 }
             }) {
-                Text("Suche abbrechen")
-                    .font(.avenirNextRegular(size: 22))
-                    .foregroundColor(.red)
+                HStack() {
+                    Image(systemName: "repeat")
+                        .font(.system(size: 22, weight: .medium))
+                        .foregroundColor(.black)
+                        .fixedSize()
+                        .frame(width: 45, height: 45)
+                    Text("Verlängern")
+                        .padding(.trailing)
+                }
+                .frame(height: 46)
+                .foreground(gradientPinkVioletBlueAccent)
+                .background(gradientGray)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
             }
             .padding(.horizontal, 20)
-            .padding(.bottom, 20)
+            .padding(.bottom, 10)
             
-            
-        }.onReceive(timer) { time in
-            if self.searchData.remainingTime > 0 {
-                self.searchData.remainingTime -= 1
+
+            // Abbrechen
+            Button(action: {
+                withAnimation(.linear(duration: 0.2)) {
+                    self.searchDataContainer.cancel()
+                }
+            }) {
+                HStack() {
+                    Image(systemName: "trash")
+                        .font(.system(size: 22, weight: .medium))
+                        .foregroundColor(.black)
+                        .fixedSize()
+                        .frame(width: 45, height: 45)
+                    Text("Abbrechen")
+                        .padding(.trailing)
+                }
+                .frame(height: 46)
+                .foreground(gradientPinkPinkAndPeach)
+                .background(gradientGray)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+            }
+            .padding(.horizontal, 20)
+        }
+        .onReceive(self.searchDataContainer.remainingTimeWillChange) { newValue in
+            withAnimation(.linear(duration: 0.2)) {
+                self.remainingTime = newValue
             }
         }
+        .animation(.spring())
     }
 }
 
 struct EventTypeImage: View {
     
     let imageString: String
-    
     var body: some View {
 
     Image(imageString)
@@ -510,11 +606,5 @@ struct EventTypeImage: View {
         .scaledToFill()
         .frame(width: 70 ,height: 70)
         .clipShape(Circle())
-    }
-}
-
-struct SearchView_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchView()
     }
 }

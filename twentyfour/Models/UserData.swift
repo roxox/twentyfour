@@ -5,17 +5,20 @@ Abstract:
 A model object that stores app data.
 */
 
-import Combine
+//import Combine
 import SwiftUI
 
 let menuCollapsed: CGFloat = UIScreen.main.bounds.height
-let menuMinimized3: CGFloat = UIScreen.main.bounds.height/3
+var menuMinimized3: CGFloat = UIScreen.main.bounds.height/3 + 110
 let menuExpanded: CGFloat = 0
 
 let menuIn: CGFloat = 0
 let menuLeftOut: CGFloat = -UIScreen.main.bounds.width
 
 final class UserData: ObservableObject {
+    
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
     @Published var showFavoritesOnly = false
     @Published var appUsers = appUserData
     @Published var currentUser = appUserData[0]
@@ -43,5 +46,7 @@ final class UserData: ObservableObject {
     }
     @Published var showLogin = false
     
-//    @Published var profile: Profile.default
+    func resetValues() {
+        groupList.removeAll()
+    }
 }
