@@ -54,7 +54,8 @@
 		407193F22490F1BC00296C83 /* SearchDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407193F12490F1BC00296C83 /* SearchDataContainer.swift */; };
 		408705A9249A10A10065B33A /* GroupDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408705A8249A10A10065B33A /* GroupDataContainer.swift */; };
 		408705AB249A11480065B33A /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408705AA249A11480065B33A /* Settings.swift */; };
-		408705AD249AB06B0065B33A /* ExploreCreatGroupView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408705AC249AB06B0065B33A /* ExploreCreatGroupView2.swift */; };
+		408705AF249CB0470065B33A /* UserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408705AE249CB0470065B33A /* UserDetailsView.swift */; };
+		408705B1249CFDA60065B33A /* UserDetailsViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408705B0249CFDA60065B33A /* UserDetailsViewer.swift */; };
 		4087717E2468AEB500B9CADB /* GroupDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4087717D2468AEB500B9CADB /* GroupDetail.swift */; };
 		408771812469602400B9CADB /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408771802469602400B9CADB /* SearchView.swift */; };
 		40877183246AA36800B9CADB /* KeyboardGuardian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40877182246AA36800B9CADB /* KeyboardGuardian.swift */; };
@@ -116,7 +117,8 @@
 		407193F12490F1BC00296C83 /* SearchDataContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataContainer.swift; sourceTree = "<group>"; };
 		408705A8249A10A10065B33A /* GroupDataContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDataContainer.swift; sourceTree = "<group>"; };
 		408705AA249A11480065B33A /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		408705AC249AB06B0065B33A /* ExploreCreatGroupView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCreatGroupView2.swift; sourceTree = "<group>"; };
+		408705AE249CB0470065B33A /* UserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsView.swift; sourceTree = "<group>"; };
+		408705B0249CFDA60065B33A /* UserDetailsViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsViewer.swift; sourceTree = "<group>"; };
 		4087717D2468AEB500B9CADB /* GroupDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetail.swift; sourceTree = "<group>"; };
 		408771802469602400B9CADB /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		40877182246AA36800B9CADB /* KeyboardGuardian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardGuardian.swift; sourceTree = "<group>"; };
@@ -153,7 +155,6 @@
 				4045590324450BE300CF12CD /* ExploreProfileView.swift */,
 				4051B55724519E3400DB2658 /* ExploreSearchButtonView.swift */,
 				4013AA4D245C995000890DD6 /* ExploreCreateGroupView.swift */,
-				408705AC249AB06B0065B33A /* ExploreCreatGroupView2.swift */,
 				40EF4A472462BC7E0072752B /* ExploreGroupAddTitleView.swift */,
 				4004728724978CB2001578C5 /* ExploreNoSearchView.swift */,
 			);
@@ -264,6 +265,8 @@
 			children = (
 				404558F12444BFD700CF12CD /* ProfileDetail.swift */,
 				404559052445F9D400CF12CD /* ProfileImage.swift */,
+				408705AE249CB0470065B33A /* UserDetailsView.swift */,
+				408705B0249CFDA60065B33A /* UserDetailsViewer.swift */,
 			);
 			path = Profie;
 			sourceTree = "<group>";
@@ -474,11 +477,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				408705AF249CB0470065B33A /* UserDetailsView.swift in Sources */,
 				4013AA4E245C995100890DD6 /* ExploreCreateGroupView.swift in Sources */,
 				4004728824978CB2001578C5 /* ExploreNoSearchView.swift in Sources */,
 				40877183246AA36800B9CADB /* KeyboardGuardian.swift in Sources */,
 				404559062445F9D400CF12CD /* ProfileImage.swift in Sources */,
-				408705AD249AB06B0065B33A /* ExploreCreatGroupView2.swift in Sources */,
 				407193D3248A379200296C83 /* LabelText.swift in Sources */,
 				4051B55C2452550D00DB2658 /* UserData.swift in Sources */,
 				407193D8248A6F6A00296C83 /* GlobalFunctions.swift in Sources */,
@@ -499,6 +502,7 @@
 				404558CE244475F900CF12CD /* SceneDelegate.swift in Sources */,
 				4051B55A2451BE0500DB2658 /* ExploreView.swift in Sources */,
 				40EF4A462461563D0072752B /* PagerView.swift in Sources */,
+				408705B1249CFDA60065B33A /* UserDetailsViewer.swift in Sources */,
 				405F2BAE244E2AC0002E44CF /* ButtonBarView.swift in Sources */,
 				404558D0244475F900CF12CD /* ContentView.swift in Sources */,
 				407193DA248A6F9200296C83 /* GlobalConstants.swift in Sources */,

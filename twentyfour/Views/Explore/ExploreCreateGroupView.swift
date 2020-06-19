@@ -11,6 +11,7 @@ import SwiftUI
 struct ExploreCreateGroupView: View {
     
     @EnvironmentObject var userData: UserData
+    @ObservedObject var searchData = SearchDataContainer()
     
     @State var collapsedOffset: CGFloat = 290
 //    @State var users: [Profile] = []
@@ -18,11 +19,11 @@ struct ExploreCreateGroupView: View {
     
     @Binding var screenLock: Bool
     @Binding var selectedEventType: EventType?
-    @Binding var groupList: [Profile] {
-        didSet {
-            print("Hallo")
-        }
-    }
+    @Binding var groupList: [Profile]
+    @Binding var isMenuMinimized: Bool
+    @Binding var isMenuCollapsed: Bool
+    @Binding var showProfile: Bool
+    
 
     var gradientColorPrimary: LinearGradient {
         LinearGradient(
@@ -55,15 +56,36 @@ struct ExploreCreateGroupView: View {
         resetGroupValues()
         
         if groupList.count != 0 {
-            userData.createGroupMenuOffsetY = menuMinimized3
+            isMenuCollapsed = false
+            isMenuMinimized = true
+//            userData.createGroupMenuOffsetY = menuMinimized3
             userData.buttonBarOffset = CGFloat (100)
             screenLock = true
         } else {
-            userData.createGroupMenuOffsetY = menuCollapsed
+            isMenuCollapsed = true
+            isMenuMinimized = false
+//            userData.createGroupMenuOffsetY = menuCollapsed
             userData.buttonBarOffset = CGFloat (0)
             screenLock = false
         }
     }
+    
+    func hideOrShowMenu() {
+        if isMenuMinimized {
+            showMenu()
+        } else {
+            hideMenu()
+        }
+    }
+    
+    func hideMenu() {
+        isMenuMinimized = true
+    }
+    
+    func showMenu() {
+        isMenuMinimized = false
+    }
+
     
     func addTilteAndDescription() {
         userData.createGroupMenuOffsetX = menuLeftOut
@@ -76,32 +98,22 @@ struct ExploreCreateGroupView: View {
         }
         
         if groupList.count == 0  {
-            userData.createGroupMenuOffsetY = menuCollapsed
+            isMenuCollapsed = true
+            isMenuMinimized = false
+//            userData.createGroupMenuOffsetY = menuCollapsed
             userData.buttonBarOffset = CGFloat (0)
             screenLock = false
             resetGroupValues()
         }
     }
-        
-    func resetScreenLock() {
-        screenLock.toggle()
-        userData.createGroupMenuOffsetY = menuMinimized3
-        print(groupList.count)
-    }
     
     func resetGroupValues() {
             selectedEventType = nil
     }
-        
-    func enlargeScreenLock() {
-        screenLock.toggle()
-        userData.createGroupMenuOffsetY = menuExpanded
-        print(groupList.count)
-    }
     
     func isEventTypeAvailable(eventType: EventType) -> Bool {
         
-        if !userData.currentUser.searchTypes.contains(eventType){
+        if !searchData.eventTypes.contains(eventType){
                 return false
         }
         
@@ -142,97 +154,70 @@ struct ExploreCreateGroupView: View {
             
             VStack() {
                 Spacer()
-//                Spacer()
-//
-                // Button Weiter Stöbern inkl. + Zeichen
-//                if self.groupList.count != 0 && self.screenLock {
-//                        Button(action: {
-//                                self.resetScreenLock()
-//                        }) {
-//                            VStack(){
-//                                Spacer()
-//                                Image(systemName: "plus.circle.fill")
-//                                    .font(.avenirNextRegular(size: 42))
-//                                    .padding(.vertical, 10.0)
-//                                    .padding(.top, 20)
-//                                    .foregroundColor(.white)
-//                                Text("Weiter stöbern")
-//                                    .font(.avenirNextRegular(size: 20))
-//                                    .fontWeight(.semibold)
-//                                    .foregroundColor(.white)
-//                                Spacer()
-//                            }
-//                        }
-//                        .animation(.spring())
-//                    }
-                //END: Button Weiter Stöbern inkl. + Zeichen
 
                                     
-                                    // Buttons on top of menu
-                                    HStack(){
+                // Buttons on top of menu
+                HStack(){
 
-                                        if self.userData.createGroupMenuOffsetY == menuMinimized3 {
+                    if self.isMenuMinimized {
 
-                                            Rectangle()
-                                                .fill(Color .clear)
-                                                .frame(width: 40, height: 40)
-                                                .padding(.leading, 20)
-                                            Spacer()
+                        Rectangle()
+                            .fill(Color .clear)
+                            .frame(width: 40, height: 40)
+                            .padding(.leading, 20)
+                        Spacer()
 
-//                                            Spacer()
+    //                                            Spacer()
 
-                                            Button(action: {
-                                                self.deleteGroupList()
-                                            }) {
-                                                HStack(){
-                                                    Image(systemName: "trash")
-                                                        .font(.system(size: 20, weight: .medium))
-                                                        .frame(width: 40, height: 40)
-                                                        .padding(.leading, 10)
-                                                    Text("Verwerfen")
-                                                        .font(.avenirNextRegular(size: 16))
-                                                        .fontWeight(.semibold)
-                                                        .padding(.trailing, 20)
-                                                }
-                                                .background(Color .black)
-                                                .foregroundColor(.white)
-                                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                            }
-                                            .padding(.leading, 10)
+                        Button(action: {
+                            self.deleteGroupList()
+                        }) {
+                            HStack(){
+                                Image(systemName: "trash")
+                                    .font(.system(size: 20, weight: .medium))
+                                    .frame(width: 40, height: 40)
+                                    .padding(.leading, 10)
+                                Text("Verwerfen")
+                                    .font(.avenirNextRegular(size: 16))
+                                    .fontWeight(.semibold)
+                                    .padding(.trailing, 20)
+                            }
+                            .background(Color .black)
+                            .foregroundColor(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                        }
+                        .padding(.leading, 10)
 
-                                            Spacer()
+                        Spacer()
 
-                                        }
-//                                        else {
-                                            Spacer()
-                                            
-                                                Button(action: {
-                                                    withAnimation(.linear(duration: 0.2)) {
-                                                        self.userData.createGroupMenuOffsetY == menuMinimized3 ? self.enlargeScreenLock() : self.resetScreenLock()
-                                                    }
-                                                }) {
+                    }
+                        Spacer()
+                        
 
-                                                    Image(systemName: self.userData.createGroupMenuOffsetY == menuMinimized3 ? "chevron.up" : "chevron.down")
-//                                                        Image(systemName: "chevron.down")
-                                                            .font(.avenirNextRegular(size: 20))
-                                                            .frame(width: 40 ,height:40)
-                                                            .background(gradientCherryPink)
-                                                            .foregroundColor(.white)
-                                                            .clipShape(Circle())
-                                                }
-                                                .padding(.trailing, 10)
-//                                            }
-                                    }
-                                    .padding(.top, 10)
-//                                    .offset(y: 20)
-                                    //END:  Buttons on top of menu
+                        Button(action: {
+                            withAnimation(.linear(duration: 0.2)) {
+                                self.hideOrShowMenu()
+                            }
+                        }) {
+//                                Image(systemName: "chevron.down")
+                                Image(systemName: self.isMenuMinimized ? "chevron.up" : "chevron.down")
+                                        .font(.avenirNextRegular(size: 20))
+                                        .frame(width: 40 ,height:40)
+                                        .background(gradientCherryPink)
+                                        .foregroundColor(.white)
+                                        .clipShape(Circle())
+                            }
+                            .padding(.trailing, 10)
+                }
+                .padding(.top, 10)
+                //END:  Buttons on top of menu
                 // Komplettes Menü
                     VStack() {
                             
                         // Headline ausgewähle User
                         HStack(){
                             Spacer()
-                            Text("\(self.groupList.count) User ausgewählt.")
+                            Text("\(self.groupList.count) von max. 4 Usern ausgewählt.")
                                     .font(.avenirNextRegular(size: 20))
                                     .fontWeight(.semibold)
                                     .fixedSize(horizontal: false, vertical: true)
@@ -262,7 +247,7 @@ struct ExploreCreateGroupView: View {
                                        // Zeilen Element pro ausgewähltem User
                                         HStack(){
                                             Button(action: {
-                                                self.removeFromGroupList(profile: profile)
+                                                self.showProfile.toggle()
                                             }) {
                                                 profile.image
                                                     .renderingMode(.original)
@@ -334,6 +319,7 @@ struct ExploreCreateGroupView: View {
                         }
                         .frame(width: UIScreen.main.bounds.width)
                         .animation(nil)
+                        .padding(.top, 10)
                         //END: ScrollView
                         
                         Divider()
@@ -366,6 +352,7 @@ struct ExploreCreateGroupView: View {
                         HStack() {
                             if self.isEventTypeAvailable(eventType: .food) {
                                 EventTypeSelectorButton(
+                                    searchData: self.searchData,
                                     eventType: .food,
                                     imageString: "essen",
                                     buttonTextString: "Essen und Trinken",
@@ -377,6 +364,7 @@ struct ExploreCreateGroupView: View {
 
                             if self.isEventTypeAvailable(eventType: .activity) {
                                 EventTypeSelectorButton(
+                                    searchData: self.searchData,
                                     eventType: .activity,
                                     imageString: "freizeit2",
                                     buttonTextString: "Freizeit",
@@ -388,6 +376,7 @@ struct ExploreCreateGroupView: View {
 
                             if self.isEventTypeAvailable(eventType: .sport) {
                                 EventTypeSelectorButton(
+                                    searchData: self.searchData,
                                     eventType: .sport,
                                     imageString: "essen",
                                     buttonTextString: "Sport",
@@ -398,6 +387,7 @@ struct ExploreCreateGroupView: View {
                             }
 
                         }
+                        .padding(.top, 10)
                         //END:  Selection EventType
                         
                         // Control Buttons
@@ -494,7 +484,7 @@ struct ExploreCreateGroupView: View {
 struct EventTypeSelectorButton: View {
     
     @EnvironmentObject var userData: UserData
-    @ObservedObject var searchData = SearchDataContainer()
+    @ObservedObject var searchData: SearchDataContainer
     
     let eventType: EventType
     let imageString: String
@@ -571,24 +561,6 @@ struct EventTypeSelectorButton: View {
                         .scaledToFill()
                         .frame(width: 118 ,height:90)
                         .clipShape(RoundedRectangle(cornerRadius: 11))
-//                        .overlay(
-//                            VStack() {
-//                                Spacer()
-//                                HStack() {
-//                                    Spacer()
-//                                    if selectedEventType == eventType {
-//
-//                                        Image(systemName: "checkmark")
-//                                            .font(.avenirNextRegular(size: 16))
-//                                            .frame(width: 30 ,height:30)
-//                                            .background(gradientColorPrimary)
-//                                            .foregroundColor(.white)
-//                                            .clipShape(Circle())
-//                                            .padding(10)
-//                                    }
-//                                }
-//                            }
-//                        )
 
                     Text(buttonTextString)
                         .font(.avenirNextRegular(size: 12))
@@ -597,7 +569,7 @@ struct EventTypeSelectorButton: View {
                         .foregroundColor(.black)
                         .lineLimit(2)
                 }
-            }
+            }.animation(nil)
         .disabled(!isEventTypeAvailable(eventType: eventType))
 //        .opacity(isEventTypeAvailable(eventType: eventType) ? 1.0 : 0.3)
                 .saturation(selectedEventType == eventType ? 1.0 : 0.0)

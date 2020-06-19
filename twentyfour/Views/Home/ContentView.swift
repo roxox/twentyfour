@@ -49,8 +49,6 @@ struct ContentView: View {
     }
     
     var body: some View {
-             
-        
 //        NavigationView {
         VStack() {
             if !userData.isLogged {
@@ -81,6 +79,12 @@ struct ContentView: View {
                         }
                         
                     }
+                    
+                    if pageIndex == 3 {
+                        UserDetailsView(
+                            user: userData.currentUser
+                        )
+                    }
                 }
                     
                 VStack() {
@@ -103,10 +107,11 @@ struct ContentView: View {
             }
         }.onReceive(timer) { time in
             self.searchDataContainer.currentTime = Date()
-        }
+//        }
 //        .navigationBarHidden(true)
 //        .navigationBarTitle("", displayMode: .inline)
 //        .navigationBarBackButtonHidden(true)
+    }
     }
     
 }

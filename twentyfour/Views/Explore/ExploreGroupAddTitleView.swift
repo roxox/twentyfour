@@ -17,6 +17,8 @@ struct ExploreGroupAddTitleView: View {
 //    @Binding var groupList: [Profile]
     @Binding var screenLock: Bool
     @Binding var selectedEventType: EventType?
+    @Binding var isMenuMinimized: Bool
+    @Binding var isMenuCollapsed: Bool
     
     @State private var title: String  = ""
     @State private var description: String = ""
@@ -67,7 +69,9 @@ struct ExploreGroupAddTitleView: View {
         userData.createGroupMenuOffsetX = menuIn
         userData.addTitleMenuOffsetX = menuLeftOut
         
-        userData.createGroupMenuOffsetY = menuCollapsed
+        isMenuCollapsed = true
+        isMenuMinimized = false
+//        userData.createGroupMenuOffsetY = menuCollapsed
         userData.buttonBarOffset = CGFloat (0)
         pageIndex = 1
     }
@@ -85,11 +89,17 @@ struct ExploreGroupAddTitleView: View {
         UIApplication.shared.endEditing()
         
         if userData.groupList.count != 0 {
-            userData.createGroupMenuOffsetY = menuExpanded
+
+            isMenuCollapsed = false
+            isMenuMinimized = false
+//            userData.createGroupMenuOffsetY = menuExpanded
             userData.buttonBarOffset = CGFloat (100)
             screenLock = true
         } else {
-            userData.createGroupMenuOffsetY = menuMinimized3
+
+            isMenuCollapsed = false
+            isMenuMinimized = true
+//            userData.createGroupMenuOffsetY = menuMinimized3
             userData.buttonBarOffset = CGFloat (0)
             screenLock = false
         }

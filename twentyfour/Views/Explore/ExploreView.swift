@@ -25,7 +25,7 @@ struct ExploreView: View {
     @State var activateGroup = false
     @State var showButtons = false
     @State var menuOffset = CGFloat (555)
-    @State var requets: [Profile] = []
+//    @State var requets: [Profile] = []
     @State var screenLock: Bool = true
     @State var profiles: [Profile] = appUserData
     @State var currentUserEventSelection: [EventType] = [.food, .activity]
@@ -41,11 +41,16 @@ struct ExploreView: View {
     @State var localCurrentTime: Date = Date()
     @State var localCreatedTime: Date = Date()
     @State var groupList: [Profile] = []
-        
     
-    func addAppUserToRequests(appUser: Profile) {
-        requets.append(appUser)
-    }
+    @State var isMenuCollapsed: Bool = true
+    @State var isMenuMinimized: Bool = false
+        
+    @State var offset: CGFloat = 0
+    @State var showProfile = false
+    
+//    func addAppUserToRequests(appUser: Profile) {
+//        requets.append(appUser)
+//    }
     
     func resetScreenLock() {
         screenLock.toggle()
@@ -94,6 +99,7 @@ struct ExploreView: View {
     }
     
     var body: some View {
+        
         ZStack() {
             VStack(){
 //            ScrollView(.vertical, showsIndicators: false) {
@@ -104,7 +110,7 @@ struct ExploreView: View {
                 VStack() {
                     if pageIndex_old == 0 {
                         Spacer()
-                        
+
                         if self.searchDataContainer.targetDate > self.searchDataContainer.currentTime {
                             ExploreProfileView(
                                 searchDataContainer: searchDataContainer,
@@ -113,7 +119,10 @@ struct ExploreView: View {
                                 currentUserEventSelection: $currentUserEventSelection,
                                 tempEventSelection: $tempEventSelection,
                                 selectedEventType: $selectedEventType,
-                                groupList: $groupList
+                                groupList: $groupList,
+                                isMenuMinimized: $isMenuMinimized,
+                                isMenuCollapsed: $isMenuCollapsed,
+                                showProfile: $showProfile
                             )
                         }
 //                        else {
@@ -136,7 +145,7 @@ struct ExploreView: View {
                             }
                         }
                         Spacer()
-        
+
                 }
                 .animation(.spring())
                 }
@@ -147,45 +156,82 @@ struct ExploreView: View {
                 ExploreSearchButtonView(
                     searchDataContainer: searchDataContainer)
                     .offset(y: 10)
-                
+
                 Spacer()
             }
 
-            if self.groupList.count != 0 && screenLock {
+            if !self.isMenuCollapsed && !self.isMenuMinimized {
                 Color .black.opacity(setOpacity())
                     .edgesIgnoringSafeArea(.all)
                 BlurView(style: .dark)
                     .edgesIgnoringSafeArea(.all)
-//                Rectangle().fill(Color .black.opacity(setOpacity()))
-//                    .frame(minWidth: 0, maxWidth: .infinity)
-//                    .frame(minHeight: 0, maxHeight: .infinity)
-//                    .edgesIgnoringSafeArea(.all)
-//                    .animation(.spring())
+                    .onTapGesture {
+                        self.isMenuMinimized = true
+                    }
             }
-            
+
             VStack(){
-                
+
                 Spacer()
-                
+
                 ZStack() {
                     VStack(){
-                    
+
                         Spacer()
-                    
+
                         ExploreCreateGroupView(
                             screenLock: $screenLock,
                             selectedEventType: $selectedEventType,
-                            groupList: $groupList
+                            groupList: $groupList,
+                            isMenuMinimized: $isMenuMinimized,
+                            isMenuCollapsed: $isMenuCollapsed,
+                            showProfile: $showProfile
                         )
-                            .offset(x: userData.createGroupMenuOffsetX, y: userData.createGroupMenuOffsetY)
+//                            .offset(x: userData.createGroupMenuOffsetX, y: userData.createGroupMenuOffsetY + self.offset)
+                            .offset(y: (self.isMenuCollapsed ? menuCollapsed : self.isMenuMinimized ? menuMinimized3 + CGFloat((groupList.count-1) * 78) : menuExpanded) + self.offset)
                             .shadow(radius: 10)
+
+                        .gesture(
+                            DragGesture()
+                                .onChanged { gesture in
+                                    if !self.isMenuMinimized && !self.isMenuCollapsed {
+                                        if gesture.translation.height > 0 {
+                                            self.offset = gesture.translation.height * 1.3
+                                        }
+                                    } else if !self.isMenuCollapsed && self.isMenuMinimized {
+
+                                        if gesture.translation.height < 0 {
+                                            self.offset = gesture.translation.height
+                                        }
+                                    }
+                                }
+
+                                .onEnded { _ in
+                                    if self.offset > menuMinimized3/2 {
+                                        self.isMenuMinimized = true
+                                        self.isMenuCollapsed = false
+                                    } else {
+                                        self.isMenuMinimized = false
+                                        self.isMenuCollapsed = false
+
+                                    }
+                                    self.offset = CGFloat(0)
+//                                    if abs(self.offset.width) > 100 {
+//                                        // remove the card
+//                                    } else {
+//                                        self.offset = .zero
+//                                    }
+//                                    if self.offset <
+                                }
+                        )
+
                     }
-                    ExploreGroupAddTitleView(
-                        pageIndex: $pageIndex,
-                        screenLock: $screenLock,
-                        selectedEventType: $selectedEventType
-                    )
-                        .offset(x: userData.addTitleMenuOffsetX, y: userData.createGroupMenuOffsetY)
+//                    ExploreGroupAddTitleView(
+//                        pageIndex: $pageIndex,
+//                        screenLock: $screenLock,
+//                        selectedEventType: $selectedEventType
+//                    )
+//                        .offset(x: userData.addTitleMenuOffsetX, y: userData.createGroupMenuOffsetY)
                 }
             }
             .animation(.spring())

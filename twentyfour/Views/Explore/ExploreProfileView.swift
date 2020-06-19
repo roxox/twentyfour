@@ -19,11 +19,10 @@ struct ExploreProfileView: View {
     @Binding var currentUserEventSelection: [EventType]
     @Binding var tempEventSelection: [EventType]
     @Binding var selectedEventType: EventType?
-    @Binding var groupList: [Profile] {
-        didSet {
-            print("Hallo1")
-        }
-    }
+    @Binding var groupList: [Profile]
+    @Binding var isMenuMinimized: Bool
+    @Binding var isMenuCollapsed: Bool
+    @Binding var showProfile: Bool
     
     @State var showingMenu = false
     @State var activateGroup = false
@@ -92,7 +91,10 @@ struct ExploreProfileView: View {
                             profile: profile,
                             selectedEventType: self.$selectedEventType,
                             screenLock: self.$screenLock,
-                            groupList: self.$groupList
+                            groupList: self.$groupList,
+                            isMenuMinimized: self.$isMenuMinimized,
+                            isMenuCollapsed: self.$isMenuCollapsed,
+                            showProfile: self.$showProfile
                         )
                             .rotation3DEffect(Angle(degrees:
                                 (Double(geometry.frame(in: .global).minX)) / -65
@@ -133,11 +135,10 @@ struct RowItem: View {
     @State var deviceHeight = UIScreen.main.bounds.height - 350
     @Binding var selectedEventType: EventType?
     @Binding var screenLock: Bool
-    @Binding var groupList: [Profile] {
-        didSet {
-            print("Hallo2")
-        }
-    }
+    @Binding var groupList: [Profile]
+    @Binding var isMenuMinimized: Bool
+    @Binding var isMenuCollapsed: Bool
+    @Binding var showProfile: Bool
     
     var body: some View {
             VStack(alignment: .leading) {
@@ -150,7 +151,11 @@ struct RowItem: View {
                         profile: self.profile,
                         selectedEventType: self.$selectedEventType,
                         screenLock: self.$screenLock,
-                        groupList: self.$groupList)
+                        groupList: self.$groupList,
+                        isMenuMinimized: self.$isMenuMinimized,
+                        isMenuCollapsed: self.$isMenuCollapsed,
+                        showProfile: $showProfile
+                        )
                 )
                 .cornerRadius(25.0)
                 .shadow(color: .init(red: 0.5, green: 0.5, blue: 0.5)
@@ -170,14 +175,13 @@ struct AppUserTextOverlay: View {
     
     @State var tempUser: Profile?
     @State var showInfoPanel: Bool = true
-    @State var showProfile = false
+//    @State var showProfile = false
     @State var collapsedOffset: Int = 290
     
-    @Binding var groupList: [Profile] {
-        didSet {
-            print("Hallo3")
-        }
-    }
+    @Binding var groupList: [Profile]
+    @Binding var isMenuMinimized: Bool
+    @Binding var isMenuCollapsed: Bool
+    @Binding var showProfile: Bool
     
     func setTopOpacity(profile: Profile) -> Color {
         if groupList.contains(profile) {
@@ -240,17 +244,22 @@ struct AppUserTextOverlay: View {
     }
     
     func expandCreateGroupMenu() {
-        userData.createGroupMenuOffsetY = menuExpanded
+        self.isMenuCollapsed = false
+        self.isMenuMinimized = false
+//        userData.createGroupMenuOffsetY = menuExpanded
         userData.buttonBarOffset = CGFloat (150)
         screenLock = true
     }
     
     func collapseCreateGroupMenu() {
-        userData.createGroupMenuOffsetY = menuMinimized3
+        self.isMenuCollapsed = true
+        self.isMenuMinimized = false
+//        userData.createGroupMenuOffsetY = menuMinimized3
     }
     
     func closeCreateGroupMenu() {
-        userData.createGroupMenuOffsetY = menuCollapsed
+        self.isMenuCollapsed = true
+        self.isMenuMinimized = false
         userData.buttonBarOffset = CGFloat (0)
         screenLock = false
     }
@@ -281,20 +290,19 @@ struct AppUserTextOverlay: View {
 
                             Spacer()
                                 HStack(){
-
-                                    // Button 1
-                                    NavigationLink(
-                                        destination: ProfileDetail(
-                                            profile: profile,
-                                            showProfile: self.$showProfile
-                                        ),
-                                        isActive : self.$showProfile
-                                    ) {
+                                    Button(action: {
+                                        self.showProfile.toggle()
+                                    }) {
                                     Text(profile.username)
                                         .font(.avenirNextRegular(size: 30))
                                         .fontWeight(.semibold)
                                         .offset(y: 30)
                                         
+                                    }.sheet(isPresented: $showProfile) {
+                                        UserDetailsViewer(
+                                            user: self.profile,
+                                            showProfile: self.$showProfile
+                                        )
                                     }
                                     Spacer()
                                 }
