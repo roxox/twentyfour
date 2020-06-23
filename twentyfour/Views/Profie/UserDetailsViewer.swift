@@ -10,14 +10,14 @@ import SwiftUI
 
 struct UserDetailsViewer: View {
         let user: Profile
-        @Binding var showProfile : Bool
+        @Binding var showCard : Bool
         
         var body: some View {
             VStack() {
                 HStack() {
                     Button(action: {
     //                    withAnimation(.linear(duration: 0.2)) {
-                        self.showProfile.toggle()
+                        self.showCard.toggle()
     //                        self.removeFromGroupList(profile: profile)
     //                    }
                     }) {

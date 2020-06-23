@@ -165,3 +165,18 @@ var gradientPinkVioletBlueAccent: LinearGradient {
         startPoint: .topLeading,
         endPoint: .bottomTrailing)
 }
+
+    
+var gradientAccentBlue: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(
+            colors:
+            [
+//                Color ("Orange"),
+//                .purple,
+            Color ("accent"),
+            .blue,
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing)
+}

@@ -124,10 +124,16 @@ struct ButtonBarView: View {
         self.pageIndex = pageIndex
     }
     
+//      gradientPeachPink
+//      gradientPinkPurple
+//      gradientPurpleBlue
+//      gradientBlueAccent
+    
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             
             VStack(alignment: .leading) {
+                Divider()
             HStack() {
                 Spacer()
                 
@@ -136,21 +142,28 @@ struct ButtonBarView: View {
                     self.pageIndex = 0
                 }) {
                     VStack() {
-                        Circle().fill(pageIndex == 0 ? gradientPeachPink : gradientColorSecondary)
-                            .overlay(
-                                Image(systemName: "house")
-                                    .padding(.vertical, 10.0)
-                                    .font(.system(size: 20, weight: .medium))
-                                    .foreground(pageIndex == 0 ? gradientColorSecondary : gradientGray)
-                                    .frame(width: 40, height: 40)
-                                    .offset(x: 0, y: 0)
-                                )
-                            .frame(width: 45, height: 45)
+//                        Circle().fill(pageIndex == 0 ? gradientColorSecondary : gradientColorSecondary)
+
+                        Image(systemName: "house")
+                            .padding(.vertical, 10.0)
+                            .font(.system(size: 20, weight: .semibold))
+                            .frame(width: 40, height: 24)
+                            .foreground(pageIndex == 0 ? gradientPeachPink : gradientGray)
+                            .offset(x: 0, y: 0)
+//                            .overlay(
+//                                Image(systemName: "person")
+//                                    .padding(.vertical, 10.0)
+//                                    .font(.system(size: 20, weight: .medium))
+//                                    .foreground(pageIndex == 0 ? gradientPeachPink : gradientGray)
+//                                    .frame(width: 40, height: 40)
+//                                    .offset(x: 0, y: 0)
+//                                )
+//                            .frame(width: 45, height: 45)
                         
                     Text("Stöbern")
                         .font(.avenirNextRegular(size: 11))
                         .fontWeight(.semibold)
-                        .foreground(pageIndex == 0 ? gradientPeachPink : gradientPeachPink)
+                        .foreground(pageIndex == 0 ? gradientPeachPink : gradientGray)
                     }
                 }
 
@@ -161,24 +174,31 @@ struct ButtonBarView: View {
                     self.pageIndex = 1
                 }) {
                     VStack() {
-                        Circle().fill(pageIndex == 1 ? gradientPinkPurple : gradientColorSecondary)
-                            .overlay(
-                                Image(systemName: "person.3")
-                                    .padding(.vertical, 10.0)
-                                    .font(.system(size: 20, weight: .medium))
-                                    .foreground(pageIndex == 1 ? gradientColorSecondary : gradientGray)
-                                    .frame(width: 40, height: 40)
-                                    .offset(x: 0, y: 0)
-                                )
-                            .frame(width: 45, height: 45)
-                        
+
+                        Image(systemName: "person.3")
+//                            .padding(.vertical, 10.0)
+                            .font(.system(size: 20, weight: .semibold))
+                            .frame(width: 40, height: 24)
+                            .foreground(pageIndex == 1 ? gradientPeachPink : gradientGray)
+                            .offset(x: 0, y: 0)
+//                        Circle().fill(pageIndex == 1 ? gradientColorSecondary : gradientColorSecondary)
+//                            .overlay(
+//                                Image(systemName: "person.3")
+//                                    .padding(.vertical, 10.0)
+//                                    .font(.system(size: 20, weight: .medium))
+//                                    .foreground(pageIndex == 1 ? gradientPinkPurple : gradientGray)
+//                                    .frame(width: 40, height: 40)
+//                                    .offset(x: 0, y: 0)
+//                                )
+//                            .frame(width: 45, height: 45)
+
                         Text("Meine Gruppen")
                             .font(.avenirNextRegular(size: 11))
                             .fontWeight(.semibold)
-                            .foreground(pageIndex == 1 ? gradientPinkPurple : gradientPinkPurple)
+                            .foreground(pageIndex == 1 ? gradientPeachPink : gradientGray)
                     }
                 }
-                
+
                 Spacer()
 
 //                  Button Message
@@ -187,26 +207,33 @@ struct ButtonBarView: View {
                 }) {
                     VStack() {
 //                        Circle().fill(pageIndex == 2 ? gradientColorPrimary : gradientColorSecondary)
-                        Circle().fill(pageIndex == 2 ? gradientPurpleBlue : gradientColorSecondary)
-                            .overlay(
-                                Image(systemName: "envelope")
+                                Image(systemName: "bubble.left")
                                     .padding(.vertical, 10.0)
-                                    .font(.system(size: 20, weight: .medium))
+                                    .font(.system(size: 20, weight: .semibold))
 //                                    .foreground(pageIndex == 2 ? gradientColorSecondary : gradientGray)
-                                    .foreground(pageIndex == 2 ? gradientColorSecondary : gradientGray)
-                                    .frame(width: 40, height: 40)
+                                    .frame(width: 40, height: 24)
+                                    .foreground(pageIndex == 2 ? gradientPeachPink : gradientGray)
                                     .offset(x: 0, y: 0)
-                                )
-                            .frame(width: 45, height: 45)
-                            
+//                        Circle().fill(pageIndex == 2 ? gradientColorSecondary : gradientColorSecondary)
+//                            .overlay(
+//                                Image(systemName: "envelope")
+//                                    .padding(.vertical, 10.0)
+//                                    .font(.system(size: 20, weight: .medium))
+////                                    .foreground(pageIndex == 2 ? gradientColorSecondary : gradientGray)
+//                                    .foreground(pageIndex == 2 ? gradientPurpleBlue : gradientGray)
+//                                    .frame(width: 40, height: 40)
+//                                    .offset(x: 0, y: 0)
+//                                )
+//                            .frame(width: 45, height: 45)
+
                         Text("Nachrichten")
                             .font(.avenirNextRegular(size: 11))
                             .fontWeight(.semibold)
 //                            .foreground(pageIndex == 2 ? gradientColorPrimary : gradientGray)
-                            .foreground(pageIndex == 2 ? gradientPurpleBlue : gradientPurpleBlue)
+                            .foreground(pageIndex == 2 ? gradientPeachPink : gradientGray)
                     }
                 }
-                
+
                 Spacer()
 
 //                  Button Profil
@@ -214,29 +241,36 @@ struct ButtonBarView: View {
                     self.pageIndex = 3
                 }) {
                     VStack() {
-                        Circle().fill(pageIndex == 3 ? gradientBlueAccent : gradientColorSecondary)
-                            .overlay(
-                                Image(systemName: "person")
-                                    .padding(.vertical, 10.0)
-                                    .font(.system(size: 20, weight: .medium))
-                                    .foreground(pageIndex == 3 ? gradientColorSecondary : gradientGray)
-                                    .frame(width: 40, height: 40)
-                                    .offset(x: 0, y: 0)
-                                )
-                            .frame(width: 45, height: 45)
-                            
+                        Image(systemName: "person")
+                        .padding(.vertical, 10.0)
+                        .font(.system(size: 20, weight: .semibold))
+                        .frame(width: 40, height: 24)
+                        .foreground(pageIndex == 3 ? gradientPeachPink : gradientGray)
+                        .offset(x: 0, y: 0)
+//                        Circle().fill(pageIndex == 3 ? gradientColorSecondary : gradientColorSecondary)
+//                            .overlay(
+//                                Image(systemName: "person")
+//                                    .padding(.vertical, 10.0)
+//                                    .font(.system(size: 20, weight: .medium))
+//                                    .foreground(pageIndex == 3 ? gradientBlueAccent : gradientGray)
+//                                    .frame(width: 40, height: 40)
+//                                    .offset(x: 0, y: 0)
+//                                )
+//                            .frame(width: 45, height: 45)
+
                         Text("Profil")
                             .font(.avenirNextRegular(size: 11))
                             .fontWeight(.semibold)
-                            .foreground(pageIndex == 3 ? gradientBlueAccent : gradientBlueAccent)
+                            .foreground(pageIndex == 3 ? gradientPeachPink : gradientGray)
                     }
                 }
-                
+
                 Spacer()
                 }
-                .padding(.bottom, 20)
+                .padding(.top, 10)
 //                .padding()
             }
+            .background(Color .white)
         }
     }
     

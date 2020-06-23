@@ -14,7 +14,11 @@ struct UserDetailsView: View {
     var body: some View {
         VStack() {
             ScrollView() {
-                Text(user.username)
+                VStack() {
+                    Text(user.username)
+                    Text(user.email)
+                    Text(user.searchParameter.locationName)
+                }
             }
         }
     }

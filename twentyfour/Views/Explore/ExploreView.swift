@@ -68,7 +68,7 @@ struct ExploreView: View {
         if profiles.count == 0 {
             return 1.0
         }
-        return 0.5
+        return 0.7
     }
     
     func setMainScreen() -> Double {
@@ -102,10 +102,10 @@ struct ExploreView: View {
         
         ZStack() {
             VStack(){
-//            ScrollView(.vertical, showsIndicators: false) {
+            ScrollView(.vertical, showsIndicators: false) {
 
-//                Rectangle().fill(Color .clear)
-//                    .frame(height: 35)
+                Rectangle().fill(Color .clear)
+                    .frame(height: 80)
 
                 VStack() {
                     if pageIndex_old == 0 {
@@ -115,33 +115,30 @@ struct ExploreView: View {
                             ExploreProfileView(
                                 searchDataContainer: searchDataContainer,
                                 screenLock: $screenLock,
-                                profiles: $profiles,
-                                currentUserEventSelection: $currentUserEventSelection,
-                                tempEventSelection: $tempEventSelection,
+//                                currentUserEventSelection: $currentUserEventSelection,
+//                                tempEventSelection: $tempEventSelection,
                                 selectedEventType: $selectedEventType,
                                 groupList: $groupList,
                                 isMenuMinimized: $isMenuMinimized,
-                                isMenuCollapsed: $isMenuCollapsed,
-                                showProfile: $showProfile
+                                isMenuCollapsed: $isMenuCollapsed
+//                                ,
+//                                showProfile: $showProfile
                             )
-                        }
-//                        else {
-//                            ExploreNoSearchView()
-//                        }
 
-                        if remainingTime < 3600 {
+                            if self.searchDataContainer.targetDate - self.searchDataContainer.currentTime < 3600 && self.searchDataContainer.targetDate - self.searchDataContainer.currentTime >= 0 {
 
-                            if secondsToHours(seconds: remainingTime) == 0 && secondsToMinutes(seconds: remainingTime) != 0{
-                                Text("Aktiv für die nächsten \(secondsToMinutes(seconds: remainingTime)) Minuten")
+                                if secondsToHours(seconds: remainingTime) == 0 && secondsToMinutes(seconds: remainingTime) != 0{
+                                    Text("Aktiv für die nächsten \(secondsToMinutes(seconds: remainingTime)) Minuten")
+                                            .font(.avenirNextRegular(size: 14))
+                                            .fontWeight(.semibold)
+                                            .foreground(gradientPinkBlueAccent)
+                                } else {
+                                    Text("Suche noch aktiv für die nächsten \(secondsToSeconds(seconds: remainingTime)) Sekunden")
                                         .font(.avenirNextRegular(size: 14))
                                         .fontWeight(.semibold)
                                         .foreground(gradientPinkBlueAccent)
-                            } else {
-                            Text("Suche noch aktiv für die nächsten \(secondsToSeconds(seconds: remainingTime)) Sekunden")
-                                    .font(.avenirNextRegular(size: 14))
-                                    .fontWeight(.semibold)
-                                    .foreground(gradientPinkBlueAccent)
-                            }
+                                    }
+                                }
                             }
                         }
                         Spacer()
@@ -149,7 +146,9 @@ struct ExploreView: View {
                 }
                 .animation(.spring())
                 }
-//            }
+                Rectangle().fill(Color .white)
+                    .frame(height: 30)
+            }
 //            .background(Color .white)
 
             VStack() {

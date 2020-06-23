@@ -15,31 +15,15 @@ struct ExploreProfileView: View {
     @ObservedObject var searchDataContainer: SearchDataContainer
      
     @Binding var screenLock: Bool
-    @Binding var profiles: [Profile]
-    @Binding var currentUserEventSelection: [EventType]
-    @Binding var tempEventSelection: [EventType]
     @Binding var selectedEventType: EventType?
     @Binding var groupList: [Profile]
     @Binding var isMenuMinimized: Bool
     @Binding var isMenuCollapsed: Bool
-    @Binding var showProfile: Bool
     
-    @State var showingMenu = false
-    @State var activateGroup = false
-    @State var requets: [Profile] = []
-    @State private var currentPage = 0
+    @State var showProfile = false
     
-    @State var remainingTime: Int = 0
-    @State var localTargetTime: Date = Date()
-    @State var localCurrentTime: Date = Date()
-    @State var localCreatedTime: Date = Date()
-    
-    @State var isActiveOnView: Bool = false
 
-    
-    func addAppUserToRequests(profile: Profile) {
-        requets.append(profile)
-    }
+  
     
     func addToGroupList(profile: Profile) {
         if !groupList.contains(profile) {
@@ -55,25 +39,6 @@ struct ExploreProfileView: View {
     
     func resetGroupValues() {
             selectedEventType = nil
-    }
-
-    func secondsToHours (seconds : Int) -> (Int) {
-        return (Int(seconds) / 3600)
-    }
-
-    func secondsToMinutes (seconds : Int) -> (Int) {
-        return ((Int(seconds) % 3600) / 60)
-    }
-
-    func secondsToSeconds (seconds : Int) -> (Int) {
-        return ((Int(seconds) % 3600) % 60)
-    }
-    
-    func getFormattedDate() -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        let dateString = formatter.string(from: searchDataContainer.created)
-        return dateString
     }
     
     var body: some View {
@@ -100,28 +65,8 @@ struct ExploreProfileView: View {
                                 (Double(geometry.frame(in: .global).minX)) / -65
                             ), axis: (x:0, y:10, z:0))
                     }
-                    .frame(width: UIScreen.main.bounds.width, height: 590)
+                    .frame(width: UIScreen.main.bounds.width, height: 640)
                 }
-            }
-        }
-        .onReceive(self.searchDataContainer.targetDateWillChange) { newValue in
-            withAnimation(.linear(duration: 0.2)) {
-                self.localTargetTime = newValue
-            }
-        }
-        .onReceive(self.searchDataContainer.currentTimeWillChange) { newValue in
-            withAnimation(.linear(duration: 0.2)) {
-                self.localCurrentTime = newValue
-            }
-        }
-        .onReceive(self.searchDataContainer.createdDateWillChange) { newValue in
-            withAnimation(.linear(duration: 0.2)) {
-                self.localCreatedTime = newValue
-            }
-        }
-        .onReceive(self.searchDataContainer.remainingTimeWillChange) { newValue in
-            withAnimation(.linear(duration: 0.2)) {
-                self.remainingTime = newValue
             }
         }
         .animation(.spring())
@@ -131,8 +76,8 @@ struct ExploreProfileView: View {
 
 struct RowItem: View {
     var profile: Profile
-    @State var deviceWidth = UIScreen.main.bounds.width - 40
-    @State var deviceHeight = UIScreen.main.bounds.height - 350
+    @State var deviceWidth = UIScreen.main.bounds.width - 20
+    @State var deviceHeight = UIScreen.main.bounds.height - 300
     @Binding var selectedEventType: EventType?
     @Binding var screenLock: Bool
     @Binding var groupList: [Profile]
@@ -148,7 +93,7 @@ struct RowItem: View {
                 .scaledToFill()
                 .frame(width: deviceWidth ,height: deviceHeight)
                     .overlay(AppUserTextOverlay(
-                        profile: self.profile,
+                        currentProfile: self.profile,
                         selectedEventType: self.$selectedEventType,
                         screenLock: self.$screenLock,
                         groupList: self.$groupList,
@@ -157,7 +102,7 @@ struct RowItem: View {
                         showProfile: $showProfile
                         )
                 )
-                .cornerRadius(25.0)
+                .cornerRadius(20)
                 .shadow(color: .init(red: 0.5, green: 0.5, blue: 0.5)
                 , radius: 9 , x: 0, y: 4)
             }
@@ -169,7 +114,7 @@ struct AppUserTextOverlay: View {
     
     @EnvironmentObject var userData: UserData
     
-    var profile: Profile
+    var currentProfile: Profile
     @Binding var selectedEventType: EventType?
     @Binding var screenLock: Bool
     
@@ -182,6 +127,9 @@ struct AppUserTextOverlay: View {
     @Binding var isMenuMinimized: Bool
     @Binding var isMenuCollapsed: Bool
     @Binding var showProfile: Bool
+    
+    @State var showCard = false
+    @State var userId: String = String()
     
     func setTopOpacity(profile: Profile) -> Color {
         if groupList.contains(profile) {
@@ -239,22 +187,13 @@ struct AppUserTextOverlay: View {
                 resetGroupValues()
             }
         }
-//        let additionalHeight = 90*self.groupList.count
-//        menuMinimized3 = UIScreen.main.bounds.height/3 + 110 + CGFloat(additionalHeight)
     }
     
     func expandCreateGroupMenu() {
         self.isMenuCollapsed = false
         self.isMenuMinimized = false
-//        userData.createGroupMenuOffsetY = menuExpanded
         userData.buttonBarOffset = CGFloat (150)
         screenLock = true
-    }
-    
-    func collapseCreateGroupMenu() {
-        self.isMenuCollapsed = true
-        self.isMenuMinimized = false
-//        userData.createGroupMenuOffsetY = menuMinimized3
     }
     
     func closeCreateGroupMenu() {
@@ -264,50 +203,56 @@ struct AppUserTextOverlay: View {
         screenLock = false
     }
     
-    func getEventTypeString(eventTypes: [EventType]) -> String {
-        var returnString = ""
-        
-        return returnString
-    }
-    
     var gradient: LinearGradient {
         LinearGradient(
             gradient: Gradient(
-                colors: [setBottomOpacity(profile: profile), setTopOpacity(profile: profile)]),
+                colors: [setBottomOpacity(profile: currentProfile), setTopOpacity(profile: currentProfile)]),
             startPoint: .bottom,
-            endPoint: setOverlayPosition(profile: profile))
+            endPoint: setOverlayPosition(profile: currentProfile))
+    }
+    
+    func getType(typeToTest: EventType) -> String{
+        if typeToTest == .food {
+            return "Essen und Trinken"
+        }
+        if typeToTest == .activity {
+            return "Freizeit"
+        }
+        if typeToTest == .sport {
+            return "Sport"
+        }
+        
+        return ""
     }
     
     var body: some View {
         ZStack(alignment: .bottomLeading) {
+            
+            // Black Overlay
             Rectangle().fill(gradient)
             
-            HStack() {
+            // Elements
+//            HStack() {
                 VStack() {
                     Spacer()
                     HStack(){
                         VStack(alignment: .leading){
 
-                            Spacer()
+                                Spacer()
+                            
                                 HStack(){
                                     Button(action: {
-                                        self.showProfile.toggle()
+                                        self.showCard.toggle()
                                     }) {
-                                    Text(profile.username)
+                                    Text(currentProfile.username)
                                         .font(.avenirNextRegular(size: 30))
                                         .fontWeight(.semibold)
                                         .offset(y: 30)
-                                        
-                                    }.sheet(isPresented: $showProfile) {
-                                        UserDetailsViewer(
-                                            user: self.profile,
-                                            showProfile: self.$showProfile
-                                        )
                                     }
                                     Spacer()
                                 }
+                            
                                 HStack(){
-                                                            
                                     Image("locationBlack")
                                         .resizable()
                                         .renderingMode(.original)
@@ -316,7 +261,7 @@ struct AppUserTextOverlay: View {
                                         .foreground(Color .white)
                                         .padding(.trailing, 10)
                                     
-                                    Text(profile.searchParameter.locationName)
+                                    Text(currentProfile.searchParameter.locationName)
                                         .font(.avenirNextRegular(size: 20))
                                         .allowsTightening(true)
                                         .lineLimit(1)
@@ -325,45 +270,47 @@ struct AppUserTextOverlay: View {
                                 }
                                 .offset(y: 7)
                             
-                            HStack(alignment: .top){
-                                                            
-                                    Image(systemName: "star.fill")
-                                        .resizable()
-                                        .renderingMode(.original)
-                                        .frame(width: 20, height: 20)
-                                        .scaledToFill()
-                                        .foreground(Color .white)
-                                        .padding(.trailing, 10)
-                                    
-                                    Text("Essen und Trinken \nFreizeit \nSport")
-                                        .font(.avenirNextRegular(size: 20))
-                                        .allowsTightening(true)
-                                        .lineLimit(3)
-                                    
-                                    Spacer()
-                                }
-                            
-                            .padding(.bottom, 20)
+//                                HStack(alignment: .top){
+//                                    Image(systemName: "star.fill")
+//                                        .resizable()
+//                                        .renderingMode(.original)
+//                                        .frame(width: 20, height: 20)
+//                                        .scaledToFill()
+//                                        .foreground(Color .white)
+//                                        .padding(.trailing, 10)
+//
+//                                    VStack(alignment: .leading) {
+//                                        ForEach(self.currentProfile.searchTypes, id: \.self) { typeIdentifier in
+////                                            getType(typeToTest: typeIdentifier)
+//                                            Text(self.getType(typeToTest: typeIdentifier))
+//                                            .font(.avenirNextRegular(size: 20))
+//                                            .allowsTightening(true)
+//                                            .lineLimit(1)
+//                                        }
+//                                    }
+//
+//                                    Spacer()
+//                                    }
+                                .padding(.bottom, 30)
                         }
                         VStack(){
                             Spacer()
 
                             Button(action: {
-                                
                                 withAnimation(.linear(duration: 0.2)) {
-                                    self.didPressAddRemoveButton(profile: self.profile)
+                                    self.didPressAddRemoveButton(profile: self.currentProfile)
                                 }
                             }) {
                                 Circle()
-                                    .fill(groupList.contains(profile) ? gradientPinkPinkAndPeach : gradientWhite)
+                                    .fill(groupList.contains(currentProfile) ? gradientPinkPinkAndPeach : gradientWhite)
                                     .overlay(
                                         HStack() {
-                                            Image(systemName: groupList.contains(profile) ? "checkmark" : "plus")
+                                            Image(systemName: groupList.contains(currentProfile) ? "checkmark" : "plus")
                                             .font(.system(size: 24, weight: .medium))
                                                 .padding(.vertical, 10.0)
                                         }
                                         .font(.system(size: 20, weight: .medium))
-                                        .foreground(groupList.contains(profile) ? Color .white : Color .black)
+                                        .foreground(groupList.contains(currentProfile) ? Color .white : Color .black)
                                 )
                                     .frame(width: 50, height: 50)
                                     .offset(x: -4, y: 0)
@@ -373,29 +320,15 @@ struct AppUserTextOverlay: View {
                     }
                 }
                 .padding(.horizontal, 20)
+//            }
+            .sheet(isPresented: $showCard) {
+                UserDetailsViewer(
+                    user: self.currentProfile,
+                    showCard: self.$showCard
+                )
             }
         }
         .foregroundColor(.white)
     }
 }
-
-//struct ExploreProfileView_Previews: PreviewProvider {
-////    @State static var groupList = appUserData // Note: it must be static
-//    @State static var profiles = appUserData // Note: it must be static
-//    @State static var screenLock = false // Note: it must be static
-//    @State static var currentUserEventSelection: [EventType] = [.food, .activity] // Note: it must be static
-//    @State static var tempEventSelection: [EventType] = [.food, .activity] // Note: it must be static
-//    @State static var selectedEventType: EventType? = EventType.food // Note: it must be static
-//
-//    static var previews: some View {
-//            return ExploreProfileView(
-//
-//                screenLock: $screenLock,
-//                profiles: $profiles,
-//                currentUserEventSelection: $currentUserEventSelection,
-//                tempEventSelection: $tempEventSelection,
-//                selectedEventType: $selectedEventType
-//            )
-//        }
-//}
 

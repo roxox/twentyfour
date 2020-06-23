@@ -61,7 +61,7 @@ struct SearchView: View {
     
     func getLabel() -> String {
         if self.remainingTime > 0 {
-            return "Übernehmen"
+            return "Speichern"
         }
         return "Erstellen"
     }
@@ -79,7 +79,7 @@ struct SearchView: View {
                         Spacer()
                     }
                     .padding(.horizontal, 20)
-                    .padding(.top, 20)
+                    .padding(.top, 30)
                 
                     HStack() {
                             Image("locationBlack")
@@ -103,6 +103,7 @@ struct SearchView: View {
                         }
                     .padding(.horizontal, 20)
                     .padding(.top, 10)
+                
                 HStack() {
                     HStack() {
                         
@@ -160,41 +161,19 @@ struct SearchView: View {
                 }
                 
             }
-            .foregroundColor(.black)
+            .background(Color ("background1"))
+            .foregroundColor(Color ("button1"))
             .frame(minWidth: 0, maxWidth: .infinity)
+            .padding(.top, 25)
                 VStack() {
-                    Spacer()
+//                    Spacer()
                     
                     VStack() {
-                        Spacer()
                         
                         HStack(){
-                            Spacer()
-
-                            // SAVE BUTTON
-                            if self.isModified() && self.tmpEventTypes.count != 0 && self.tmpLocationString != "" {
-                                Button(action: {
-                                    withAnimation(.linear(duration: 0.2)) {
-                                        self.saveValues()
-                                    }
-                                }) {
-                                    HStack(){
-                                    Image(systemName: "checkmark")
-                                        .font(.system(size: 20, weight: .medium))
-                                        .frame(width: 36, height: 36)
-                                        .padding(.leading, 10)
-                                        Text(self.getLabel())
-                                            .font(.avenirNextRegular(size: 16))
-                                            .fontWeight(.semibold)
-                                            .padding(.trailing, 20)
-                                    }
-                                }
-                                .frame(height: 45)
-                                .foregroundColor(.white)
-                                .background(gradientSeaAndBlue)
-                                .clipShape(RoundedRectangle(cornerRadius: 15))
-                            }
+//                            Spacer()
                             
+//                            Spacer()
                             // CANCEL BUTTON
                             Button(action: {
                                 withAnimation(.linear(duration: 0.2)) {
@@ -205,24 +184,51 @@ struct SearchView: View {
                                     Image(systemName: "xmark")
                                         .font(.system(size: 20, weight: .medium))
                                         .frame(width: 36, height: 36)
-                                        .padding(.leading, 10)
+//                                        .padding(.leading, 10)
                                     Text("Verwerfen")
                                         .font(.avenirNextRegular(size: 16))
                                         .fontWeight(.semibold)
-                                        .padding(.trailing, 20)
+//                                        .padding(.trailing, 20)
                                 }
                             }
-                            .frame(height: 45)
-                            .foregroundColor(.white)
-                            .background(Color.black)
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                                .frame(height: 36)
+                                .foregroundColor(Color ("button1"))
+//                                .background(gradientSeaAndBlue)
+//                                .clipShape(RoundedRectangle(cornerRadius: 15))
                             
                             Spacer()
+                            
+                            
+                            // SAVE BUTTON
+                            if self.isModified() && self.tmpEventTypes.count != 0 && self.tmpLocationString != "" {
+                                Button(action: {
+                                    withAnimation(.linear(duration: 0.2)) {
+                                        self.saveValues()
+                                    }
+                                }) {
+                                    HStack(){
+                                        Text(self.getLabel())
+                                            .font(.avenirNextRegular(size: 16))
+                                            .fontWeight(.semibold)
+//                                            .padding(.trailing, 20)
+                                        Image(systemName: "arrow.right")
+                                            .font(.system(size: 20, weight: .medium))
+                                            .frame(width: 36, height: 36)
+    //                                        .padding(.leading, 10)
+                                    }
+                                }
+                                .frame(height: 36)
+                                .foregroundColor(Color ("button1"))
+//                                .background(gradientSeaAndBlue)
+//                                .clipShape(RoundedRectangle(cornerRadius: 15))
+                            }
+                            
+//                            Spacer()
                         }
-                        .padding(15)
+                        .padding(.horizontal, 20)
 //                        .padding(.bottom, 15)
-                        .background(BlurView(style: .systemMaterial))
-                        .animation(self.isFocused ? .easeInOut : nil)
+                        .background(Color ("background1"))
+//                        .animation(self.isFocused ? .easeInOut : nil)
 
                         .onAppear() {
                             NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { (noti)  in
@@ -240,12 +246,13 @@ struct SearchView: View {
                             }
                         }
                     }
-                    .offset(y: 15)
-                    Rectangle().fill(Color .clear)
-                        .background(BlurView(style: .systemMaterial))
-                        .frame(height: max(0, geometry.safeAreaInsets.bottom - 20))
+//                    .offset(y: 15)
+                    Spacer()
+//                    Rectangle().fill(Color .clear)
+//                        .background(BlurView(style: .systemMaterial))
+//                        .frame(height: max(0, geometry.safeAreaInsets.bottom - 20))
                 }
-                .edgesIgnoringSafeArea(.bottom)
+//                .edgesIgnoringSafeArea(.bottom)
                 
                 if self.showKeyboard == true {
                     VStack(){
@@ -289,9 +296,9 @@ struct SearchView: View {
 //                        .padding(self.showKeyboard ? 15 : 15)
                         .background(BlurView(style: .systemMaterial))
                     }
-                    .offset(y: -self.keyboardHeight)
+                    .offset(y: -self.keyboardHeight + 35)
                     .animation(.spring())
-                    .edgesIgnoringSafeArea(.bottom)
+//                    .edgesIgnoringSafeArea(.bottom)
                 }
             }
             .onTapGesture {

@@ -49,7 +49,7 @@ struct ContentView: View {
     }
     
     var body: some View {
-//        NavigationView {
+        NavigationView {
         VStack() {
             if !userData.isLogged {
                 ZStack(){
@@ -80,6 +80,12 @@ struct ContentView: View {
                         
                     }
                     
+                    if pageIndex == 1 {
+                        GroupListView(
+//                            userId: userData.currentUser
+                        )
+                    }
+                    
                     if pageIndex == 3 {
                         UserDetailsView(
                             user: userData.currentUser
@@ -90,7 +96,8 @@ struct ContentView: View {
                 VStack() {
                     Spacer()
                     ButtonBarView(pageIndex: $pageIndex)
-                        .background(Color .white)
+//                        .background(Color ("background1"))
+                        .background(Color .clear)
                         .offset(y: userData.buttonBarOffset)
                 }
                 .animation(.spring())
@@ -107,10 +114,10 @@ struct ContentView: View {
             }
         }.onReceive(timer) { time in
             self.searchDataContainer.currentTime = Date()
-//        }
-//        .navigationBarHidden(true)
-//        .navigationBarTitle("", displayMode: .inline)
-//        .navigationBarBackButtonHidden(true)
+        }
+        .navigationBarHidden(true)
+        .navigationBarTitle("", displayMode: .inline)
+        .navigationBarBackButtonHidden(true)
     }
     }
     

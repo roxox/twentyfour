@@ -123,7 +123,7 @@ class SearchDataContainer: ObservableObject {
     func calcRemainingTime() -> Int{
 
         let toDate = self.targetDate
-        let fromDate = Date()
+        let fromDate = self.currentTime
         let delta = toDate - fromDate // `Date` - `Date` = `TimeInterval`
 
          if delta <= 0 {

@@ -52,6 +52,16 @@ struct ExploreSearchButtonView: View {
                     .frame(height: 120)
                 
                 HStack(alignment: .top){
+                    
+//                    userData.currentUser.image
+//                    .renderingMode(.original)
+//                    .resizable()
+//                    .scaledToFill()
+//                    .clipShape(Circle())
+////                        .overlay(Circle().stroke(Color .black, lineWidth: 1))
+//                    .frame(width: 45 ,height: 45)
+//                        .shadow(radius: 5)
+                        
                     Spacer()
                     
                     // SearchButton

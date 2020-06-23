@@ -32,7 +32,7 @@ final class UserData: ObservableObject {
     @Published var showFavoritesOnly = false
     @Published var appUsers = appUserData
     @Published var currentUser = appUserData[0]
-    @Published var groupList: [Profile] = []
+    @Published var groupList: [Group] = []
     
 //    Menu offsets
     // Button Bar

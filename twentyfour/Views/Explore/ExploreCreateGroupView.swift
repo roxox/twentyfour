@@ -13,15 +13,21 @@ struct ExploreCreateGroupView: View {
     @EnvironmentObject var userData: UserData
     @ObservedObject var searchData = SearchDataContainer()
     
-    @State var collapsedOffset: CGFloat = 290
-//    @State var users: [Profile] = []
-//    @State var groupList: [Profile] = []
-    
+    // Müssen mit übergeben werden
     @Binding var screenLock: Bool
     @Binding var selectedEventType: EventType?
     @Binding var groupList: [Profile]
     @Binding var isMenuMinimized: Bool
     @Binding var isMenuCollapsed: Bool
+    
+    @State var tmpTitleString: String = ""
+    @State var tmpLocationString: String = ""
+    @State var tmpTimeString: String = ""
+    @State var tmpMeetingString: String = ""
+    
+    @State var showCard: Bool = false
+    
+    // Muss nicht übergeben werden
     @Binding var showProfile: Bool
     
 
@@ -108,7 +114,11 @@ struct ExploreCreateGroupView: View {
     }
     
     func resetGroupValues() {
-            selectedEventType = nil
+        selectedEventType = nil
+        tmpTitleString = ""
+        tmpTimeString = ""
+        tmpMeetingString = ""
+        tmpLocationString = ""
     }
     
     func isEventTypeAvailable(eventType: EventType) -> Bool {
@@ -158,70 +168,109 @@ struct ExploreCreateGroupView: View {
                                     
                 // Buttons on top of menu
                 HStack(){
-
-                    if self.isMenuMinimized {
-
-                        Rectangle()
-                            .fill(Color .clear)
-                            .frame(width: 40, height: 40)
-                            .padding(.leading, 20)
                         Spacer()
-
-    //                                            Spacer()
-
-                        Button(action: {
-                            self.deleteGroupList()
-                        }) {
-                            HStack(){
-                                Image(systemName: "trash")
-                                    .font(.system(size: 20, weight: .medium))
-                                    .frame(width: 40, height: 40)
-                                    .padding(.leading, 10)
-                                Text("Verwerfen")
-                                    .font(.avenirNextRegular(size: 16))
-                                    .fontWeight(.semibold)
-                                    .padding(.trailing, 20)
+                            if self.isMenuMinimized {
+                                Button(action: {
+                                    withAnimation(.linear(duration: 0.2)) {
+                                        self.hideOrShowMenu()
+                                    }
+                                }) {
+                                HStack() {
+                                    Image(systemName: "chevron.compact.up")
+                                        .font(.system(size: 20, weight: .medium))
+                                        .frame(width: 40, height: 40)
+                                    
+                                }
+                                .background(Color ("background1_inverted"))
+                                .foregroundColor(Color ("button1_inverted"))
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                                }
+                            } else {
+                                Button(action: {
+                                    withAnimation(.linear(duration: 0.2)) {
+                                        self.hideOrShowMenu()
+                                    }
+                                }) {
+                                    
+                                    Text("weitere User hinzufügen")
+                                        .font(.avenirNextRegular(size: 16))
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(Color .white)
+                                    .padding(8)
+                                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                                            .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.white, lineWidth: 1))
+                                        
+                                    }
+                                    .padding(.bottom, 10)
                             }
-                            .background(Color .black)
-                            .foregroundColor(.white)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                        }
-                        .padding(.leading, 10)
-
-                        Spacer()
-
-                    }
-                        Spacer()
-                        
-
-                        Button(action: {
-                            withAnimation(.linear(duration: 0.2)) {
-                                self.hideOrShowMenu()
-                            }
-                        }) {
-//                                Image(systemName: "chevron.down")
-                                Image(systemName: self.isMenuMinimized ? "chevron.up" : "chevron.down")
-                                        .font(.avenirNextRegular(size: 20))
-                                        .frame(width: 40 ,height:40)
-                                        .background(gradientCherryPink)
-                                        .foregroundColor(.white)
-                                        .clipShape(Circle())
-                            }
-                            .padding(.trailing, 10)
+                    Spacer()
                 }
                 .padding(.top, 10)
                 //END:  Buttons on top of menu
                 // Komplettes Menü
                     VStack() {
+                        HStack(){
+                            Button(action: {
+                                self.deleteGroupList()
+                            }) {
+                                HStack(){
+                                    Image(systemName: "xmark")
+                                        .font(.system(size: 20, weight: .medium))
+                                        .frame(width: 36, height: 36)
+//                                        .padding(.leading, 10)
+                                    Text("Verwerfen")
+                                        .font(.avenirNextRegular(size: 16))
+                                        .fontWeight(.semibold)
+//                                        .padding(.trailing, 20)
+                                }
+                                    .foregroundColor(Color ("button1"))
+                            }
                             
+                            Spacer()
+                            
+                            if self.selectedEventType != nil && self.groupList.count != 0 {
+                                VStack {
+                                    NavigationLink(
+                                        destination: ExploreCreateNewGroupView(
+                                            screenLock: self.$screenLock,
+                                            selectedEventType: self.$selectedEventType,
+                                            groupList: self.$groupList,
+                                            isMenuMinimized: self.$isMenuMinimized,
+                                            isMenuCollapsed: self.$isMenuCollapsed,
+                                            tmpTitleString: self.$tmpTitleString,
+                                            tmpLocationString: self.$tmpLocationString,
+                                            tmpTimeString: self.$tmpTimeString,
+                                            tmpMeetingString: self.$tmpMeetingString)
+                                        
+                                    ) {
+                                        HStack(){
+                                       Text("Weiter")
+                                           .font(.avenirNextRegular(size: 16))
+                                           .fontWeight(.semibold)
+//                                           .padding(.trailing, 20)
+                                       Image(systemName: "arrow.right")
+                                           .font(.system(size: 20, weight: .medium))
+                                           .frame(width: 36, height: 36)
+                                       }
+                                    }
+                                    .foregroundColor(Color ("button1"))
+                                    .disabled(self.selectedEventType == nil || self.groupList.count == 0)
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 10)
+                        .padding(.top, 10)
+                        
                         // Headline ausgewähle User
                         HStack(){
                             Spacer()
-                            Text("\(self.groupList.count) von max. 4 Usern ausgewählt.")
-                                    .font(.avenirNextRegular(size: 20))
-                                    .fontWeight(.semibold)
-                                    .fixedSize(horizontal: false, vertical: true)
-                                    .lineLimit(1)
+                            VStack(){
+                                Text("\(self.groupList.count) User ausgewählt")
+                                        .font(.avenirNextRegular(size: 20))
+                                        .fontWeight(.semibold)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .lineLimit(1)
+                            }
 
                             Spacer()
 
@@ -235,19 +284,13 @@ struct ExploreCreateGroupView: View {
                             VStack(){
                                 Spacer()
                                     .frame(minWidth: 0, maxWidth: .infinity)
-
-//                                Rectangle().fill(Color .clear)
-//                                    .frame(minWidth: 0, maxWidth: .infinity)
-//                                if self.groupList.count != 0 {
-//                                Text("hallo du da, wie geth es dir?")
-//                                .frame(width: UIScreen.main.bounds.width)
                                     ForEach(self.groupList, id: \.self) { profile in
                                         VStack(){
 //                                        Text("Count: \(self.groupList.count)")
                                        // Zeilen Element pro ausgewähltem User
                                         HStack(){
                                             Button(action: {
-                                                self.showProfile.toggle()
+                                                self.showCard.toggle()
                                             }) {
                                                 profile.image
                                                     .renderingMode(.original)
@@ -286,7 +329,8 @@ struct ExploreCreateGroupView: View {
                                                 HStack() {
                                                     Image(systemName: "xmark")
                                                         .font(.system(size: 22, weight: .medium))
-                                                        .foregroundColor(.black)
+                                                        .foregroundColor(Color ("button1"))
+//                                                        .foregroundColor(.black)
                                                         .fixedSize()
                                                         .frame(width: 45, height: 45)
 //                                                        .background(Color .clear)
@@ -298,6 +342,12 @@ struct ExploreCreateGroupView: View {
                                             }
 //                                            Spacer()
                                             
+                                        }
+                                            .sheet(isPresented: self.$showCard) {
+                                            UserDetailsViewer(
+                                                user: profile,
+                                                showCard: self.$showCard
+                                            )
                                         }
                                         .animation(nil)
                                         .padding(.horizontal, 20)
@@ -388,98 +438,21 @@ struct ExploreCreateGroupView: View {
 
                         }
                         .padding(.top, 10)
-                        //END:  Selection EventType
-                        
-                        // Control Buttons
-                        HStack(){
-                            Spacer()
-
-                            if self.selectedEventType != nil && self.groupList.count != 0 {
-                            Button(action: {
-                                self.addTilteAndDescription()
-                            }) {
-                                HStack(){
-                                    Image(systemName: "checkmark")
-                                        .font(.system(size: 20, weight: .medium))
-                                        .frame(width: 36, height: 36)
-                                        .padding(.leading, 10)
-                                Text("Weiter")
-                                    .font(.avenirNextRegular(size: 16))
-                                    .fontWeight(.semibold)
-                                    .padding(.trailing, 20)
-                                }
-                            }
-                            .frame(height: 45)
-                            .foregroundColor(.white)
-                            .background(gradientSeaAndBlue)
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                            .disabled(self.selectedEventType == nil || self.groupList.count == 0)
-                            }
-
-                            // CANCEL BUTTON
-                            Button(action: {
-                                withAnimation(.linear(duration: 0.2)) {
-                                    self.deleteGroupList()
-                                }
-                            }) {
-                                HStack(){
-                                    Image(systemName: "trash")
-                                        .font(.system(size: 20, weight: .medium))
-                                        .frame(width: 36, height: 36)
-                                        .padding(.leading, 10)
-                                    Text("Verwerfen")
-                                        .font(.avenirNextRegular(size: 16))
-                                        .fontWeight(.semibold)
-                                        .padding(.trailing, 20)
-                                }
-                            }
-                            .frame(height: 45)
-                            .foregroundColor(.white)
-                            .background(Color.black)
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-
-                            Spacer()
-                        }
-                        .padding(15)
-                        .background(BlurView(style: .systemMaterial))
-                        .offset(y: 20)
-
-                        //END:  Control Buttons
-
-                        // Coloring of Safe Area
-                        Rectangle().fill(Color .clear)
-                            .background(BlurView(style: .systemMaterial))
-                            .frame(height: geometry.safeAreaInsets.bottom - 15)
-                        //END: Coloring of Safe Area
+                        .padding(.bottom, 23)
 
                     }
-                    .background(Color .white)
+                    .background(Color ("background1"))
                     .cornerRadius(10)
                 //END: Komplettes Menu
                 }
                 .edgesIgnoringSafeArea(.bottom)
         }
+        .navigationBarHidden(true)
+        .navigationBarTitle("", displayMode: .inline)
+        .navigationBarBackButtonHidden(true)
     }
     
 }
-
-//struct ExploreCreateGroupView_Previews: PreviewProvider {
-//        @State static var pageIndex = 0 // Note: it must be static
-//        @State static var screenLock = false // Note: it must be static
-////        @State static var groupList = appUserData // Note: it must be static
-//        @State static var selectedEventType: EventType? = EventType.food // Note: it must be static
-//
-//        static var previews: some View {
-//                let userData = UserData()
-//                return ExploreCreateGroupView(
-////                    groupList: $groupList,
-//                    screenLock: $screenLock,
-//                    selectedEventType: $selectedEventType,
-//                    groupList: $groupList
-//                )
-//                .environmentObject(userData)
-//        }
-//    }
 
 struct EventTypeSelectorButton: View {
     
@@ -566,7 +539,7 @@ struct EventTypeSelectorButton: View {
                         .font(.avenirNextRegular(size: 12))
                         .fontWeight(.semibold)
                         .frame(width: 118)
-                        .foregroundColor(.black)
+//                        .foregroundColor(.black)
                         .lineLimit(2)
                 }
             }.animation(nil)
