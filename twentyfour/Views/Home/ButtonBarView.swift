@@ -144,7 +144,7 @@ struct ButtonBarView: View {
                     VStack() {
 //                        Circle().fill(pageIndex == 0 ? gradientColorSecondary : gradientColorSecondary)
 
-                        Image(systemName: "house")
+                        Image(systemName: "magnifyingglass")
                             .padding(.vertical, 10.0)
                             .font(.system(size: 20, weight: .semibold))
                             .frame(width: 40, height: 24)
@@ -270,7 +270,7 @@ struct ButtonBarView: View {
                 .padding(.top, 10)
 //                .padding()
             }
-            .background(Color .white)
+            .background(Color ("background1"))
         }
     }
     

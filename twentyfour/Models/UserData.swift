@@ -11,15 +11,7 @@ import SwiftUI
 let menuCollapsed: CGFloat = UIScreen.main.bounds.height
 var menuMinimized3: CGFloat = UIScreen.main.bounds.height/3 + 110
 let menuExpanded: CGFloat = 0
-//{
-//    didSet{
-//        withAnimation { (
-//            isScreenLocked = !isMenuCollapsed && isMenuMinimized
-//            )
-//        }
-//    }
-//}
-var isScreenLocked: Bool = false
+
 
 
 let menuIn: CGFloat = 0
@@ -31,6 +23,7 @@ final class UserData: ObservableObject {
     
     @Published var showFavoritesOnly = false
     @Published var appUsers = appUserData
+    @Published var appGroups = appGroupData
     @Published var currentUser = appUserData[0]
     @Published var groupList: [Group] = []
     

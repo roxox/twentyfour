@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct SearchView: View {
     
@@ -20,6 +21,12 @@ struct SearchView: View {
     @State var tmpLocationString: String = ""
     @State var tmpMaxDistance: Double = 0
     @State var tmpEventTypes: [EventType] = []
+    
+    fileprivate let locationManager: CLLocationManager = {
+        let manager = CLLocationManager()
+        manager.requestWhenInUseAuthorization()
+        return manager
+    }()
     
     func closeSearchView() {
         hideKeyboard()
@@ -75,7 +82,7 @@ struct SearchView: View {
                         Spacer()
                             Text("Standort")
                                 .font(.avenirNextRegular(size: 20))
-                                .fontWeight(.semibold)
+                                .fontWeight(.medium)
                         Spacer()
                     }
                     .padding(.horizontal, 20)
@@ -379,7 +386,7 @@ struct ButtonAreaView: View {
                     VStack(){
                         Text("Aktivität")
                             .font(.avenirNextRegular(size: 20))
-                            .fontWeight(.semibold)
+                            .fontWeight(.medium)
                         if self.tmpEventTypes.count == 0 {
                             Text("Wähle mindestens eine Aktivität")
                                 .font(.avenirNextRegular(size: 10))
@@ -510,7 +517,7 @@ struct RequestView: View {
                     VStack(){
                         Text("Anfrage / Suche")
                             .font(.avenirNextRegular(size: 20))
-                            .fontWeight(.semibold)
+                            .fontWeight(.medium)
                     }
                 Spacer()
             }

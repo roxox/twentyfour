@@ -1,0 +1,34 @@
+
+[
+
+{
+    "title": "Steve Aoki im Hakkasan",
+    "description": "Die Party soll der Hammer werden, wäre cool, wenn sich jemand finden lässt, der mitkommt.",
+    "id": "1005",
+    "requests": [],
+    "administrators": [],
+    "participants": [],
+    "type": {"rawValue": 1},
+    "imageName": "freizeit2"
+},
+{
+    "title": "Italienisch essen gehen",
+    "description": "Ich habe von einer Pizzeria in Downtown gehört und würde sie gerne mal ausprobieren.",
+    "id": "1004",
+    "requests": [],
+    "administrators": [],
+    "participants": [],
+    "type": {"rawValue": 0},
+    "imageName": "essen2"
+},
+{
+    "title": "Fußball auf dem Bolzplatz",
+    "description": "Grrne auch regelmäßig",
+    "id": "1006",
+    "requests": [],
+    "administrators": [],
+    "participants": [],
+    "type": {"rawValue": 2},
+    "imageName": "sport"
+}
+]

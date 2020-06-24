@@ -21,29 +21,23 @@ struct ExploreView: View {
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    @State var showingMenu = false
-    @State var activateGroup = false
-    @State var showButtons = false
-    @State var menuOffset = CGFloat (555)
-//    @State var requets: [Profile] = []
-    @State var screenLock: Bool = true
     @State var profiles: [Profile] = appUserData
-    @State var currentUserEventSelection: [EventType] = [.food, .activity]
-    @State var tempEventSelection: [EventType] = [.food, .sport, .activity]
     @State var selectedEventType: EventType?
     @State private var currentPage = 0
     @State var lockScreenIndex = 0
     @State var mainScreenIndex = 1
     @State var createGroupScreenIndex = 2
     
+    @State var tmpTitleString: String = ""
+    @State var tmpLocationString: String = ""
+    @State var tmpTimeString: String = ""
+    @State var tmpMeetingString: String = ""
+    
     @State var remainingTime: Int = 0
     @State var localTargetTime: Date = Date()
     @State var localCurrentTime: Date = Date()
     @State var localCreatedTime: Date = Date()
     @State var groupList: [Profile] = []
-    
-    @State var isMenuCollapsed: Bool = true
-    @State var isMenuMinimized: Bool = false
         
     @State var offset: CGFloat = 0
     @State var showProfile = false
@@ -52,10 +46,6 @@ struct ExploreView: View {
 //        requets.append(appUser)
 //    }
     
-    func resetScreenLock() {
-        screenLock.toggle()
-//        userData.createGroupMenuOffset = CGFloat (255)
-    }
     
     func setBackgroundColor () -> Color {
         if userData.groupList.count == 0 {
@@ -69,14 +59,6 @@ struct ExploreView: View {
             return 1.0
         }
         return 0.7
-    }
-    
-    func setMainScreen() -> Double {
-        if userData.groupList.count != 0 && screenLock {
-            return 0
-        } else {
-            return 1
-        }
     }
 
     func secondsToHours (seconds : Int) -> (Int) {
@@ -101,11 +83,10 @@ struct ExploreView: View {
     var body: some View {
         
         ZStack() {
+            
             VStack(){
-            ScrollView(.vertical, showsIndicators: false) {
+                ScrollView(groupList.count == 0 ? [.vertical] : [], showsIndicators: false) {
 
-                Rectangle().fill(Color .clear)
-                    .frame(height: 80)
 
                 VStack() {
                     if pageIndex_old == 0 {
@@ -114,17 +95,37 @@ struct ExploreView: View {
                         if self.searchDataContainer.targetDate > self.searchDataContainer.currentTime {
                             ExploreProfileView(
                                 searchDataContainer: searchDataContainer,
-                                screenLock: $screenLock,
-//                                currentUserEventSelection: $currentUserEventSelection,
-//                                tempEventSelection: $tempEventSelection,
                                 selectedEventType: $selectedEventType,
                                 groupList: $groupList,
-                                isMenuMinimized: $isMenuMinimized,
-                                isMenuCollapsed: $isMenuCollapsed
-//                                ,
-//                                showProfile: $showProfile
+                                tmpTitleString: self.$tmpTitleString,
+                                tmpLocationString: self.$tmpLocationString,
+                                tmpTimeString: self.$tmpTimeString,
+                                tmpMeetingString: self.$tmpMeetingString
                             )
 
+                            if groupList.count == 0 {
+                                ExploreGroupView(
+                                    searchDataContainer: searchDataContainer,
+                                    selectedEventType: $selectedEventType,
+                                    groupList: $groupList
+                                )
+                                .opacity(0.1)
+                                .saturation(0.6)
+                            }
+                            else {
+
+                                Spacer()
+                                ExploreCreateGroupView(
+                                    selectedEventType: $selectedEventType,
+                                    groupList: $groupList,
+                                    tmpTitleString: self.$tmpTitleString,
+                                    tmpLocationString: self.$tmpLocationString,
+                                    tmpTimeString: self.$tmpTimeString,
+                                    tmpMeetingString: self.$tmpMeetingString,
+                                    showProfile: $showProfile
+                                )
+                            }
+                            
                             if self.searchDataContainer.targetDate - self.searchDataContainer.currentTime < 3600 && self.searchDataContainer.targetDate - self.searchDataContainer.currentTime >= 0 {
 
                                 if secondsToHours(seconds: remainingTime) == 0 && secondsToMinutes(seconds: remainingTime) != 0{
@@ -146,95 +147,19 @@ struct ExploreView: View {
                 }
                 .animation(.spring())
                 }
-                Rectangle().fill(Color .white)
-                    .frame(height: 30)
             }
-//            .background(Color .white)
+            
+                VStack() {
+                    ExploreSearchButtonView(
+                        searchDataContainer: searchDataContainer)
+                        .offset(y: 10)
 
-            VStack() {
-                ExploreSearchButtonView(
-                    searchDataContainer: searchDataContainer)
-                    .offset(y: 10)
-
-                Spacer()
-            }
-
-            if !self.isMenuCollapsed && !self.isMenuMinimized {
-                Color .black.opacity(setOpacity())
-                    .edgesIgnoringSafeArea(.all)
-                BlurView(style: .dark)
-                    .edgesIgnoringSafeArea(.all)
-                    .onTapGesture {
-                        self.isMenuMinimized = true
-                    }
-            }
-
-            VStack(){
-
-                Spacer()
-
-                ZStack() {
-                    VStack(){
-
-                        Spacer()
-
-                        ExploreCreateGroupView(
-                            screenLock: $screenLock,
-                            selectedEventType: $selectedEventType,
-                            groupList: $groupList,
-                            isMenuMinimized: $isMenuMinimized,
-                            isMenuCollapsed: $isMenuCollapsed,
-                            showProfile: $showProfile
-                        )
-//                            .offset(x: userData.createGroupMenuOffsetX, y: userData.createGroupMenuOffsetY + self.offset)
-                            .offset(y: (self.isMenuCollapsed ? menuCollapsed : self.isMenuMinimized ? menuMinimized3 + CGFloat((groupList.count-1) * 78) : menuExpanded) + self.offset)
-                            .shadow(radius: 10)
-
-                        .gesture(
-                            DragGesture()
-                                .onChanged { gesture in
-                                    if !self.isMenuMinimized && !self.isMenuCollapsed {
-                                        if gesture.translation.height > 0 {
-                                            self.offset = gesture.translation.height * 1.3
-                                        }
-                                    } else if !self.isMenuCollapsed && self.isMenuMinimized {
-
-                                        if gesture.translation.height < 0 {
-                                            self.offset = gesture.translation.height
-                                        }
-                                    }
-                                }
-
-                                .onEnded { _ in
-                                    if self.offset > menuMinimized3/2 {
-                                        self.isMenuMinimized = true
-                                        self.isMenuCollapsed = false
-                                    } else {
-                                        self.isMenuMinimized = false
-                                        self.isMenuCollapsed = false
-
-                                    }
-                                    self.offset = CGFloat(0)
-//                                    if abs(self.offset.width) > 100 {
-//                                        // remove the card
-//                                    } else {
-//                                        self.offset = .zero
-//                                    }
-//                                    if self.offset <
-                                }
-                        )
-
-                    }
-//                    ExploreGroupAddTitleView(
-//                        pageIndex: $pageIndex,
-//                        screenLock: $screenLock,
-//                        selectedEventType: $selectedEventType
-//                    )
-//                        .offset(x: userData.addTitleMenuOffsetX, y: userData.createGroupMenuOffsetY)
+                    Spacer()
                 }
-            }
-            .animation(.spring())
+                .offset(y: groupList.count == 0 ? 0 : -150)
+            
         }
+            
         .onReceive(self.searchDataContainer.targetDateWillChange) { newValue in
             self.localTargetTime = newValue
         }
@@ -249,6 +174,7 @@ struct ExploreView: View {
         }
         .navigationBarHidden(true)
         .navigationBarTitle("", displayMode: .inline)
+        .animation(.spring())
     }
 }
 

@@ -26,30 +26,13 @@ struct ContentView: View {
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    var gradient: LinearGradient {
-        LinearGradient(
-            gradient: Gradient(
-                colors: [Color.black.opacity(0.2), Color.black.opacity(0.0)]),
-            startPoint: .bottom,
-            endPoint: .top)
-    }
-    
     init() {
         UITableView.appearance().tableFooterView = UIView()
-        
         UITableView.appearance().separatorInset = .zero
     }
     
-    func makeGradientTopToBottom(colors: [Color]) -> some View {
-        LinearGradient(
-            gradient: .init(colors: colors),
-            startPoint: .top,
-            endPoint: .bottom
-        )
-    }
-    
     var body: some View {
-        NavigationView {
+        NavigationView() {
         VStack() {
             if !userData.isLogged {
                 ZStack(){

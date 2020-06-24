@@ -73,13 +73,20 @@ struct ExploreSearchButtonView: View {
                         HStack() {
                             Image(systemName: "magnifyingglass")
                                 .font(.system(size: 22, weight: .medium))
-                                .foregroundColor(.black)
                                 .fixedSize()
-                                .frame(width: 45, height: 45)
-                                .background(gradientGray)
-                                .clipShape(Circle())
+                                .frame(width: 24, height: 40)
+//                                .background(gradientGray)
+                            Text("Suche anpassen")
+                            .font(.avenirNextRegular(size: 16))
+                            .fontWeight(.medium)
                         }
+                        .padding(.horizontal, 10)
+                        .background(Color ("background1"))
+                        .foregroundColor(Color ("button1"))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .shadow(radius: 4, y: 2)
                     }
+                    Spacer()
             
                 }
                 .padding([.leading, .trailing], 20)

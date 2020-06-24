@@ -18,6 +18,7 @@ struct Group: Hashable, Codable, Identifiable {
     var administrators: [Profile]?
     var participants: [Profile]?
     var type: EventType?
+    fileprivate var imageName: String?
     
     init() {
 //        id = nil
@@ -46,4 +47,10 @@ struct Type: Hashable, Codable, Identifiable {
     var id: String
     var name: String
     
+}
+
+extension Group {
+    var image: Image {
+        ImageStore.shared.image(name: imageName!)
+    }
 }
