@@ -78,38 +78,66 @@ struct SearchView: View {
             ZStack() {
             ScrollView() {
                 
+
                     HStack() {
-                        Spacer()
-                            Text("Standort")
-                                .font(.avenirNextRegular(size: 20))
-                                .fontWeight(.medium)
-                        Spacer()
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 30)
-                
-                    HStack() {
+//                        Spacer()
+                        Text("Standort")
+                        .font(.avenirNextRegular(size: 20))
+                        .fontWeight(.semibold)
+                    Spacer()
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 30)
+
+                HStack(alignment: .top) {
                             Image("locationBlack")
                                 .resizable()
                                 .renderingMode(.original)
                                 .frame(width: 20, height: 20)
                                 .scaledToFill()
-                        
-                        VStack() {
-                            TextField("Location", text: self.$tmpLocationString)
-                                .font(.avenirNextRegular(size: 22))
-                                .offset(y: 5)
-                                .onTapGesture {
-                                    self.isFocused = true
-                                }
-                            Divider()
-                        }
-                        .padding(.trailing, 40)
-                            
-                            Spacer()
-                        }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 10)
+
+                    VStack(alignment: .leading) {
+                        Text("Ort")
+                            .font(.avenirNextRegular(size: 12))
+                            .fontWeight(.semibold)
+                        TextField("Wo willst du etwas unternehmen?", text: self.$tmpLocationString)
+                            .font(.avenirNextRegular(size: 18))
+//                                .offset(y: 5)
+                            .onTapGesture {
+                                self.isFocused = true
+                            }
+                        Divider()
+                    }
+                    .padding(.trailing, 40)
+
+                        Spacer()
+                    }
+                .padding(.horizontal, 20)
+                .padding(.top, 10)
+                .padding(.bottom, 2)
+                
+//                    HStack() {
+//                            Image("locationBlack")
+//                                .resizable()
+//                                .renderingMode(.original)
+//                                .frame(width: 20, height: 20)
+//                                .scaledToFill()
+//
+//                        VStack() {
+//                            TextField("Location", text: self.$tmpLocationString)
+//                                .font(.avenirNextRegular(size: 22))
+//                                .offset(y: 5)
+//                                .onTapGesture {
+//                                    self.isFocused = true
+//                                }
+//                            Divider()
+//                        }
+//                        .padding(.trailing, 40)
+//
+//                            Spacer()
+//                        }
+//                    .padding(.horizontal, 20)
+//                    .padding(.top, 10)
                 
                 HStack() {
                     HStack() {
@@ -131,26 +159,58 @@ struct SearchView: View {
                 }
                     .padding(.horizontal, 45)
                     .padding(.top, 5)
+                
+                
+
+                                HStack(alignment: .top) {
+                                            Image(systemName: "mappin.and.ellipse")
+                                            .font(.system(size: 18, weight: .medium))
+                                            .foregroundColor(.black)
+                                            .fixedSize()
+                                            .frame(width: 20, height: 20)
+
+                                    VStack(alignment: .leading) {
+                                        Text("max. Enterfernung")
+                                            .font(.avenirNextRegular(size: 12))
+                                            .fontWeight(.semibold)
+//                                        TextField("Wo willst du etwas unternehmen?", text: self.$tmpLocationString)
+//                                            .font(.avenirNextRegular(size: 18))
+//                //                                .offset(y: 5)
+//                                            .onTapGesture {
+//                                                self.isFocused = true
+//                                            }
+//                                        Divider()
+                                    }
+                                    .padding(.trailing, 40)
+
+                                        Spacer()
+                                    }
+                                .padding(.horizontal, 20)
+                                .padding(.top, 10)
+                                .padding(.bottom, 2)
+                
+                
+                
                             
-                    HStack() {
-                        
-                        Image(systemName: "mappin.and.ellipse")
-                            .font(.system(size: 18, weight: .medium))
-                            .foregroundColor(.black)
-                            .fixedSize()
-                            .frame(width: 20, height: 20)
-                        
-                        Text("max. Enterfernung: ")
-                            .font(.avenirNextRegular(size: 22))
-    //                        .fontWeight(.semibold)
-                        
-                        Spacer()
-                        
-                        Text("\(Int(self.tmpMaxDistance)) km")
-                        .font(.avenirNextRegular(size: 20))
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 25)
+//                    HStack() {
+//
+//                        Image(systemName: "mappin.and.ellipse")
+//                            .font(.system(size: 18, weight: .medium))
+//                            .foregroundColor(.black)
+//                            .fixedSize()
+//                            .frame(width: 20, height: 20)
+//
+//                        Text("max. Enterfernung: ")
+//                            .font(.avenirNextRegular(size: 22))
+//    //                        .fontWeight(.semibold)
+//
+//                        Spacer()
+//
+//                        Text("\(Int(self.tmpMaxDistance)) km")
+//                        .font(.avenirNextRegular(size: 20))
+//                    }
+//                    .padding(.horizontal, 20)
+//                    .padding(.top, 25)
                                         
                     HStack() {
                         Slider(value: self.$tmpMaxDistance, in: 2...150, step: 1)
@@ -381,23 +441,33 @@ struct ButtonAreaView: View {
         VStack(){
             
             // HEADLINE
-            HStack() {
-                Spacer()
-                    VStack(){
-                        Text("Aktivität")
-                            .font(.avenirNextRegular(size: 20))
-                            .fontWeight(.medium)
-                        if self.tmpEventTypes.count == 0 {
-                            Text("Wähle mindestens eine Aktivität")
-                                .font(.avenirNextRegular(size: 10))
-                                .fontWeight(.semibold)
-                                .foreground(gradientCherryPink)
-                        }
-                    }
-                Spacer()
-            }
-            .padding(.horizontal, 20)
-            .padding(.top, 20)
+//            HStack() {
+//                Spacer()
+//                    VStack(){
+//                        Text("Aktivität")
+//                            .font(.avenirNextRegular(size: 20))
+//                            .fontWeight(.medium)
+//                        if self.tmpEventTypes.count == 0 {
+//                            Text("Wähle mindestens eine Aktivität")
+//                                .font(.avenirNextRegular(size: 10))
+//                                .fontWeight(.semibold)
+//                                .foreground(gradientCherryPink)
+//                        }
+//                    }
+//                Spacer()
+//            }
+//            .padding(.horizontal, 20)
+//            .padding(.top, 20)
+
+                                HStack() {
+            //                        Spacer()
+                                    Text("Aktivität")
+                                    .font(.avenirNextRegular(size: 20))
+                                    .fontWeight(.semibold)
+                                Spacer()
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.top, 30)
             
             // BUTTON FOOD
             Button(action: {
@@ -512,17 +582,30 @@ struct RequestView: View {
             
             Divider()
             // HEADLINE
-            HStack() {
-                Spacer()
-                    VStack(){
-                        Text("Anfrage / Suche")
-                            .font(.avenirNextRegular(size: 20))
-                            .fontWeight(.medium)
-                    }
-                Spacer()
-            }
-            .padding(.horizontal, 20)
-            .padding(.top, 20)
+//            HStack() {
+//                Spacer()
+//                    VStack(){
+//                        Text("Anfrage / Suche")
+//                            .font(.avenirNextRegular(size: 20))
+//                            .fontWeight(.medium)
+//                    }
+//                Spacer()
+//            }
+//            .padding(.horizontal, 20)
+//            .padding(.top, 20)
+            
+
+                                HStack() {
+            //                        Spacer()
+                                    Text("Anfrage / Suche")
+                                    .font(.avenirNextRegular(size: 20))
+                                    .fontWeight(.semibold)
+                                Spacer()
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.top, 30)
+            
+            
             
             
             
@@ -570,9 +653,9 @@ struct RequestView: View {
                         .padding(.trailing)
                 }
                 .frame(height: 46)
-                .foreground(gradientPinkVioletBlueAccent)
-                .background(gradientGray)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .foreground(gradientAccentSea)
+//                .background(gradientGray)
+//                .clipShape(RoundedRectangle(cornerRadius: 20))
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 10)
@@ -595,8 +678,8 @@ struct RequestView: View {
                 }
                 .frame(height: 46)
                 .foreground(gradientPinkPinkAndPeach)
-                .background(gradientGray)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
+//                .background(gradientGray)
+//                .clipShape(RoundedRectangle(cornerRadius: 20))
             }
             .padding(.horizontal, 20)
         }

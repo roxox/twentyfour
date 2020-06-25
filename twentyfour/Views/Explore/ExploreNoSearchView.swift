@@ -64,13 +64,13 @@ struct ExploreNoSearchView: View {
                             .padding(.trailing)
                     }
                     .frame(height: 46)
-                    .foreground(gradientPinkBlueAccent)
+                    .foreground(gradientBlueAccentSea)
 //                    .foreground(gradientPinkVioletBlueAccent)
 //                    .background(gradientGray)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .clipShape(RoundedRectangle(cornerRadius: 23))
                     .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(gradientPinkBlueAccent, lineWidth: 2)
+                        RoundedRectangle(cornerRadius: 23)
+                            .stroke(gradientBlueAccentSea, lineWidth: 2)
                     )
                 }
                 

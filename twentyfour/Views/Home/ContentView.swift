@@ -22,7 +22,7 @@ struct ContentView: View {
     @State var showButtons = false
     @State var pageIndex_old = 0
     @State var pageIndex = 0
-    @State var lockScreen: Bool = false
+    @State var isButtonBarHidden: Bool = false
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -54,7 +54,8 @@ struct ContentView: View {
                                 searchDataContainer: searchDataContainer,
                                 items: appUserData,
                                 pageIndex_old: $pageIndex_old,
-                                pageIndex: $pageIndex
+                                pageIndex: $pageIndex,
+                                isButtonBarHidden: self.$isButtonBarHidden
                             )
                         }
                         else {
@@ -81,10 +82,16 @@ struct ContentView: View {
                     ButtonBarView(pageIndex: $pageIndex)
 //                        .background(Color ("background1"))
                         .background(Color .clear)
-                        .offset(y: userData.buttonBarOffset)
+                        .offset(y: isButtonBarHidden ? CGFloat(150) : CGFloat(0))
                 }
                 .animation(.spring())
                     
+//                VStack() {
+//                    Spacer()
+//                    Rectangle().fill(Color ("background1"))
+//                        .frame(height: 30)
+//                }
+                
                 VStack() {
                     SearchView(
                         searchDataContainer: searchDataContainer)
@@ -101,6 +108,7 @@ struct ContentView: View {
         .navigationBarHidden(true)
         .navigationBarTitle("", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
+//        .edgesIgnoringSafeArea(.bottom)
     }
     }
     

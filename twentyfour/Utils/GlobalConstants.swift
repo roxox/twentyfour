@@ -180,3 +180,36 @@ var gradientAccentBlue: LinearGradient {
         startPoint: .topLeading,
         endPoint: .bottomTrailing)
 }
+
+var gradientAccentSea: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(
+            colors:
+            [
+//                .pink,
+//                .purple,
+//                Color ("Violet"),
+//                .blue,
+            Color ("accent"),
+            Color ("Sea"),
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing)
+}
+
+
+var gradientBlueAccentSea: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(
+            colors:
+            [
+//                .pink,
+//                .purple,
+//                Color ("Violet"),
+                .blue,
+            Color ("accent"),
+            Color ("Sea"),
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing)
+}

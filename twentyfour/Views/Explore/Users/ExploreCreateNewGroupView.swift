@@ -42,8 +42,14 @@ struct ExploreCreateNewGroupView: View {
         var group = Group()
         group.title = tmpTitleString
         group.type = selectedEventType
+        group.imageName = "essen"
+        group.id = String(userData.appGroups.count + 1)
         
-        userData.groupList.append(group)
+//        userData.groupList.append(group)
+        userData.appGroups.append(group)
+        for gr in userData.appGroups {
+            print(gr.title)
+        }
         self.resetGroupValues()
     }
     
@@ -51,55 +57,55 @@ struct ExploreCreateNewGroupView: View {
         
         GeometryReader { geometry in
             ZStack() {
-//                VStack(){
-////                    Buutons
-//                    HStack(){
-////                        CANCEL BUTTON
-//                        Button(action: {
-//                            withAnimation(.linear(duration: 0.2)) {
-//                                self.presentationMode.wrappedValue.dismiss()
-//                            }
-//                        }) {
-//                            HStack(){
-////                                Image(systemName: "xmark")
-////                                    .font(.system(size: 20, weight: .medium))
-////                                    .frame(width: 36, height: 36)
-//                                Text("zurück")
-//                                    .font(.avenirNextRegular(size: 16))
-//                                    .fontWeight(.semibold)
-//                            }
-//                        }
-//                        .frame(height: 20)
-//                        .foregroundColor(Color ("button1"))
-//
-//                        Spacer()
-//
-////                        SAFE
-//                        if self.tmpTitleString != "" {
-//                            Button(action: {
-//                                withAnimation(.linear(duration: 0.2)) {
-//                                    self.createNewGroup()
-//                                }
-//                            }) {
-//                                HStack(){
-//                                    Text("Erstellen")
-//                                        .font(.avenirNextRegular(size: 16))
-//                                        .fontWeight(.semibold)
-//                                    Image(systemName: "arrow.right")
-//                                        .font(.system(size: 20, weight: .medium))
-//                                        .frame(width: 36, height: 36)
-//                                }
-//                            }
-//                            .frame(height: 20)
-//                            .foregroundColor(Color ("button1"))
-//                        }
-//                    }
-//                    .padding(.horizontal, 15)
-//                    .frame(minWidth: 0, maxWidth: .infinity)
-//                        .background(Color ("background1"))
-//                    Spacer()
-//                }
-//                .offset(y: 10)
+                VStack(){
+//                    Buutons
+                    HStack(){
+//                        CANCEL BUTTON
+                        Button(action: {
+                            withAnimation(.linear(duration: 0.2)) {
+                                self.presentationMode.wrappedValue.dismiss()
+                            }
+                        }) {
+                            HStack(){
+//                                Image(systemName: "xmark")
+//                                    .font(.system(size: 20, weight: .medium))
+//                                    .frame(width: 36, height: 36)
+                                Text("zurück")
+                                    .font(.avenirNextRegular(size: 16))
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                        .frame(height: 20)
+                        .foregroundColor(Color ("button1"))
+
+                        Spacer()
+
+//                        SAFE
+                        if self.tmpTitleString != "" {
+                            Button(action: {
+                                withAnimation(.linear(duration: 0.2)) {
+                                    self.createNewGroup()
+                                }
+                            }) {
+                                HStack(){
+                                    Text("Erstellen")
+                                        .font(.avenirNextRegular(size: 16))
+                                        .fontWeight(.semibold)
+                                    Image(systemName: "arrow.right")
+                                        .font(.system(size: 20, weight: .medium))
+                                        .frame(width: 36, height: 36)
+                                }
+                            }
+                            .frame(height: 20)
+                            .foregroundColor(Color ("button1"))
+                        }
+                    }
+                    .padding(.horizontal, 15)
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                        .background(Color ("background1"))
+                    Spacer()
+                }
+                .offset(y: 10)
                 
                 // Page
                 ScrollView() {
@@ -107,27 +113,31 @@ struct ExploreCreateNewGroupView: View {
                         HStack() {
 //                        Spacer()
                             Text("Pflichtangaben")
-                                .font(.avenirNextRegular(size: 14))
-                                .fontWeight(.semibold)
+                            .font(.avenirNextRegular(size: 20))
+                            .fontWeight(.semibold)
                         Spacer()
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 30)
 
-                    HStack() {
+                    HStack(alignment: .top) {
                         Image(systemName: "pencil")
-                            .font(.system(size: 14, weight: .medium))
+                            .font(.system(size: 18, weight: .semibold))
                             .fixedSize()
-                            .frame(width: 20, height: 20)
+                            .frame(width: 30, height: 30)
+                            .padding(.trailing, 10)
 
                         VStack(alignment: .leading) {
-                            TextField("Titel", text: self.$tmpTitleString)
-                                .font(.avenirNextRegular(size: 22))
-                                .offset(y: 5)
+                            Text("Titel")
+                                .font(.avenirNextRegular(size: 12))
+                                .fontWeight(.semibold)
+                            TextField("Gib dem Ganzen einen Namen", text: self.$tmpTitleString)
+                                .font(.avenirNextRegular(size: 18))
+//                                .offset(y: 5)
                                 .onTapGesture {
                                     self.isFocused = true
                                 }
-
+                            Divider()
                         }
                         .padding(.trailing, 40)
 
@@ -138,132 +148,150 @@ struct ExploreCreateNewGroupView: View {
                     .padding(.bottom, 20)
 
                     Divider()
+                    
                     HStack() {
-//                        Spacer()
-                            Text("optionale Angaben")
-                                .font(.avenirNextRegular(size: 14))
-                                .fontWeight(.semibold)
+                            Text("Optionale Angaben")
+                            .font(.avenirNextRegular(size: 20))
+                            .fontWeight(.semibold)
                         Spacer()
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 20)
 
-                        HStack() {
-                            Image(systemName: "house")
-                            .font(.system(size: 18, weight: .medium))
-//                            .foregroundColor(.black)
+                    HStack(alignment: .top) {
+                        Image(systemName: "house")
+                            .font(.system(size: 18, weight: .semibold))
                             .fixedSize()
-                            .frame(width: 20, height: 20)
+                            .frame(width: 30, height: 30)
+                            .padding(.trailing, 10)
 
-                            VStack(alignment: .leading) {
-                                TextField("Location", text: self.$tmpLocationString)
-                                    .font(.avenirNextRegular(size: 22))
-                                    .offset(y: 5)
-                                    .onTapGesture {
-                                        self.isFocused = true
-                                    }
-                                Divider()
-                            }
-                            .padding(.trailing, 40)
+                        VStack(alignment: .leading) {
+                            Text("Location")
+                                .font(.avenirNextRegular(size: 12))
+                                .fontWeight(.semibold)
+                            TextField("Wo soll es hingehen?", text: self.$tmpTitleString)
+                                .font(.avenirNextRegular(size: 18))
+//                                .offset(y: 5)
+                                .onTapGesture {
+                                    self.isFocused = true
+                                }
+                            Divider()
+                        }
+                        .padding(.trailing, 40)
 
-                                Spacer()
-                            }
+                            Spacer()
+                        }
                         .padding(.horizontal, 20)
                         .padding(.top, 10)
-                        .padding(.bottom, 10)
+                        .padding(.bottom, 20)
 
-                        HStack() {
-                                Image(systemName: "mappin.and.ellipse")
-                                .font(.system(size: 18, weight: .medium))
-//                                .foregroundColor(.black)
-                                .fixedSize()
-                                .frame(width: 20, height: 20)
-
-                            VStack(alignment: .leading) {
-                                TextField("Treffpunkt", text: self.$tmpMeetingString)
-                                    .font(.avenirNextRegular(size: 22))
-                                    .offset(y: 5)
-                                    .onTapGesture {
-                                        self.isFocused = true
-                                    }
-                                Divider()
-                            }
-                            .padding(.trailing, 40)
-
-                                Spacer()
-                            }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 10)
-                        .padding(.bottom, 10)
-
-                            HStack() {
-                                    Image(systemName: "alarm")
-                                    .font(.system(size: 18, weight: .medium))
-                                    .fixedSize()
-                                    .frame(width: 20, height: 20)
-
-                                VStack(alignment: .leading) {
-                                    TextField("Zeitpunkt", text: self.$tmpTimeString)
-                                        .font(.avenirNextRegular(size: 22))
-                                        .offset(y: 5)
-                                        .onTapGesture {
-                                            self.isFocused = true
-                                        }
-                                    Divider()
-                                }
-                                .padding(.trailing, 40)
-
-                                    Spacer()
-                                }
-                            .padding(.horizontal, 20)
-                            .padding(.top, 10)
-                            .padding(.bottom, 20)
+//                        HStack() {
+//                                Image(systemName: "mappin.and.ellipse")
+//                                .font(.system(size: 18, weight: .medium))
+//                                .fixedSize()
+//                                .frame(width: 20, height: 16)
+//                                .padding(.trailing, 10)
 //
+//                            VStack(alignment: .leading) {
+//                                TextField("Treffpunkt", text: self.$tmpMeetingString)
+//                                .font(.avenirNextRegular(size: 18))
+//                                    .offset(y: 5)
+//                                    .onTapGesture {
+//                                        self.isFocused = true
+//                                    }
+//                                Divider()
+//                            }
+//                            .padding(.trailing, 40)
 //
-////                    Divider()
+//                                Spacer()
+//                            }
+//                        .padding(.horizontal, 20)
+//                        .padding(.top, 10)
+//                        .padding(.bottom, 10)
+
+                                        HStack(alignment: .top) {
+                                            Image(systemName: "mappin.and.ellipse")
+                                                .font(.system(size: 18, weight: .semibold))
+                                                .fixedSize()
+                                                .frame(width: 30, height: 30)
+                                                .padding(.trailing, 10)
+
+                                            VStack(alignment: .leading) {
+                                                Text("Treffpunkt")
+                                                    .font(.avenirNextRegular(size: 12))
+                                                    .fontWeight(.semibold)
+                                                TextField("Wo kann man sich dort treffen?", text: self.$tmpTitleString)
+                                                    .font(.avenirNextRegular(size: 18))
+                    //                                .offset(y: 5)
+                                                    .onTapGesture {
+                                                        self.isFocused = true
+                                                    }
+                                                Divider()
+                                            }
+                                            .padding(.trailing, 40)
+
+                                                Spacer()
+                                            }
+                                            .padding(.horizontal, 20)
+                                            .padding(.top, 10)
+                                            .padding(.bottom, 20)
+                    
+                    
+//                            HStack() {
+//                                    Image(systemName: "alarm")
+//                                    .font(.system(size: 18, weight: .medium))
+//                                    .fixedSize()
+//                                    .frame(width: 20, height: 16)
+//                                    .padding(.trailing, 10)
 //
-//                    // ITO
-////                    ExploreCreateNewGroupActivitySection(selectedEventType: self.$selectedEventType)
+//                                VStack(alignment: .leading) {
+//                                    TextField("Zeitpunkt", text: self.$tmpTimeString)
+//                                    .font(.avenirNextRegular(size: 18))
+//                                        .offset(y: 5)
+//                                        .onTapGesture {
+//                                            self.isFocused = true
+//                                        }
+//                                    Divider()
+//                                }
+//                                .padding(.trailing, 40)
 //
-//
-////                    HStack(alignment: .bottom )  {
-////                        Spacer()
-////                            Text("Ausgewählte User")
-////                                .font(.avenirNextRegular(size: 20))
-////                                .fontWeight(.semibold)
-////
-////                        Button(action: {
-////                            withAnimation(.linear(duration: 0.2)) {
-////                                self.presentationMode.wrappedValue.dismiss()
-////                            }
-////                        }) {
-////                            Text("ändern")
-////                            .font(.avenirNextRegular(size: 16))
-////                        }
-////
-////                        Spacer()
-////                    }
-////                    .padding(.horizontal, 20)
-////                    .padding(.top, 20)
-////
-////                    ScrollView(.horizontal, showsIndicators: false) {
-////                        HStack(){
-////                            ForEach(self.groupList, id: \.self) { profile in
-////                                profile.image
-////                                .renderingMode(.original)
-////                                .resizable()
-////                                .scaledToFill()
-////                                .clipShape(Circle())
-////                                .frame(width: 66 ,height: 66)
-////                                    .padding(.trailing, -50)
-////                            }
-////                        }
-////                        .padding(.horizontal, 20)
-////                    }
-////                    .padding(.bottom, 80)
+//                                    Spacer()
+//                                }
+//                            .padding(.horizontal, 20)
+//                            .padding(.top, 10)
+//                            .padding(.bottom, 20)
+
+                                        HStack(alignment: .top) {
+                                            Image(systemName: "alarm")
+                                                .font(.system(size: 18, weight: .semibold))
+                                                .fixedSize()
+                                                .frame(width: 30, height: 30)
+                                                .padding(.trailing, 10)
+
+                                            VStack(alignment: .leading) {
+                                                Text("Zeitpunkt")
+                                                    .font(.avenirNextRegular(size: 12))
+                                                    .fontWeight(.semibold)
+                                                TextField("Wann wollt ihr euch treffen?", text: self.$tmpTitleString)
+                                                    .font(.avenirNextRegular(size: 18))
+                    //                                .offset(y: 5)
+                                                    .onTapGesture {
+                                                        self.isFocused = true
+                                                    }
+                                                Divider()
+                                            }
+                                            .padding(.trailing, 40)
+
+                                                Spacer()
+                                            }
+                                            .padding(.horizontal, 20)
+                                            .padding(.top, 10)
+                                            .padding(.bottom, 20)
+                    
+                    Divider()
+                    
                 }
                 .padding(.top, 30)
-Spacer()
 
                     .onAppear() {
                         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { (noti)  in
@@ -341,9 +369,9 @@ Spacer()
             //                    .edgesIgnoringSafeArea(.bottom)
                             }
         }
-        .navigationBarHidden(false)
-        .navigationBarTitle("Neue Gruppe", displayMode: .inline)
-//        .navigationBarBackButtonHidden(true)
+        .navigationBarHidden(true)
+        .navigationBarTitle("", displayMode: .inline)
+        .navigationBarBackButtonHidden(true)
     }
 }
 

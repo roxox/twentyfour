@@ -20,11 +20,9 @@ struct ExploreCreateGroupView: View {
     @Binding var tmpLocationString: String
     @Binding var tmpTimeString: String
     @Binding var tmpMeetingString: String
+    @Binding var isButtonBarHidden: Bool
     
     @State var showCard: Bool = false
-    
-    // Muss nicht übergeben werden
-    @Binding var showProfile: Bool
     
         
     var gradient: LinearGradient {
@@ -48,7 +46,8 @@ struct ExploreCreateGroupView: View {
 //            isMenuCollapsed = true
 //            isMenuMinimized = false
 //            userData.createGroupMenuOffsetY = menuCollapsed
-            userData.buttonBarOffset = CGFloat (0)
+//            userData.buttonBarOffset = CGFloat (0)
+            isButtonBarHidden = false
             resetGroupValues()
         }
     }
@@ -104,12 +103,19 @@ struct ExploreCreateGroupView: View {
                         // Headline ausgewähle User
                         HStack(){
 //                            Spacer()
-                            VStack(){
-                                Text("Ausgewähle Personen")
-                                        .font(.avenirNextRegular(size: 14))
-                                        .fontWeight(.semibold)
+                            VStack(alignment: .leading){
+                                Text("Ausgewählte Personen")
+                                .font(.avenirNextRegular(size: 20))
+                                .fontWeight(.semibold)
                                         .fixedSize(horizontal: false, vertical: true)
                                         .lineLimit(1)
+                                
+                                
+                                Text("Es sind \(self.groupList.count) Personen ausgewählt, die in die Gruppe eingeladen werden.")
+                                .font(.avenirNextRegular(size: 16))
+                                .fontWeight(.light)
+                                        .fixedSize(horizontal: false, vertical: false)
+                                        .lineLimit(3)
                             }
 
                             Spacer()
@@ -131,7 +137,9 @@ struct ExploreCreateGroupView: View {
                                         VStack(){
                                         HStack(){
                                             Button(action: {
-                                                self.removeFromGroupList(profile: profile)
+                                                withAnimation(.linear(duration: 0.2)) {
+                                                    self.removeFromGroupList(profile: profile)
+                                                }
 //                                                self.showCard.toggle()
                                             }) {
                                                 VStack() {
@@ -158,9 +166,9 @@ struct ExploreCreateGroupView: View {
                                                 showCard: self.$showCard
                                             )
                                         }
-                                        .animation(nil)
+//                                        .animation(.spring())
                                         }
-                                    .animation(nil)
+//                                        .animation(.spring())
                                         //END: Zeilen Element pro ausgewähltem User
 
                                     }
@@ -182,11 +190,9 @@ struct ExploreCreateGroupView: View {
                         
                         // Headline EventType
                         HStack(){
-//                            Spacer()
                             VStack(alignment: .leading) {
-//                                Spacer()
                                 Text("Wähle eine Aktivität für die Gruppe")
-                                .font(.avenirNextRegular(size: 14))
+                                .font(.avenirNextRegular(size: 20))
                                 .fontWeight(.semibold)
                                         .fixedSize(horizontal: false, vertical: true)
                                         .lineLimit(1)
@@ -227,7 +233,7 @@ struct ExploreCreateGroupView: View {
                                 EventTypeSelectorButton(
                                     searchData: self.searchData,
                                     eventType: .sport,
-                                    imageString: "essen",
+                                    imageString: "sport2",
                                     buttonTextString: "Sport",
                                     selectedEventType: self.$selectedEventType,
                                     groupList: self.$groupList
@@ -344,6 +350,7 @@ struct HeaderSectionView: View {
     @Binding var tmpLocationString: String
     @Binding var tmpTimeString: String
     @Binding var tmpMeetingString: String
+    @Binding var isButtonBarHidden: Bool
 
         
         func deleteGroupList() {
@@ -354,13 +361,15 @@ struct HeaderSectionView: View {
 //                isMenuCollapsed = false
 //                isMenuMinimized = true
     //            userData.createGroupMenuOffsetY = menuMinimized3
-                userData.buttonBarOffset = CGFloat (100)
+                isButtonBarHidden = true
+//                userData.buttonBarOffset = CGFloat (100)
 //                screenLock = true
             } else {
 //                isMenuCollapsed = true
 //                isMenuMinimized = false
     //            userData.createGroupMenuOffsetY = menuCollapsed
-                userData.buttonBarOffset = CGFloat (0)
+//                userData.buttonBarOffset = CGFloat (0)
+                isButtonBarHidden = false
 //                screenLock = false
             }
         }
@@ -412,12 +421,13 @@ struct HeaderSectionView: View {
                                .frame(width: 20, height: 20)
                            }
                         }
+                        .buttonStyle(BorderlessButtonStyle())
                         .foregroundColor(Color ("button1"))
                         .disabled(self.selectedEventType == nil || self.groupList.count == 0)
                     }
                 }
             }
-            .padding(.horizontal, 10)
+            .padding(.horizontal, 20)
 //            .padding(.top, 12)
             HStack(){
                 Spacer()

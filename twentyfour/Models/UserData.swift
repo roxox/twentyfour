@@ -13,7 +13,6 @@ var menuMinimized3: CGFloat = UIScreen.main.bounds.height/3 + 110
 let menuExpanded: CGFloat = 0
 
 
-
 let menuIn: CGFloat = 0
 let menuLeftOut: CGFloat = -UIScreen.main.bounds.width
 

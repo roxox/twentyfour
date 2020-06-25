@@ -44,41 +44,61 @@ struct ExploreGroupView: View {
 //            Text("Hallo")
 //        }
             
-            if groupList.count == 0 {
                 HStack(){
                     Text("Schließe dich Gruppen an")
-                        .foregroundColor(Color ("button1"))
+//                        .foregroundColor(Color ("button1"))
+                        .foregroundColor(Color ("button1_inverted"))
                         .font(.avenirNextRegular(size: 20))
                         .fontWeight(.medium)
                         .padding(.top)
                         .padding(.horizontal)
                     Spacer()
                 }
+                .padding(.top, 30)
             
                 HStack(){
                     Text("Lass dich von anderen Gruppen inspirieren und frage an, ob du dich anschließen kannst.")
-                        .foregroundColor(Color ("button1"))
-                        .font(.avenirNextRegular(size: 12))
+//                        .foregroundColor(Color ("button1"))
+                        .foregroundColor(Color ("button1_inverted"))
+                        .font(.avenirNextRegular(size: 16))
                         .fontWeight(.light)
                         .lineLimit(5)
-                        .frame(height: 40)
+                        .frame(height: 60)
 //                        .padding(.bottom)
                         .padding(.horizontal)
                     Spacer()
                 }
-            }
+            
             
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(alignment: .top, spacing: 0) {
 
                 ForEach(userData.appGroups) { group in
                     GeometryReader { geometry in
-                        GroupRowItem(
-                            group: group,
-                            selectedEventType: self.$selectedEventType,
-                            groupList: self.$groupList,
-                            showProfile: self.$showProfile
-                        )
+                        
+                        
+                        NavigationLink(
+                            destination: GroupDetail()
+
+                        ) {
+                            GroupRowItem(
+                                group: group,
+                                selectedEventType: self.$selectedEventType,
+                                groupList: self.$groupList,
+                                showProfile: self.$showProfile
+                            )
+                        }
+                        .buttonStyle(BorderlessButtonStyle())
+//                        .foregroundColor(Color ("button1"))
+//                        .disabled(self.selectedEventType == nil || self.groupList.count == 0)
+                        
+                        
+//                        GroupRowItem(
+//                            group: group,
+//                            selectedEventType: self.$selectedEventType,
+//                            groupList: self.$groupList,
+//                            showProfile: self.$showProfile
+//                        )
 //                            .rotation3DEffect(Angle(degrees:
 //                                (Double(geometry.frame(in: .global).minX)) / -65
 //                            ), axis: (x:0, y:10, z:0))
@@ -88,7 +108,7 @@ struct ExploreGroupView: View {
             }
             .padding(.bottom, 60)
         }
-        .animation(.spring())
+//        .animation(.spring())
         Spacer()
         }
     }
@@ -119,8 +139,8 @@ struct GroupRowItem: View {
                         )
                 )
                 .cornerRadius(10)
-                .shadow(color: .init(red: 0.5, green: 0.5, blue: 0.5)
-                , radius: 9, x: 0, y: 4)
+//                .shadow(color: .init(red: 0.5, green: 0.5, blue: 0.5)
+//                , radius: 9, x: 0, y: 4)
             }
 //        .padding(10)
     }
@@ -189,7 +209,8 @@ struct GroupOverlay: View {
                     Spacer()
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height/3.3)
-                    .background(Color ("background1_inverted"))
+//                    .background(Color ("background1_inverted"))
+                    .background(Color ("background4"))
             }
             
             }

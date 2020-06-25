@@ -20,6 +20,7 @@ struct ExploreProfileView: View {
     @Binding var tmpLocationString: String
     @Binding var tmpTimeString: String
     @Binding var tmpMeetingString: String
+    @Binding var isButtonBarHidden: Bool
     
     @State var showProfile = false
     func addToGroupList(profile: Profile) {
@@ -56,10 +57,10 @@ struct ExploreProfileView: View {
                 HStack(){
                     Text("Finde andere User mit gleichen Interessen und gründet Gruppen um zusammen etwas zu unternehmen, denn zusammen ist man weniger allein.")
                         .foregroundColor(Color ("button1"))
-                        .font(.avenirNextRegular(size: 12))
+                        .font(.avenirNextRegular(size: 16))
                         .fontWeight(.light)
                         .lineLimit(5)
-                        .frame(height: 60)
+                        .frame(height: 90)
 //                        .padding(.bottom)
                         .padding(.horizontal)
                     Spacer()
@@ -71,7 +72,8 @@ struct ExploreProfileView: View {
                 tmpTitleString: self.$tmpTitleString,
                 tmpLocationString: self.$tmpLocationString,
                 tmpTimeString: self.$tmpTimeString,
-                tmpMeetingString: self.$tmpMeetingString)
+                tmpMeetingString: self.$tmpMeetingString,
+                isButtonBarHidden: self.$isButtonBarHidden)
 //                    .offset(y: 10)
 
                 Spacer()
@@ -86,17 +88,20 @@ struct ExploreProfileView: View {
                             profile: profile,
                             selectedEventType: self.$selectedEventType,
                             groupList: self.$groupList,
-                            showProfile: self.$showProfile
+                            showProfile: self.$showProfile,
+                            isButtonBarHidden: self.$isButtonBarHidden
                         )
 //                            .rotation3DEffect(Angle(degrees:
 //                                (Double(geometry.frame(in: .global).minX)) / -65
 //                            ), axis: (x:0, y:10, z:0))
                     }
-                    .frame(width: 280, height: 390)
+                    .frame(width: 250, height: 350)
                 }
             }
         }
-        .animation(.spring())
+        .padding(.bottom, 30)
+        
+//        .animation(.spring())
         Spacer()
         }
 //        .navigationBarHidden(true)
@@ -112,6 +117,7 @@ struct RowItem: View {
     @Binding var selectedEventType: EventType?
     @Binding var groupList: [Profile]
     @Binding var showProfile: Bool
+    @Binding var isButtonBarHidden: Bool
     
     var body: some View {
             VStack(alignment: .leading) {
@@ -119,16 +125,17 @@ struct RowItem: View {
                 .renderingMode(.original)
                 .resizable()
                 .scaledToFill()
-                    .frame(width: UIScreen.main.bounds.width*0.63 ,height: UIScreen.main.bounds.width*0.82)
+                    .frame(width: UIScreen.main.bounds.width*0.55 ,height: UIScreen.main.bounds.width*0.73)
 //                    .frame(width: UIScreen.main.bounds.width*0.73 ,height: UIScreen.main.bounds.width*0.74)
                     .overlay(AppUserTextOverlay(
                         currentProfile: self.profile,
                         selectedEventType: self.$selectedEventType,
                         groupList: self.$groupList,
-                        showProfile: $showProfile
+                        showProfile: $showProfile,
+                        isButtonBarHidden: self.$isButtonBarHidden
                         )
                 )
-                .cornerRadius(15)
+                .cornerRadius(20)
                 .shadow(color: .init(red: 0.5, green: 0.5, blue: 0.5)
                 , radius: 9 , x: 0, y: 4)
             }
@@ -149,6 +156,7 @@ struct AppUserTextOverlay: View {
     
     @Binding var groupList: [Profile]
     @Binding var showProfile: Bool
+    @Binding var isButtonBarHidden: Bool
     
     @State var showCard = false
     @State var userId: String = String()
@@ -165,7 +173,7 @@ struct AppUserTextOverlay: View {
     
     func setBottomOpacity(profile: Profile) -> Color {
         if groupList.contains(profile) {
-            return Color.black.opacity(0.7)
+            return Color.black.opacity(0.6)
         } else {
             return Color.black.opacity(0.6)
         }
@@ -173,7 +181,7 @@ struct AppUserTextOverlay: View {
     
     func setOverlayPosition(profile: Profile) -> UnitPoint {
         if groupList.contains(profile) {
-            return .top
+            return .center
         } else {
             return .center
         }
@@ -216,14 +224,16 @@ struct AppUserTextOverlay: View {
     func expandCreateGroupMenu() {
 //        self.isMenuCollapsed = false
 //        self.isMenuMinimized = false
-        userData.buttonBarOffset = CGFloat (150)
+//        userData.buttonBarOffset = CGFloat (150)
+        isButtonBarHidden = true
 //        screenLock = true
     }
     
     func closeCreateGroupMenu() {
 //        self.isMenuCollapsed = true
 //        self.isMenuMinimized = false
-        userData.buttonBarOffset = CGFloat (0)
+//        userData.buttonBarOffset = CGFloat (0)
+        isButtonBarHidden = false
 //        screenLock = false
     }
     
@@ -232,7 +242,7 @@ struct AppUserTextOverlay: View {
             gradient: Gradient(
                 colors: [setBottomOpacity(profile: currentProfile), setTopOpacity(profile: currentProfile)]),
             startPoint: .bottom,
-            endPoint: .top)
+            endPoint: setOverlayPosition(profile: currentProfile))
     }
     
     func printGeoValue(geo: GeometryProxy) -> CGFloat {
@@ -268,19 +278,48 @@ struct AppUserTextOverlay: View {
                 HStack() {
                     VStack(alignment: .leading) {
                         Spacer()
-                        Text(self.currentProfile.username)
-                            .foregroundColor(Color ("button1_inverted"))
-//                            .font(.avenirNextRegular(size: 24))
-                            .font(.avenirNextRegular(size: 20))
-                            .fontWeight(.semibold)
-                            .padding(.top)
-                            .padding(.horizontal)
-                        Text(self.currentProfile.searchParameter.locationName)
-                            .foregroundColor(Color ("button1_inverted"))
-                            .font(.avenirNextRegular(size: 14))
-                            .fontWeight(.light)
-                            .padding(.horizontal)
-                            .padding(.bottom)
+                        
+                        
+                       NavigationLink(
+                           destination: GroupDetail()
+
+                       ) {
+                           Text(self.currentProfile.username)
+                               .foregroundColor(Color ("button1_inverted"))
+                               .font(.avenirNextRegular(size: 20))
+                               .fontWeight(.semibold)
+                               .padding(.top)
+                               .padding(.horizontal)
+                       }
+                       .buttonStyle(BorderlessButtonStyle())
+                        
+                        HStack() {
+                            
+                            
+                            Image("locationBlack")
+                                .resizable()
+                                .renderingMode(.original)
+                                .frame(width: 16, height: 16)
+                                .scaledToFill()
+                                .foreground(gradientWhite)
+                                .padding(.leading)
+                            
+//                            Image(systemName: "location.fill")
+//                                .font(.system(size: 14, weight: .medium))
+//                                .fixedSize()
+//                                .frame(width: 14, height: 14)
+//                                .foregroundColor(.white)
+//                                .padding(.leading)
+                            
+                            Text(self.currentProfile.searchParameter.locationName)
+                                .foregroundColor(Color ("button1_inverted"))
+                                .font(.avenirNextRegular(size: 14))
+                                .fontWeight(.light)
+                                .padding(.trailing)
+                        }
+                        .offset(y: -10)
+                        .padding(.bottom, 10)
+                        
                     }
                     Spacer()
                     
@@ -289,17 +328,21 @@ struct AppUserTextOverlay: View {
                         Spacer()
 
                         Button(action: {
-                            self.didPressAddRemoveButton(profile: self.currentProfile)
+                            withAnimation(.linear(duration: 0.2)) {
+                                self.didPressAddRemoveButton(profile: self.currentProfile)
+                            }
                         }) {
                             Image(systemName: self.groupList.contains(self.currentProfile) ? "checkmark" : "plus")
                                 .font(.system(size: 24, weight: .medium))
+                                .frame(width: 26, height: 26)
+                                .foreground(self.groupList.contains(self.currentProfile) ? gradientAccentSea : gradientWhite)
                         }
-                        .foregroundColor(Color ("button1_inverted"))
+//                        .foregroundColor(Color ("button1_inverted"))
                         .padding(.bottom)
                         .padding(.horizontal)
                     }
                 }
-                .frame(width: geometry.size.width, height: geometry.size.height/5)
+//                .frame(width: geometry.size.width, height: geometry.size.height)
                 .background(self.gradient)
             }
         }

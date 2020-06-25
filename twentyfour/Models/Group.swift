@@ -18,7 +18,8 @@ struct Group: Hashable, Codable, Identifiable {
     var administrators: [Profile]?
     var participants: [Profile]?
     var type: EventType?
-    fileprivate var imageName: String?
+//    fileprivate var imageName: String?
+    var imageName: String?
     
     init() {
 //        id = nil

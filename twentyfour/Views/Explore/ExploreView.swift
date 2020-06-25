@@ -17,6 +17,7 @@ struct ExploreView: View {
     @Binding var pageIndex_old: Int
 //    @Binding var groupList: [Profile]
     @Binding var pageIndex: Int
+    @Binding var isButtonBarHidden: Bool
     
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -100,7 +101,8 @@ struct ExploreView: View {
                                 tmpTitleString: self.$tmpTitleString,
                                 tmpLocationString: self.$tmpLocationString,
                                 tmpTimeString: self.$tmpTimeString,
-                                tmpMeetingString: self.$tmpMeetingString
+                                tmpMeetingString: self.$tmpMeetingString,
+                                isButtonBarHidden: self.$isButtonBarHidden
                             )
 
                             if groupList.count == 0 {
@@ -109,8 +111,9 @@ struct ExploreView: View {
                                     selectedEventType: $selectedEventType,
                                     groupList: $groupList
                                 )
-                                .opacity(0.1)
-                                .saturation(0.6)
+                                .background(Color .black)
+//                                .opacity(0.1)
+//                                .saturation(0.6)
                             }
                             else {
 
@@ -122,8 +125,9 @@ struct ExploreView: View {
                                     tmpLocationString: self.$tmpLocationString,
                                     tmpTimeString: self.$tmpTimeString,
                                     tmpMeetingString: self.$tmpMeetingString,
-                                    showProfile: $showProfile
+                                    isButtonBarHidden: self.$isButtonBarHidden
                                 )
+                                .animation(.spring())
                             }
                             
                             if self.searchDataContainer.targetDate - self.searchDataContainer.currentTime < 3600 && self.searchDataContainer.targetDate - self.searchDataContainer.currentTime >= 0 {
@@ -147,6 +151,10 @@ struct ExploreView: View {
                 }
                 .animation(.spring())
                 }
+//                if groupList.count == 0 {
+                Rectangle().fill(Color .clear)
+                        .frame(height: 30)
+//                }
             }
             
                 VStack() {
@@ -159,7 +167,6 @@ struct ExploreView: View {
                 .offset(y: groupList.count == 0 ? 0 : -150)
             
         }
-            
         .onReceive(self.searchDataContainer.targetDateWillChange) { newValue in
             self.localTargetTime = newValue
         }
@@ -174,7 +181,8 @@ struct ExploreView: View {
         }
         .navigationBarHidden(true)
         .navigationBarTitle("", displayMode: .inline)
-        .animation(.spring())
+//        .animation(.spring())
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 
