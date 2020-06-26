@@ -13,6 +13,8 @@ struct ExploreNoSearchView: View {
     @EnvironmentObject var userData: UserData
     @ObservedObject var searchDataContainer: SearchDataContainer
     
+    @Binding var isSettingsHidden: Bool
+    
     func openSearchView() {
         searchDataContainer.resetValues()
         
@@ -20,7 +22,8 @@ struct ExploreNoSearchView: View {
         searchDataContainer.locationString = ""
         userData.resetValues()
         
-        userData.searchViewOffsetY = CGFloat (0)
+        self.isSettingsHidden = false
+//        userData.searchViewOffsetY = CGFloat (0)
     }
     
     var body: some View {
@@ -48,6 +51,36 @@ struct ExploreNoSearchView: View {
                 Spacer()
                 
                 // SearchButton
+
+//                                    NavigationLink(
+//                                        destination:
+//                                        SearchView(
+//                                            searchDataContainer: searchDataContainer)
+//                                            .background(Color .white)
+//
+//                                    ) {
+//                                        HStack() {
+//                                            Image(systemName: "magnifyingglass")
+//                                                .font(.system(size: 22, weight: .medium))
+//                                                .foregroundColor(.black)
+//                                                .fixedSize()
+//                                                .frame(width: 45, height: 45)
+//                    //                                .background(gradientGray)
+//                                            Text("Suche erstellen")
+//                                                .padding(.trailing)
+//                                        }
+//                                        .frame(height: 46)
+//                                        .foreground(gradientBlueAccentSea)
+//                                        .clipShape(RoundedRectangle(cornerRadius: 23))
+//                                        .overlay(
+//                                            RoundedRectangle(cornerRadius: 23)
+//                                                .stroke(gradientBlueAccentSea, lineWidth: 2)
+//                                        )
+//                                    }
+//                                    .buttonStyle(BorderlessButtonStyle())
+//                                    .foregroundColor(Color ("button1"))
+                
+                
                 Button(action: {
                     withAnimation(.linear(duration: 0.2)) {
                         self.openSearchView()
@@ -65,8 +98,6 @@ struct ExploreNoSearchView: View {
                     }
                     .frame(height: 46)
                     .foreground(gradientBlueAccentSea)
-//                    .foreground(gradientPinkVioletBlueAccent)
-//                    .background(gradientGray)
                     .clipShape(RoundedRectangle(cornerRadius: 23))
                     .overlay(
                         RoundedRectangle(cornerRadius: 23)

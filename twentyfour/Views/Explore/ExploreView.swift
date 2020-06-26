@@ -18,6 +18,7 @@ struct ExploreView: View {
 //    @Binding var groupList: [Profile]
     @Binding var pageIndex: Int
     @Binding var isButtonBarHidden: Bool
+    @Binding var isSettingsHidden: Bool
     
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -111,7 +112,7 @@ struct ExploreView: View {
                                     selectedEventType: $selectedEventType,
                                     groupList: $groupList
                                 )
-                                .background(Color .black)
+                                .background(Color ("background1"))
 //                                .opacity(0.1)
 //                                .saturation(0.6)
                             }
@@ -159,7 +160,8 @@ struct ExploreView: View {
             
                 VStack() {
                     ExploreSearchButtonView(
-                        searchDataContainer: searchDataContainer)
+                        searchDataContainer: searchDataContainer,
+                        isSettingsHidden: self.$isSettingsHidden)
                         .offset(y: 10)
 
                     Spacer()

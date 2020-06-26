@@ -148,7 +148,9 @@ struct ExploreCreateGroupView: View {
                                                         .resizable()
                                                         .scaledToFill()
                                                         .clipShape(Circle())
-                                                        .frame(width: 66 ,height: 66)
+                                                        .frame(width: 45 ,height: 45)
+                                                        .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                                                    
                                                         .shadow(radius: 4, y: 2)
 
                                                     Text(profile.username)
@@ -391,10 +393,16 @@ struct HeaderSectionView: View {
                     self.deleteGroupList()
                 }) {
                     HStack(){
-                        Text("Verwerfen")
-                            .font(.avenirNextRegular(size: 16))
-                            .fontWeight(.semibold)
-                    }
+
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 20, weight: .medium))
+                            .frame(width: 20, height: 20)
+                        }
+                    
+//                        Text("Verwerfen")
+//                            .font(.avenirNextRegular(size: 16))
+//                            .fontWeight(.semibold)
+//                    }
                         .foregroundColor(Color ("button1"))
                 }
 

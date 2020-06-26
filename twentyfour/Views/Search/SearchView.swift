@@ -12,6 +12,8 @@ import MapKit
 struct SearchView: View {
     
     @EnvironmentObject var userData: UserData
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
     @ObservedObject var searchDataContainer: SearchDataContainer
     @State var isFocused = false
     @State var keyboardHeight = CGFloat (0)
@@ -28,9 +30,12 @@ struct SearchView: View {
         return manager
     }()
     
+    @Binding var isSettingsHidden: Bool
+    
     func closeSearchView() {
         hideKeyboard()
-        userData.searchViewOffsetY = UIScreen.main.bounds.height
+//        self.presentationMode.wrappedValue.dismiss()
+        isSettingsHidden = true
     }
     
     func copyValuesToTmpValues() {
@@ -248,13 +253,13 @@ struct SearchView: View {
                                 }
                             }) {
                                 HStack(){
-                                    Image(systemName: "xmark")
+                                    Image(systemName: "chevron.left")
                                         .font(.system(size: 20, weight: .medium))
                                         .frame(width: 36, height: 36)
 //                                        .padding(.leading, 10)
-                                    Text("Verwerfen")
-                                        .font(.avenirNextRegular(size: 16))
-                                        .fontWeight(.semibold)
+//                                    Text("Verwerfen")
+//                                        .font(.avenirNextRegular(size: 16))
+//                                        .fontWeight(.semibold)
 //                                        .padding(.trailing, 20)
                                 }
                             }
@@ -396,6 +401,9 @@ struct SearchView: View {
                 self.copyValuesToTmpValues()
             }
             .animation(.spring())
+            .navigationBarHidden(true)
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarBackButtonHidden(true)
         }
     }
 }
@@ -689,6 +697,9 @@ struct RequestView: View {
             }
         }
         .animation(.spring())
+        .navigationBarHidden(true)
+        .navigationBarTitle("", displayMode: .inline)
+        .navigationBarBackButtonHidden(true)
     }
 }
 

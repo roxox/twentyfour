@@ -23,6 +23,7 @@ struct ContentView: View {
     @State var pageIndex_old = 0
     @State var pageIndex = 0
     @State var isButtonBarHidden: Bool = false
+    @State var isSettingsHidden: Bool = true
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -55,11 +56,15 @@ struct ContentView: View {
                                 items: appUserData,
                                 pageIndex_old: $pageIndex_old,
                                 pageIndex: $pageIndex,
-                                isButtonBarHidden: self.$isButtonBarHidden
+                                isButtonBarHidden: self.$isButtonBarHidden,
+                                isSettingsHidden: self.$isSettingsHidden
                             )
                         }
                         else {
-                            ExploreNoSearchView(searchDataContainer: searchDataContainer)
+                            ExploreNoSearchView(
+                                searchDataContainer: searchDataContainer,
+                                isSettingsHidden: self.$isSettingsHidden
+                            )
                         }
                         
                     }
@@ -94,9 +99,11 @@ struct ContentView: View {
                 
                 VStack() {
                     SearchView(
-                        searchDataContainer: searchDataContainer)
+                        searchDataContainer: searchDataContainer,
+                        isSettingsHidden: self.$isSettingsHidden
+                    )
                         .background(Color .white)
-                        .offset(y: userData.searchViewOffsetY)
+                        .offset(y: isSettingsHidden ? menuCollapsed : CGFloat(0))
                 }
                 .animation(.spring())
                 

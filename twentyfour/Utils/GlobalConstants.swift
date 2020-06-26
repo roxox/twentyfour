@@ -213,3 +213,33 @@ var gradientBlueAccentSea: LinearGradient {
         startPoint: .topLeading,
         endPoint: .bottomTrailing)
 }
+
+
+var gradientAmablueAmagreen: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(
+            colors:
+            [
+//                .pink,
+//                .purple,
+//                Color ("Violet"),
+//                .blue,
+            Color ("AmaBlue"),
+            Color ("AmaGreen"),
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing)
+}
+    
+var gradientPinkPink: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(
+            colors:
+            [
+//                Color ("Orange"),
+                .pink,
+            .pink,
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing)
+}

@@ -47,19 +47,21 @@ struct ExploreGroupView: View {
                 HStack(){
                     Text("Schließe dich Gruppen an")
 //                        .foregroundColor(Color ("button1"))
-                        .foregroundColor(Color ("button1_inverted"))
+//                        .foregroundColor(Color ("button1_inverted"))
+                        .foregroundColor(Color ("button1"))
                         .font(.avenirNextRegular(size: 20))
                         .fontWeight(.medium)
                         .padding(.top)
                         .padding(.horizontal)
                     Spacer()
                 }
-                .padding(.top, 30)
+                .padding(.top, 15)
             
                 HStack(){
                     Text("Lass dich von anderen Gruppen inspirieren und frage an, ob du dich anschließen kannst.")
 //                        .foregroundColor(Color ("button1"))
-                        .foregroundColor(Color ("button1_inverted"))
+//                        .foregroundColor(Color ("button1_inverted"))
+                        .foregroundColor(Color ("button1"))
                         .font(.avenirNextRegular(size: 16))
                         .fontWeight(.light)
                         .lineLimit(5)
@@ -129,7 +131,7 @@ struct GroupRowItem: View {
                 .renderingMode(.original)
                 .resizable()
                 .scaledToFill()
-                    .frame(width: UIScreen.main.bounds.width*0.74 ,height: UIScreen.main.bounds.width*0.56)
+                    .frame(width: UIScreen.main.bounds.width*0.74 ,height: UIScreen.main.bounds.width*0.61)
 //                    .frame(width: UIScreen.main.bounds.width*0.73 ,height: UIScreen.main.bounds.width*0.74)
                     .overlay(GroupOverlay(
                         currentGroup: self.group,
@@ -138,9 +140,10 @@ struct GroupRowItem: View {
                         showProfile: $showProfile
                         )
                 )
-                .cornerRadius(10)
+                .cornerRadius(8)
 //                .shadow(color: .init(red: 0.5, green: 0.5, blue: 0.5)
-//                , radius: 9, x: 0, y: 4)
+//                , radius: 7, x: 0, y: 4)
+                    .shadow(radius: 7, y: 4)
             }
 //        .padding(10)
     }
@@ -194,23 +197,31 @@ struct GroupOverlay: View {
                 HStack() {
                     VStack(alignment: .leading) {
                         Text(self.currentGroup.title!)
-                            .foregroundColor(Color ("button1_inverted"))
-                            .font(.avenirNextRegular(size: 14))
+//                            .foregroundColor(Color ("button1_inverted"))
+                            .foregroundColor(Color ("button1"))
+                            .font(.avenirNextRegular(size: 17))
                             .fontWeight(.semibold)
                             .padding(.top)
                             .padding(.horizontal)
                         Text("Albertos Pizzeria, Los Angeles")
-                            .foregroundColor(Color ("button1_inverted"))
-                            .font(.avenirNextRegular(size: 14))
+//                            .foregroundColor(Color ("button1_inverted"))
+                            .foregroundColor(Color ("button1"))
+                            .font(.avenirNextRegular(size: 13))
+                            .fontWeight(.light)
+                            .padding(.horizontal)
+                        Text("3 Personen nehmen teil")
+//                            .foregroundColor(Color ("button1_inverted"))
+                            .foregroundColor(Color ("button1"))
+                            .font(.avenirNextRegular(size: 13))
                             .fontWeight(.light)
                             .padding(.horizontal)
                         Spacer()
                     }
                     Spacer()
                 }
-                .frame(width: geometry.size.width, height: geometry.size.height/3.3)
+                .frame(width: geometry.size.width, height: geometry.size.height/3)
 //                    .background(Color ("background1_inverted"))
-                    .background(Color ("background4"))
+                    .background(Color ("background1"))
             }
             
             }

@@ -26,6 +26,8 @@ struct ExploreSearchButtonView: View {
     @EnvironmentObject var userData: UserData
     @ObservedObject var searchDataContainer: SearchDataContainer
     
+    @Binding var isSettingsHidden: Bool
+    
     @State var showButtons = false
     @State var selectedScreen = 0
     
@@ -40,8 +42,7 @@ struct ExploreSearchButtonView: View {
     }
     
     func openSearchView() {
-//        searchDataContainer.copyValuesToTmpValues()
-        userData.searchViewOffsetY = CGFloat (0)
+        self.isSettingsHidden = false
     }
     
     var body: some View {
@@ -65,6 +66,35 @@ struct ExploreSearchButtonView: View {
                     Spacer()
                     
                     // SearchButton
+
+//                    NavigationLink(
+//                        destination:
+//                        SearchView(
+//                            searchDataContainer: searchDataContainer)
+//                            .background(Color .white)
+//
+//                    ) {
+//
+//                        HStack() {
+//                            Image(systemName: "magnifyingglass")
+//                                .font(.system(size: 22, weight: .medium))
+//                                .fixedSize()
+//                                .frame(width: 24, height: 40)
+////                                .background(gradientGray)
+//                            Text("Suche anpassen")
+//                            .font(.avenirNextRegular(size: 16))
+//                            .fontWeight(.medium)
+//                        }
+//                        .padding(.horizontal, 10)
+//                        .background(Color ("background1"))
+//                        .foregroundColor(Color ("button1"))
+//                        .clipShape(RoundedRectangle(cornerRadius: 20))
+//                        .shadow(radius: 4, y: 2)
+//                    }
+//                    .buttonStyle(BorderlessButtonStyle())
+//                    .foregroundColor(Color ("button1"))
+                    
+                    
                     Button(action: {
                         withAnimation(.linear(duration: 0.2)) {
                             self.openSearchView()
@@ -79,6 +109,7 @@ struct ExploreSearchButtonView: View {
                             Text("Suche anpassen")
                             .font(.avenirNextRegular(size: 16))
                             .fontWeight(.medium)
+                                .padding(.trailing, 5)
                         }
                         .padding(.horizontal, 10)
                         .background(Color ("background1"))
@@ -92,5 +123,7 @@ struct ExploreSearchButtonView: View {
                 .padding([.leading, .trailing], 20)
         }
         .navigationBarHidden(true)
+        .navigationBarTitle("", displayMode: .inline)
+        .navigationBarBackButtonHidden(true)
     }
 }
