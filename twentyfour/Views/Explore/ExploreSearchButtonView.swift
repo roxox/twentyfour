@@ -53,46 +53,8 @@ struct ExploreSearchButtonView: View {
                     .frame(height: 120)
                 
                 HStack(alignment: .top){
-                    
-//                    userData.currentUser.image
-//                    .renderingMode(.original)
-//                    .resizable()
-//                    .scaledToFill()
-//                    .clipShape(Circle())
-////                        .overlay(Circle().stroke(Color .black, lineWidth: 1))
-//                    .frame(width: 45 ,height: 45)
-//                        .shadow(radius: 5)
-                        
+                                            
                     Spacer()
-                    
-                    // SearchButton
-
-//                    NavigationLink(
-//                        destination:
-//                        SearchView(
-//                            searchDataContainer: searchDataContainer)
-//                            .background(Color .white)
-//
-//                    ) {
-//
-//                        HStack() {
-//                            Image(systemName: "magnifyingglass")
-//                                .font(.system(size: 22, weight: .medium))
-//                                .fixedSize()
-//                                .frame(width: 24, height: 40)
-////                                .background(gradientGray)
-//                            Text("Suche anpassen")
-//                            .font(.avenirNextRegular(size: 16))
-//                            .fontWeight(.medium)
-//                        }
-//                        .padding(.horizontal, 10)
-//                        .background(Color ("background1"))
-//                        .foregroundColor(Color ("button1"))
-//                        .clipShape(RoundedRectangle(cornerRadius: 20))
-//                        .shadow(radius: 4, y: 2)
-//                    }
-//                    .buttonStyle(BorderlessButtonStyle())
-//                    .foregroundColor(Color ("button1"))
                     
                     
                     Button(action: {
@@ -105,7 +67,6 @@ struct ExploreSearchButtonView: View {
                                 .font(.system(size: 22, weight: .medium))
                                 .fixedSize()
                                 .frame(width: 24, height: 40)
-//                                .background(gradientGray)
                             Text("Suche anpassen")
                             .font(.avenirNextRegular(size: 16))
                             .fontWeight(.medium)
@@ -115,7 +76,7 @@ struct ExploreSearchButtonView: View {
                         .background(Color ("background1"))
                         .foregroundColor(Color ("button1"))
                         .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .shadow(radius: 4, y: 2)
+                        .shadow(radius: 2, y: 1)
                     }
                     Spacer()
             

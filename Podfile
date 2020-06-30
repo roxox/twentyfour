@@ -1,4 +1,4 @@
-platform :ios, "11.0"
+platform :ios, "13.0"
 use_frameworks!
 inhibit_all_warnings!
 
@@ -10,6 +10,7 @@ target 'twentyfour' do
   pod 'Firebase/Firestore'
   pod 'FirebaseFirestoreSwift'
   pod 'lottie-ios'
+  pod 'SwiftUIPager'
   post_install do |installer|
       installer.pods_project.targets.each do |target|
           if target.name == 'MessageKit'

@@ -10,7 +10,7 @@ import CoreLocation
 import SwiftUI
 
 let appUserData: [Profile] = load("appUser.json")
-let appGroupData: [Group] = load("appGroups.json")
+let appGroupData: [UserGroup] = load("appGroups.json")
 
 func load<T: Decodable>(_ filename: String) -> T {
     let data: Data

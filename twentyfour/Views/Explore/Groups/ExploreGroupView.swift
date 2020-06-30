@@ -8,6 +8,7 @@
 
 import SwiftUI
 import UIKit
+import SwiftUIPager
 //import Combine
 
 struct ExploreGroupView: View {
@@ -18,6 +19,9 @@ struct ExploreGroupView: View {
     @Binding var groupList: [Profile]
     
     @State var showProfile = false
+    
+    @State var page1 = 0
+    var data1 = Array(0..<4)
     
 
   
@@ -36,6 +40,28 @@ struct ExploreGroupView: View {
     
     func resetGroupValues() {
             selectedEventType = nil
+    }
+    
+    func pageView(_ group: UserGroup) -> some View {
+        VStack(alignment: .leading) {
+            group.image
+//                Image("sport")
+            .renderingMode(.original)
+            .resizable()
+            .scaledToFill()
+                .frame(width: UIScreen.main.bounds.width*0.74 ,height: UIScreen.main.bounds.width*0.61)
+//                    .frame(width: UIScreen.main.bounds.width*0.94 ,height: UIScreen.main.bounds.width*0.61)
+                .overlay(GroupOverlay(
+                    currentGroup: group,
+                    selectedEventType: $selectedEventType,
+                    groupList: $groupList,
+                    showProfile: $showProfile
+                    )
+            )
+            .cornerRadius(8)
+                .shadow(radius: 7, y: 4)
+        }
+    .padding(10)
     }
     
     var body: some View {
@@ -77,10 +103,12 @@ struct ExploreGroupView: View {
 
                 ForEach(userData.appGroups) { group in
                     GeometryReader { geometry in
-                        
-                        
+
+
                         NavigationLink(
-                            destination: GroupDetail()
+                            destination: UserGroupDetail(
+                                currentUserGroup: group
+                            )
 
                         ) {
                             GroupRowItem(
@@ -91,35 +119,36 @@ struct ExploreGroupView: View {
                             )
                         }
                         .buttonStyle(BorderlessButtonStyle())
-//                        .foregroundColor(Color ("button1"))
-//                        .disabled(self.selectedEventType == nil || self.groupList.count == 0)
-                        
-                        
-//                        GroupRowItem(
-//                            group: group,
-//                            selectedEventType: self.$selectedEventType,
-//                            groupList: self.$groupList,
-//                            showProfile: self.$showProfile
-//                        )
-//                            .rotation3DEffect(Angle(degrees:
-//                                (Double(geometry.frame(in: .global).minX)) / -65
-//                            ), axis: (x:0, y:10, z:0))
                     }
                     .frame(width: 330, height: 280)
                 }
             }
             .padding(.bottom, 60)
         }
-//        .animation(.spring())
+            
+            
+//            Pager(page: self.$page1,
+//                  data: userData.appGroups,
+//                  id: \.self) {
+//                    self.pageView($0)
+//            }
+//            .itemSpacing(10)
+////            .alignment(.start)
+//            .horizontal(.leftToRight)
+//            .itemAspectRatio(1, alignment: .start)
+//            .alignment(.start)
+//
+//
+//            .frame(height: 320)
+//            .padding(.bottom, 60)
+            
         Spacer()
         }
     }
 }
 
 struct GroupRowItem: View {
-    var group: Group
-    @State var deviceWidth = UIScreen.main.bounds.width - 20
-    @State var deviceHeight = UIScreen.main.bounds.height - 300
+    var group: UserGroup
     @Binding var selectedEventType: EventType?
     @Binding var groupList: [Profile]
     @Binding var showProfile: Bool
@@ -132,7 +161,7 @@ struct GroupRowItem: View {
                 .resizable()
                 .scaledToFill()
                     .frame(width: UIScreen.main.bounds.width*0.74 ,height: UIScreen.main.bounds.width*0.61)
-//                    .frame(width: UIScreen.main.bounds.width*0.73 ,height: UIScreen.main.bounds.width*0.74)
+//                    .frame(width: UIScreen.main.bounds.width*0.94 ,height: UIScreen.main.bounds.width*0.61)
                     .overlay(GroupOverlay(
                         currentGroup: self.group,
                         selectedEventType: self.$selectedEventType,
@@ -141,11 +170,10 @@ struct GroupRowItem: View {
                         )
                 )
                 .cornerRadius(8)
-//                .shadow(color: .init(red: 0.5, green: 0.5, blue: 0.5)
-//                , radius: 7, x: 0, y: 4)
                     .shadow(radius: 7, y: 4)
             }
-//        .padding(10)
+        
+        .padding(10)
     }
 }
 
@@ -153,7 +181,7 @@ struct GroupOverlay: View {
     
     @EnvironmentObject var userData: UserData
     
-    var currentGroup: Group
+    var currentGroup: UserGroup
     @Binding var selectedEventType: EventType?
     
     @State var tempUser: Profile?

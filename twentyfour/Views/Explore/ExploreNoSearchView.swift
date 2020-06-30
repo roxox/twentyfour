@@ -50,36 +50,6 @@ struct ExploreNoSearchView: View {
             HStack(alignment: .top){
                 Spacer()
                 
-                // SearchButton
-
-//                                    NavigationLink(
-//                                        destination:
-//                                        SearchView(
-//                                            searchDataContainer: searchDataContainer)
-//                                            .background(Color .white)
-//
-//                                    ) {
-//                                        HStack() {
-//                                            Image(systemName: "magnifyingglass")
-//                                                .font(.system(size: 22, weight: .medium))
-//                                                .foregroundColor(.black)
-//                                                .fixedSize()
-//                                                .frame(width: 45, height: 45)
-//                    //                                .background(gradientGray)
-//                                            Text("Suche erstellen")
-//                                                .padding(.trailing)
-//                                        }
-//                                        .frame(height: 46)
-//                                        .foreground(gradientBlueAccentSea)
-//                                        .clipShape(RoundedRectangle(cornerRadius: 23))
-//                                        .overlay(
-//                                            RoundedRectangle(cornerRadius: 23)
-//                                                .stroke(gradientBlueAccentSea, lineWidth: 2)
-//                                        )
-//                                    }
-//                                    .buttonStyle(BorderlessButtonStyle())
-//                                    .foregroundColor(Color ("button1"))
-                
                 
                 Button(action: {
                     withAnimation(.linear(duration: 0.2)) {
@@ -112,7 +82,6 @@ struct ExploreNoSearchView: View {
             
             Spacer()
         }
-//        .frame(height: UIScreen.main.bounds.height)
     }
 }
 

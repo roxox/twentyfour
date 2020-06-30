@@ -34,7 +34,7 @@ struct UserDetailsViewer: View {
                     }
                     .padding(.top, 10)
                 }
-                UserDetailsView(user: user)
+                UserDetailsView(currentUser: user)
             }
         }
     }

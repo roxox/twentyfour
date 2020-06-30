@@ -71,13 +71,12 @@ struct ContentView: View {
                     
                     if pageIndex == 1 {
                         GroupListView(
-//                            userId: userData.currentUser
                         )
                     }
                     
                     if pageIndex == 3 {
                         UserDetailsView(
-                            user: userData.currentUser
+                            currentUser: userData.currentUser
                         )
                     }
                 }
@@ -85,17 +84,10 @@ struct ContentView: View {
                 VStack() {
                     Spacer()
                     ButtonBarView(pageIndex: $pageIndex)
-//                        .background(Color ("background1"))
                         .background(Color .clear)
                         .offset(y: isButtonBarHidden ? CGFloat(150) : CGFloat(0))
                 }
                 .animation(.spring())
-                    
-//                VStack() {
-//                    Spacer()
-//                    Rectangle().fill(Color ("background1"))
-//                        .frame(height: 30)
-//                }
                 
                 VStack() {
                     SearchView(

@@ -17,9 +17,9 @@ struct Profile: Hashable, Codable, Identifiable {
     var searchParameter: SearchParameter
     fileprivate var imageName: String
     var searchTypes: [EventType]
-    var groups: [Group] = []
+    var groups: [UserGroup] = []
     
-    mutating func addGroup(group: Group) {
+    mutating func addGroup(group: UserGroup) {
         groups.append(group)
     }
     

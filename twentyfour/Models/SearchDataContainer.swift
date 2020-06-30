@@ -65,6 +65,13 @@ class SearchDataContainer: ObservableObject {
         }
     }
     
+    @Published var scrollSearchMenuToTop: Bool = false
+        {
+           willSet {
+                scrollSearchMenuToTopWillChange.send(newValue)
+           }
+       }
+    
     @Published var isSearchActive: Bool = false
 //        {
 //           willSet {
@@ -79,6 +86,8 @@ class SearchDataContainer: ObservableObject {
         }
         getEventTypes()
     }
+    
+    public let scrollSearchMenuToTopWillChange = PassthroughSubject<Bool,Never>()
     
     public let targetDateWillChange = PassthroughSubject<Date,Never>()
     

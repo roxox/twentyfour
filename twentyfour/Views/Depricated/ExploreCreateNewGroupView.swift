@@ -39,7 +39,7 @@ struct ExploreCreateNewGroupView: View {
      }
     
     func createNewGroup() {
-        var group = Group()
+        var group = UserGroup()
         group.title = tmpTitleString
         group.type = selectedEventType
         group.imageName = "essen"
@@ -47,9 +47,6 @@ struct ExploreCreateNewGroupView: View {
         
 //        userData.groupList.append(group)
         userData.appGroups.append(group)
-        for gr in userData.appGroups {
-            print(gr.title)
-        }
         self.resetGroupValues()
     }
     

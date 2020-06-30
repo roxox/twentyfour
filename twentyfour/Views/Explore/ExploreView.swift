@@ -87,76 +87,83 @@ struct ExploreView: View {
         ZStack() {
             
             VStack(){
-                ScrollView(groupList.count == 0 ? [.vertical] : [], showsIndicators: false) {
-
-
-                VStack() {
-                    if pageIndex_old == 0 {
-                        Spacer()
-
-                        if self.searchDataContainer.targetDate > self.searchDataContainer.currentTime {
-                            ExploreProfileView(
-                                searchDataContainer: searchDataContainer,
-                                selectedEventType: $selectedEventType,
-                                groupList: $groupList,
-                                tmpTitleString: self.$tmpTitleString,
-                                tmpLocationString: self.$tmpLocationString,
-                                tmpTimeString: self.$tmpTimeString,
-                                tmpMeetingString: self.$tmpMeetingString,
-                                isButtonBarHidden: self.$isButtonBarHidden
-                            )
-
-                            if groupList.count == 0 {
-                                ExploreGroupView(
-                                    searchDataContainer: searchDataContainer,
-                                    selectedEventType: $selectedEventType,
-                                    groupList: $groupList
-                                )
-                                .background(Color ("background1"))
-//                                .opacity(0.1)
-//                                .saturation(0.6)
-                            }
-                            else {
-
+                
+                ScrollView(groupList.count == 0 ? [.vertical] : [.vertical], showsIndicators: false) {
+                    ScrollViewReader { scrollView in
+                        if groupList.count == 0 {
+                            HStack(){
+                                Text("Finde Gleichgesinnte")
+                                    .foregroundColor(Color ("button1"))
+                                    .font(.avenirNextRegular(size: 20))
+                                    .fontWeight(.medium)
+                                    .padding(.top)
+                                    .padding(.horizontal)
+    //                                .scaleEffect(isDragging ? 1.5 : 1)
                                 Spacer()
-                                ExploreCreateGroupView(
-                                    selectedEventType: $selectedEventType,
-                                    groupList: $groupList,
-                                    tmpTitleString: self.$tmpTitleString,
-                                    tmpLocationString: self.$tmpLocationString,
-                                    tmpTimeString: self.$tmpTimeString,
-                                    tmpMeetingString: self.$tmpMeetingString,
-                                    isButtonBarHidden: self.$isButtonBarHidden
-                                )
-                                .animation(.spring())
                             }
-                            
-                            if self.searchDataContainer.targetDate - self.searchDataContainer.currentTime < 3600 && self.searchDataContainer.targetDate - self.searchDataContainer.currentTime >= 0 {
-
-                                if secondsToHours(seconds: remainingTime) == 0 && secondsToMinutes(seconds: remainingTime) != 0{
-                                    Text("Aktiv für die nächsten \(secondsToMinutes(seconds: remainingTime)) Minuten")
-                                            .font(.avenirNextRegular(size: 14))
-                                            .fontWeight(.semibold)
-                                            .foreground(gradientPinkBlueAccent)
-                                } else {
-                                    Text("Suche noch aktiv für die nächsten \(secondsToSeconds(seconds: remainingTime)) Sekunden")
-                                        .font(.avenirNextRegular(size: 14))
-                                        .fontWeight(.semibold)
-                                        .foreground(gradientPinkBlueAccent)
-                                    }
-                                }
+                            .padding(.top, 60)
+                        
+                            HStack(){
+                                Text("Finde andere User mit gleichen Interessen und gründet Gruppen um zusammen etwas zu unternehmen, denn zusammen ist man weniger allein.")
+                                    .foregroundColor(Color ("button1"))
+                                    .font(.avenirNextRegular(size: 16))
+                                    .fontWeight(.light)
+                                    .lineLimit(5)
+                                    .frame(height: 120)
+            //                        .padding(.bottom)
+                                    .padding(.horizontal)
+                                Spacer()
                             }
                         }
-                        Spacer()
 
+                        VStack() {
+                            if pageIndex_old == 0 {
+                                Spacer()
+
+                                if self.searchDataContainer.targetDate > self.searchDataContainer.currentTime {
+                                    ExploreProfileView(
+                                        searchDataContainer: searchDataContainer,
+                                        selectedEventType: $selectedEventType,
+                                        groupList: $groupList,
+                                        tmpTitleString: self.$tmpTitleString,
+                                        tmpLocationString: self.$tmpLocationString,
+                                        tmpTimeString: self.$tmpTimeString,
+                                        tmpMeetingString: self.$tmpMeetingString,
+                                        isButtonBarHidden: self.$isButtonBarHidden
+                                    ).padding(.top, groupList.count == 0 ? 0 : 40)
+
+                                    if groupList.count == 0 {
+                                        ExploreGroupView(
+                                            searchDataContainer: searchDataContainer,
+                                            selectedEventType: $selectedEventType,
+                                            groupList: $groupList
+                                        )
+                                        .background(Color ("background1"))
+                                    }
+                                    
+                                    if self.searchDataContainer.targetDate - self.searchDataContainer.currentTime < 3600 && self.searchDataContainer.targetDate - self.searchDataContainer.currentTime >= 0 {
+
+                                        if secondsToHours(seconds: remainingTime) == 0 && secondsToMinutes(seconds: remainingTime) != 0{
+                                            Text("Aktiv für die nächsten \(secondsToMinutes(seconds: remainingTime)) Minuten")
+                                                    .font(.avenirNextRegular(size: 14))
+                                                    .fontWeight(.semibold)
+                                                    .foreground(gradientPinkBlueAccent)
+                                        } else {
+                                            Text("Suche noch aktiv für die nächsten \(secondsToSeconds(seconds: remainingTime)) Sekunden")
+                                                .font(.avenirNextRegular(size: 14))
+                                                .fontWeight(.semibold)
+                                                .foreground(gradientPinkBlueAccent)
+                                            }
+                                        }
+                                    }
+                                }
+                        }
+                    }
                 }
-                .animation(.spring())
-                }
-//                if groupList.count == 0 {
                 Rectangle().fill(Color .clear)
                         .frame(height: 30)
-//                }
             }
+            .animation(.spring())
             
                 VStack() {
                     ExploreSearchButtonView(
@@ -167,6 +174,19 @@ struct ExploreView: View {
                     Spacer()
                 }
                 .offset(y: groupList.count == 0 ? 0 : -150)
+            
+                if groupList.count != 0  {
+                    VStack() {
+                        HeaderSectionView(
+                        selectedEventType: self.$selectedEventType,
+                        groupList: self.$groupList,
+                        tmpTitleString: self.$tmpTitleString,
+                        tmpLocationString: self.$tmpLocationString,
+                        tmpTimeString: self.$tmpTimeString,
+                        tmpMeetingString: self.$tmpMeetingString,
+                        isButtonBarHidden: self.$isButtonBarHidden)
+                    }
+                }
             
         }
         .onReceive(self.searchDataContainer.targetDateWillChange) { newValue in
@@ -183,8 +203,6 @@ struct ExploreView: View {
         }
         .navigationBarHidden(true)
         .navigationBarTitle("", displayMode: .inline)
-//        .animation(.spring())
-        .edgesIgnoringSafeArea(.bottom)
     }
 }
 

@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 import CoreLocation
 
-struct Group: Hashable, Codable, Identifiable {
+struct UserGroup: Hashable, Codable, Identifiable {
     var id: String?
     var title: String?
     var description: String?
@@ -50,7 +50,7 @@ struct Type: Hashable, Codable, Identifiable {
     
 }
 
-extension Group {
+extension UserGroup {
     var image: Image {
         ImageStore.shared.image(name: imageName!)
     }
