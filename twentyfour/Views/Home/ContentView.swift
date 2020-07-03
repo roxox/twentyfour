@@ -20,7 +20,6 @@ struct ContentView: View {
     
     @State var showingProfile = false
     @State var showButtons = false
-    @State var pageIndex_old = 0
     @State var pageIndex = 0
     @State var isButtonBarHidden: Bool = false
     @State var isSettingsHidden: Bool = true
@@ -53,9 +52,6 @@ struct ContentView: View {
                         if self.searchDataContainer.targetDate > self.searchDataContainer.currentTime {
                             ExploreView(
                                 searchDataContainer: searchDataContainer,
-                                items: appUserData,
-                                pageIndex_old: $pageIndex_old,
-                                pageIndex: $pageIndex,
                                 isButtonBarHidden: self.$isButtonBarHidden,
                                 isSettingsHidden: self.$isSettingsHidden
                             )

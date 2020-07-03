@@ -8,7 +8,6 @@
 
 import SwiftUI
 import UIKit
-import SwiftUIPager
 //import Combine
 
 struct ExploreGroupView: View {
@@ -22,25 +21,6 @@ struct ExploreGroupView: View {
     
     @State var page1 = 0
     var data1 = Array(0..<4)
-    
-
-  
-    
-//    func addToGroupList(profile: Profile) {
-//        if !groupList.contains(profile) {
-//            groupList.append(profile)
-//        }
-//    }
-    
-//    func removeFromGroupList(profile: Profile) {
-//        if groupList.contains(profile) {
-//            groupList.remove(at: groupList.firstIndex(of: profile)!)
-//        }
-//    }
-    
-    func resetGroupValues() {
-            selectedEventType = nil
-    }
     
     func pageView(_ group: UserGroup) -> some View {
         VStack(alignment: .leading) {
@@ -66,36 +46,6 @@ struct ExploreGroupView: View {
     
     var body: some View {
         VStack() {
-//        if self.searchData.isSearchActive == true {
-//            Text("Hallo")
-//        }
-            
-                HStack(){
-                    Text("Schließe dich Gruppen an")
-//                        .foregroundColor(Color ("button1"))
-//                        .foregroundColor(Color ("button1_inverted"))
-                        .foregroundColor(Color ("button1"))
-                        .font(.avenirNextRegular(size: 20))
-                        .fontWeight(.medium)
-                        .padding(.top)
-                        .padding(.horizontal)
-                    Spacer()
-                }
-                .padding(.top, 15)
-            
-                HStack(){
-                    Text("Lass dich von anderen Gruppen inspirieren und frage an, ob du dich anschließen kannst.")
-//                        .foregroundColor(Color ("button1"))
-//                        .foregroundColor(Color ("button1_inverted"))
-                        .foregroundColor(Color ("button1"))
-                        .font(.avenirNextRegular(size: 16))
-                        .fontWeight(.light)
-                        .lineLimit(5)
-                        .frame(height: 60)
-//                        .padding(.bottom)
-                        .padding(.horizontal)
-                    Spacer()
-                }
             
             
         ScrollView(.horizontal, showsIndicators: false) {
@@ -119,28 +69,13 @@ struct ExploreGroupView: View {
                             )
                         }
                         .buttonStyle(BorderlessButtonStyle())
+                        
                     }
-                    .frame(width: 330, height: 280)
+                    .frame(width: 320, height: 260)
                 }
             }
             .padding(.bottom, 60)
         }
-            
-            
-//            Pager(page: self.$page1,
-//                  data: userData.appGroups,
-//                  id: \.self) {
-//                    self.pageView($0)
-//            }
-//            .itemSpacing(10)
-////            .alignment(.start)
-//            .horizontal(.leftToRight)
-//            .itemAspectRatio(1, alignment: .start)
-//            .alignment(.start)
-//
-//
-//            .frame(height: 320)
-//            .padding(.bottom, 60)
             
         Spacer()
         }
@@ -160,17 +95,30 @@ struct GroupRowItem: View {
                 .renderingMode(.original)
                 .resizable()
                 .scaledToFill()
-                    .frame(width: UIScreen.main.bounds.width*0.74 ,height: UIScreen.main.bounds.width*0.61)
-//                    .frame(width: UIScreen.main.bounds.width*0.94 ,height: UIScreen.main.bounds.width*0.61)
-                    .overlay(GroupOverlay(
-                        currentGroup: self.group,
-                        selectedEventType: self.$selectedEventType,
-                        groupList: self.$groupList,
-                        showProfile: $showProfile
-                        )
-                )
+                    .frame(width: UIScreen.main.bounds.width*0.74 ,height: UIScreen.main.bounds.width*0.48)
+                
                 .cornerRadius(8)
-                    .shadow(radius: 7, y: 4)
+                .shadow(radius: 4, y: 2)
+                
+                    HStack() {
+                        VStack(alignment: .leading) {
+                            Text(self.group.title!)
+                                .foregroundColor(Color ("button1"))
+                                .font(.avenirNextRegular(size: 16))
+                                .fontWeight(.semibold)
+                            Text("Albertos Pizzeria, Los Angeles")
+                                .foregroundColor(Color ("button1"))
+                                .font(.avenirNextRegular(size: 16))
+                                .fontWeight(.light)
+                            Text("3 Personen nehmen teil")
+                                .foregroundColor(Color ("button1"))
+                                .font(.avenirNextRegular(size: 16))
+                                .fontWeight(.light)
+                            Spacer()
+                        }
+                        Spacer()
+                    }
+                Spacer()
             }
         
         .padding(10)
@@ -193,10 +141,6 @@ struct GroupOverlay: View {
     
     @State var showCard = false
     @State var userId: String = String()
-    
-    func resetGroupValues() {
-            selectedEventType = nil
-    }
     
     func getType(typeToTest: EventType) -> String{
         if typeToTest == .food {
@@ -225,20 +169,17 @@ struct GroupOverlay: View {
                 HStack() {
                     VStack(alignment: .leading) {
                         Text(self.currentGroup.title!)
-//                            .foregroundColor(Color ("button1_inverted"))
                             .foregroundColor(Color ("button1"))
                             .font(.avenirNextRegular(size: 17))
                             .fontWeight(.semibold)
                             .padding(.top)
                             .padding(.horizontal)
                         Text("Albertos Pizzeria, Los Angeles")
-//                            .foregroundColor(Color ("button1_inverted"))
                             .foregroundColor(Color ("button1"))
                             .font(.avenirNextRegular(size: 13))
                             .fontWeight(.light)
                             .padding(.horizontal)
                         Text("3 Personen nehmen teil")
-//                            .foregroundColor(Color ("button1_inverted"))
                             .foregroundColor(Color ("button1"))
                             .font(.avenirNextRegular(size: 13))
                             .fontWeight(.light)
@@ -248,7 +189,6 @@ struct GroupOverlay: View {
                     Spacer()
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height/3)
-//                    .background(Color ("background1_inverted"))
                     .background(Color ("background1"))
             }
             

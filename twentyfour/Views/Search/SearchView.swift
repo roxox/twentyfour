@@ -89,30 +89,41 @@ struct SearchView: View {
                         VStack(){
                             HStack() {
         //                        Spacer()
-                                Text("Standort").id("top")
-                                .font(.avenirNextRegular(size: 20))
-//                                .fontWeight(.medium)
+                                Rectangle().fill(Color .clear)
+                                    .id("top")
+                                    .frame(height: 30)
+                                    .frame(maxWidth: .infinity)
+                        }
+                            HStack() {
+                                Text("Standort")
+                                    .font(.avenirNextRegular(size: 20))
+                                        .fontWeight(.medium)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .lineLimit(1)
                             Spacer()
                         }
                         .padding(.horizontal, 20)
                         .padding(.top, 30)
                         
-                    
-                    HStack() {
-                            Text("Wähle zunächst den Ort ,wo du etwas unternehmen möchtest. Entweder direkt in deiner Umgebung, aber wenn du heute Abedn ganz woanders bist, suche einfach dort.")
-                            .font(.avenirNextRegular(size: 16))
-                                .fontWeight(.light)
-                        Spacer()
+                            
+                    if userData.showInfoTexts {
+                        HStack() {
+                                Text("Wähle zunächst den Ort ,wo du etwas unternehmen möchtest. Entweder direkt in deiner Umgebung, aber wenn du heute Abedn ganz woanders bist, suche einfach dort.")
+                                .font(.avenirNextRegular(size: 16))
+                                    .fontWeight(.light)
+                            Spacer()
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.top, 10)
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 10)
-
+                            
                     HStack(alignment: .top) {
                                 Image("locationBlack")
                                     .resizable()
                                     .renderingMode(.original)
                                     .frame(width: 20, height: 20)
                                     .scaledToFill()
+                                    .foreground(Color ("button1"))
 
                         VStack(alignment: .leading) {
                             Text("Ort")
@@ -148,7 +159,7 @@ struct SearchView: View {
                         }
                         .frame(height: 30)
                         .padding(.horizontal, 7)
-                        .background(gradientGray)
+                        .background(Color ("SuperLightGray"))
                         .clipShape(RoundedRectangle(cornerRadius: 15))
                     Spacer()
                     }
@@ -160,7 +171,7 @@ struct SearchView: View {
                                     HStack(alignment: .top) {
                                                 Image(systemName: "mappin.and.ellipse")
                                                 .font(.system(size: 18, weight: .medium))
-                                                .foregroundColor(.black)
+                                                .foregroundColor(Color ("button1"))
                                                 .fixedSize()
                                                 .frame(width: 20, height: 20)
 
@@ -195,7 +206,7 @@ struct SearchView: View {
                     .onReceive(self.searchDataContainer.scrollSearchMenuToTopWillChange) { newValue in
                         if newValue == true {
                             withAnimation(.linear(duration: 0.2)) {
-                                scrollView.scrollTo("top", anchor: .top)
+                                scrollView.scrollTo("top", anchor: .bottom)
                                 self.searchDataContainer.scrollSearchMenuToTop = false
                             }
                         }
@@ -206,6 +217,7 @@ struct SearchView: View {
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .padding(.top, 25)
             }
+                .background(Color ("background1"))
                 
                 // OVERLAY MIT MENU
                 SearchHeaderOverlay(
@@ -214,88 +226,6 @@ struct SearchView: View {
                     tmpMaxDistance: $tmpMaxDistance,
                     tmpEventTypes: $tmpEventTypes,
                     isSettingsHidden: $isSettingsHidden)
-//                VStack() {
-//                    VStack(){
-//                        Rectangle().fill(Color ("background1"))
-//                                .frame(height: geometry.safeAreaInsets.top)
-//                        ZStack() {
-//                            HStack() {
-//
-//                                // CANCEL BUTTON
-//                                Button(action: {
-//                                    withAnimation(.linear(duration: 0.2)) {
-//                                        self.closeSearchView()
-//                                    }
-//                                }) {
-//                                    HStack(){
-//                                        Image(systemName: "chevron.left")
-//                                            .font(.system(size: 14, weight: .medium))
-//                                            .frame(width: 14, height: 14)
-//                                    }
-//                                }
-//                                    .frame(height: 36)
-//                                    .foregroundColor(Color ("button1"))
-//
-//                                Spacer()
-//
-//                                // SAVE BUTTON
-//                                if self.isModified() && self.tmpEventTypes.count != 0 && self.tmpLocationString != "" {
-//                                    Button(action: {
-//                                        withAnimation(.linear(duration: 0.2)) {
-//                                            self.saveValues()
-//                                        }
-//                                    }) {
-//                                        HStack(){
-//                                            Text(self.getLabel())
-//                                                .font(.avenirNextRegular(size: 14))
-//                                                .fontWeight(.semibold)
-//    //                                            .padding(.trailing, 20)
-//                                            Image(systemName: "arrow.right")
-//                                                .font(.system(size: 14, weight: .medium))
-//                                                .frame(width: 14, height: 14)
-//                                        }
-//                                    }
-//                                    .frame(height: 36)
-//                                    .foregroundColor(Color ("button1"))
-//                                }
-//                            }
-//                            .padding(.horizontal, 20)
-//
-//
-//                                        HStack(alignment: .center){
-//                                            Spacer()
-//                                            Text("Deine Suche / Inserat")
-//                                            .font(.avenirNextRegular(size: 15))
-//                                                .fontWeight(.semibold)
-//                                            Spacer()
-//                                        }
-//
-//                        }
-////                        .padding(.bottom, 15)
-////                        .animation(self.isFocused ? .easeInOut : nil)
-//
-//                        .onAppear() {
-//                            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { (noti)  in
-//
-//                                let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-//                                let height = value.height
-//
-//                                self.keyboardHeight = height
-//                                self.showKeyboard = true
-//                            }
-//
-//                            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (noti)  in
-//                                self.keyboardHeight = 0
-//                                self.showKeyboard = false
-//                            }
-//                        }
-//
-//                        Divider()
-//                    }
-//                    .background(Color ("background1"))
-//                    Spacer()
-//                }
-//                .edgesIgnoringSafeArea(.top)
                 
                 if self.showKeyboard == true {
                     VStack(){
@@ -434,37 +364,45 @@ struct ButtonAreaView: View {
         return false
     }
     
-    func printTest() {
-        print("test")
-    }
-    
     var body: some View {
         VStack(){
 
                                 HStack() {
             //                        Spacer()
                                     Text("Aktivität")
-                                    .font(.avenirNextRegular(size: 20))
-                                        .fontWeight(.medium)
+                                        .font(.avenirNextRegular(size: 20))
+                                            .fontWeight(.medium)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                            .lineLimit(1)
                                 Spacer()
                             }
                             .padding(.horizontal, 20)
                             .padding(.top, 30)
             
             
-            HStack() {
-                    Text("Wähle zunächst den Ort ,wo du etwas unternehmen möchtest. Entweder direkt in deiner Umgebung, aber wenn du heute Abedn ganz woanders bist, suche einfach dort.")
-                    .font(.avenirNextRegular(size: 16))
-                        .fontWeight(.light)
-                Spacer()
+            
+            if userData.showInfoTexts {
+                HStack() {
+                        Text("Wähle zunächst den Ort ,wo du etwas unternehmen möchtest. Entweder direkt in deiner Umgebung, aber wenn du heute Abedn ganz woanders bist, suche einfach dort.")
+                        .font(.avenirNextRegular(size: 16))
+                            .fontWeight(.light)
+                    Spacer()
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 10)
             }
-            .padding(.horizontal, 20)
-            .padding(.top, 10)
             
             HStack() {
                 
-                EventTypeImage(imageString: "essen")
-                    .padding(.leading, 5)
+//                EventTypeImage(imageString: "essen")
+//                    .padding(.leading, 5)
+//                    .padding(.trailing, 10)
+                
+                Image(systemName: "moon.stars")
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundColor(Color ("button1"))
+                    .fixedSize()
+                    .frame(width: 20, height: 20)
                     .padding(.trailing, 10)
                 
                 HStack() {
@@ -488,8 +426,15 @@ struct ButtonAreaView: View {
             
             HStack() {
                 
-                EventTypeImage(imageString: "freizeit2")
-                    .padding(.leading, 5)
+//                EventTypeImage(imageString: "freizeit2")
+//                    .padding(.leading, 5)
+//                    .padding(.trailing, 10)
+                
+                Image(systemName: "music.mic")
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundColor(Color ("button1"))
+                    .fixedSize()
+                    .frame(width: 20, height: 20)
                     .padding(.trailing, 10)
                 
                 HStack() {
@@ -512,8 +457,14 @@ struct ButtonAreaView: View {
             
             HStack() {
                 
-                EventTypeImage(imageString: "sport")
-                    .padding(.leading, 5)
+//                EventTypeImage(imageString: "sport")
+//                    .padding(.leading, 5)
+//                    .padding(.trailing, 10)
+                Image(systemName: "quote.bubble")
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundColor(Color ("button1"))
+                    .fixedSize()
+                    .frame(width: 20, height: 20)
                     .padding(.trailing, 10)
                 
                 HStack() {
@@ -534,78 +485,78 @@ struct ButtonAreaView: View {
             }
             .padding(.leading, 20)
             
-            // BUTTON FOOD
-            Button(action: {
-                withAnimation(.linear(duration: 0.2)) {
-                    self.addOrRemoveEventTyoe(eventType: .food)
-                }
-            }) {
-                HStack() {
-                    VStack(alignment: .leading){
-                        Text("Essen und Trinken")
-                            .font(.avenirNextRegular(size: 22))
-                        Text("Hier gibt es auch etwas Text")
-                        .font(.avenirNextRegular(size: 14))
-                        .fontWeight(.light)
-                    }
-                    Spacer()
-                    EventTypeImage(imageString: "essen")
-                        .saturation(self.tmpEventTypes.contains(.food) ? 1.0 : 0.0)
-                        .padding(.leading, 5)
-
-                }
-                .padding(.bottom, 20)
-                .padding(.horizontal, 20)
-                .frame(width: UIScreen.main.bounds.width)
-            }
-
-            // BUTTON ACTIVITY
-            Button(action: {
-                withAnimation(.linear(duration: 0.2)) {
-                    self.addOrRemoveEventTyoe(eventType: .activity)
-                }
-            }) {
-                HStack() {
-                    VStack(alignment: .leading){
-                        Text("Freizeit")
-                            .font(.avenirNextRegular(size: 22))
-                        Text("Ganz viel neuer Text könnte hier drinstehen, um die EventTypes zu erläutern.")
-                        .font(.avenirNextRegular(size: 14))
-                        .fontWeight(.light)
-                    }
-                    Spacer()
-                    EventTypeImage(imageString: "freizeit2")
-                        .saturation(self.tmpEventTypes.contains(.activity) ? 1.0 : 0.0)
-                        .padding(.leading, 5)
-
-                }
-                .padding(20)
-                .frame(width: UIScreen.main.bounds.width)
-            }
-
-            // BUTTON SPORT
-            Button(action: {
-                withAnimation(.linear(duration: 0.2)) {
-                    self.addOrRemoveEventTyoe(eventType: .sport)
-                }
-            }) {
-                HStack() {
-                    VStack(alignment: .leading){
-                        Text("Sport")
-                            .font(.avenirNextRegular(size: 22))
-                        Text("Und noch einmal: Ganz viel neuer Text könnte hier drinstehen, um die EventTypes zu erläutern.")
-                        .font(.avenirNextRegular(size: 14))
-                        .fontWeight(.light)
-                    }
-                    Spacer()
-                    EventTypeImage(imageString: "sport")
-                        .saturation(self.tmpEventTypes.contains(.sport) ? 1.0 : 0.0)
-                        .padding(.leading, 5)
-
-                }
-                .padding(20)
-                .frame(width: UIScreen.main.bounds.width)
-            }
+//            // BUTTON FOOD
+//            Button(action: {
+//                withAnimation(.linear(duration: 0.2)) {
+//                    self.addOrRemoveEventTyoe(eventType: .food)
+//                }
+//            }) {
+//                HStack() {
+//                    VStack(alignment: .leading){
+//                        Text("Essen und Trinken")
+//                            .font(.avenirNextRegular(size: 22))
+//                        Text("Hier gibt es auch etwas Text")
+//                        .font(.avenirNextRegular(size: 14))
+//                        .fontWeight(.light)
+//                    }
+//                    Spacer()
+//                    EventTypeImage(imageString: "essen")
+//                        .saturation(self.tmpEventTypes.contains(.food) ? 1.0 : 0.0)
+//                        .padding(.leading, 5)
+//
+//                }
+//                .padding(.bottom, 20)
+//                .padding(.horizontal, 20)
+//                .frame(width: UIScreen.main.bounds.width)
+//            }
+//
+//            // BUTTON ACTIVITY
+//            Button(action: {
+//                withAnimation(.linear(duration: 0.2)) {
+//                    self.addOrRemoveEventTyoe(eventType: .activity)
+//                }
+//            }) {
+//                HStack() {
+//                    VStack(alignment: .leading){
+//                        Text("Freizeit")
+//                            .font(.avenirNextRegular(size: 22))
+//                        Text("Ganz viel neuer Text könnte hier drinstehen, um die EventTypes zu erläutern.")
+//                        .font(.avenirNextRegular(size: 14))
+//                        .fontWeight(.light)
+//                    }
+//                    Spacer()
+//                    EventTypeImage(imageString: "freizeit2")
+//                        .saturation(self.tmpEventTypes.contains(.activity) ? 1.0 : 0.0)
+//                        .padding(.leading, 5)
+//
+//                }
+//                .padding(20)
+//                .frame(width: UIScreen.main.bounds.width)
+//            }
+//
+//            // BUTTON SPORT
+//            Button(action: {
+//                withAnimation(.linear(duration: 0.2)) {
+//                    self.addOrRemoveEventTyoe(eventType: .sport)
+//                }
+//            }) {
+//                HStack() {
+//                    VStack(alignment: .leading){
+//                        Text("Sport")
+//                            .font(.avenirNextRegular(size: 22))
+//                        Text("Und noch einmal: Ganz viel neuer Text könnte hier drinstehen, um die EventTypes zu erläutern.")
+//                        .font(.avenirNextRegular(size: 14))
+//                        .fontWeight(.light)
+//                    }
+//                    Spacer()
+//                    EventTypeImage(imageString: "sport")
+//                        .saturation(self.tmpEventTypes.contains(.sport) ? 1.0 : 0.0)
+//                        .padding(.leading, 5)
+//
+//                }
+//                .padding(20)
+//                .frame(width: UIScreen.main.bounds.width)
+//            }
             
         }
     }
