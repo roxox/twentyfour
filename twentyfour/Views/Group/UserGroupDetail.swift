@@ -12,7 +12,7 @@ struct UserGroupDetail: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    let currentUserGroup: UserGroup
+    let currentUserGroup: AppUserGroup
     
     var body: some View {
         GeometryReader { geometry in
@@ -52,6 +52,12 @@ struct UserGroupDetail: View {
                         .padding(.horizontal, 20)
                         .padding(.top, 20)
                         Divider()
+                    }
+                    Group {
+                        
+                        ForEach(currentUserGroup.invitedMembers, id: \.self) { member in
+                            Text("\(member.user.username)")
+                        }
                     }
                     
                     Group {

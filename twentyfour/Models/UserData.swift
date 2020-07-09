@@ -19,7 +19,7 @@ final class UserData: ObservableObject {
     @Published var appUsers = appUserData
     @Published var appGroups = appGroupData
     @Published var currentUser = appUserData[0]
-    @Published var groupList: [UserGroup] = []
+    @Published var groupList: [AppUserGroup] = []
         
     @Published var isLogged: Bool = UserDefaults.standard.bool(forKey: "isLogged") {
         didSet {

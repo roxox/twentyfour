@@ -24,9 +24,9 @@ var gradientCherryPink: LinearGradient {
 struct ExploreSearchButtonView: View {
     
     @EnvironmentObject var userData: UserData
-    @ObservedObject var searchDataContainer: SearchDataContainer
+    @ObservedObject var searchData: SearchData
     
-    @Binding var isSettingsHidden: Bool
+    @Binding var showSearch: Bool
     
     @State var showButtons = false
     @State var selectedScreen = 0
@@ -42,7 +42,7 @@ struct ExploreSearchButtonView: View {
     }
     
     func openSearchView() {
-        self.isSettingsHidden = false
+        self.showSearch.toggle()
     }
     
     var body: some View {

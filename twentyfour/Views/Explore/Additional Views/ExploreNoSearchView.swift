@@ -11,19 +11,18 @@ import SwiftUI
 struct ExploreNoSearchView: View {
     
     @EnvironmentObject var userData: UserData
-    @ObservedObject var searchDataContainer: SearchDataContainer
+    @ObservedObject var searchData: SearchData
     
-    @Binding var isSettingsHidden: Bool
+    @Binding var showSearch: Bool
     
     func openSearchView() {
-        searchDataContainer.resetValues()
+        searchData.resetValues()
         
-        searchDataContainer.eventTypes.removeAll()
-        searchDataContainer.locationString = ""
+        searchData.eventTypes.removeAll()
+        searchData.locationString = ""
         userData.resetValues()
         
-        self.isSettingsHidden = false
-//        userData.searchViewOffsetY = CGFloat (0)
+        self.showSearch.toggle()
     }
     
     var body: some View {
@@ -62,16 +61,15 @@ struct ExploreNoSearchView: View {
                             .foregroundColor(.black)
                             .fixedSize()
                             .frame(width: 45, height: 45)
-//                                .background(gradientGray)
                         Text("Suche erstellen")
                             .padding(.trailing)
                     }
-                    .frame(height: 46)
-                    .foreground(gradientBlueAccentSea)
-                    .clipShape(RoundedRectangle(cornerRadius: 23))
+                    .frame(height: 40)
+                    .foreground(gradientPeachPink)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
                     .overlay(
-                        RoundedRectangle(cornerRadius: 23)
-                            .stroke(gradientBlueAccentSea, lineWidth: 2)
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(gradientPeachPink, lineWidth: 2)
                     )
                 }
                 

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ProfileDetail: View {
-    var profile: Profile
+    var profile: AppUser
     @Binding var showProfile : Bool
     
     private let imageHeight: CGFloat = 250
@@ -122,13 +122,13 @@ struct ProfileDetail: View {
                         .font(.avenirNext(size: 28))
                         .background(GeometryGetter(rect: self.$titleRect)) // 2
                     
-                    VStack() {
-                        ForEach(self.profile.groups) { group in
-                            Text(String(group.id!))
-                            .font(.avenirNextRegular(size: 12))
-                            .foregroundColor(.gray)
-                        }
-                    }
+//                    VStack() {
+//                        ForEach(self.profile.memberships) { group in
+//                            Text(String(group.id!))
+//                            .font(.avenirNextRegular(size: 12))
+//                            .foregroundColor(.gray)
+//                        }
+//                    }
 //                    Text(loremIpsum)
 //                        .lineLimit(nil)
 //                        .font(.avenirNextRegular(size: 17))

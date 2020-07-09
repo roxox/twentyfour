@@ -8,8 +8,8 @@
 
 import SwiftUI
 
-struct UserDetailsViewer: View {
-        let user: Profile
+struct AppUserProfileView: View {
+        let user: AppUser
         @Binding var showCard : Bool
         
         var body: some View {
@@ -34,7 +34,7 @@ struct UserDetailsViewer: View {
                     }
                     .padding(.top, 10)
                 }
-                UserDetailsView(currentUser: user)
+                CurrentAppUserDetailsView(currentUser: user)
             }
         }
     }

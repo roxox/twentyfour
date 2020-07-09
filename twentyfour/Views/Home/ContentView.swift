@@ -16,13 +16,11 @@ import FirebaseFirestoreSwift
 struct ContentView: View {
     
     @EnvironmentObject var userData: UserData
-    @ObservedObject var searchDataContainer = SearchDataContainer()
+    @ObservedObject var searchData = SearchData()
     
-    @State var showingProfile = false
-    @State var showButtons = false
     @State var pageIndex = 0
     @State var isButtonBarHidden: Bool = false
-    @State var isSettingsHidden: Bool = true
+    @State var showSearch: Bool = false
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -49,17 +47,17 @@ struct ContentView: View {
                 VStack(alignment: .leading) {
                     // ExploreView
                     if pageIndex == 0 {
-                        if self.searchDataContainer.targetDate > self.searchDataContainer.currentTime {
+                        if self.searchData.targetDate > self.searchData.currentTime {
                             ExploreView(
-                                searchDataContainer: searchDataContainer,
+                                searchData: searchData,
                                 isButtonBarHidden: self.$isButtonBarHidden,
-                                isSettingsHidden: self.$isSettingsHidden
+                                showSearch: self.$showSearch
                             )
                         }
                         else {
                             ExploreNoSearchView(
-                                searchDataContainer: searchDataContainer,
-                                isSettingsHidden: self.$isSettingsHidden
+                                searchData: searchData,
+                                showSearch: self.$showSearch
                             )
                         }
                         
@@ -71,9 +69,9 @@ struct ContentView: View {
                     }
                     
                     if pageIndex == 3 {
-                        UserDetailsView(
+                        CurrentAppUserDetailsView(
                             currentUser: userData.currentUser
-                        )
+                        ).environmentObject(self.userData)
                     }
                 }
                     
@@ -85,32 +83,28 @@ struct ContentView: View {
                 }
                 .animation(.spring())
                 
-                VStack() {
-                    SearchView(
-                        searchDataContainer: searchDataContainer,
-                        isSettingsHidden: self.$isSettingsHidden
-                    )
-                        .background(Color .white)
-                        .offset(y: isSettingsHidden ? menuCollapsed : CGFloat(0))
-                }
-                .animation(.spring())
-                
             }
             }
         }.onReceive(timer) { time in
-            self.searchDataContainer.currentTime = Date()
+            self.searchData.currentTime = Date()
         }
         .navigationBarHidden(true)
         .navigationBarTitle("", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
-//        .edgesIgnoringSafeArea(.bottom)
+        
+        .fullScreenCover(isPresented: self.$showSearch) {
+            SearchView(
+                searchData: searchData
+            ).environmentObject(self.userData)
+        }
+        
     }
     }
     
 }
 
 struct CurrentUser: View {
-    var currentUser: Profile
+    var currentUser: AppUser
     var body: some View {
         currentUser.image
             .resizable()

@@ -8,25 +8,19 @@
 
 import SwiftUI
 
-struct UserDetailsView: View {
+struct CurrentAppUserDetailsView: View {
     
     @EnvironmentObject var userData: UserData
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var showInfoTexts: Bool = false
     @State var defaultMaxDistance: Double = 2
     
-    let currentUser: Profile
+    let currentUser: AppUser
     
     var body: some View {
         GeometryReader { geometry in
             ZStack() {
                 ScrollView() {
-//                    HStack() {
-//                        Spacer()
-//                        Text(currentUser.username)
-//                        Spacer()
-//                    }.padding(.top, 90)
-                    
                     Group {
                         HStack(alignment: .top){
                             VStack(alignment: .leading) {
@@ -49,7 +43,6 @@ struct UserDetailsView: View {
                                 .scaledToFill()
                                 .clipShape(Circle())
                                 .frame(width: 90 ,height: 90)
-                                .overlay(Circle().stroke(gradientBlueAccentSea, lineWidth: 2))
                         }
                         .padding(.horizontal, 20)
                         .padding(.top, 70)
@@ -61,7 +54,7 @@ struct UserDetailsView: View {
                     Group {
                         HStack() {
                             VStack(alignment: .leading) {
-                                Text("Deine Kontaktinfos")
+                                Text("Kontaktinfos")
                                     .font(.avenirNextRegular(size: 20))
                                     .fontWeight(.medium)
                                     .fixedSize(horizontal: false, vertical: true)
@@ -70,28 +63,28 @@ struct UserDetailsView: View {
                                     .font(.avenirNextRegular(size: 14))
                                     .fontWeight(.light)
                             }
-                        Spacer()
+                            Spacer()
                         }
                         .padding(.horizontal, 20)
                         .padding(.top, 20)
                         
                         HStack(alignment: .center) {
-                                    Image(systemName: "envelope")
-                                    .font(.system(size: 18, weight: .medium))
-                                        .foregroundColor(Color ("button1"))
-                                    .fixedSize()
-                                    .frame(width: 20, height: 20)
-                                        .padding(.trailing, 10)
-
+                            Image(systemName: "envelope")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(Color ("button1"))
+                                .fixedSize()
+                                .frame(width: 20, height: 20)
+                                .padding(.trailing, 10)
+                            
                             VStack(alignment: .leading) {
                                 Text(currentUser.email)
                                     .font(.avenirNextRegular(size: 18))
                                     .fontWeight(.light)
                             }
                             .padding(.trailing, 40)
-
-                                Spacer()
-                            }
+                            
+                            Spacer()
+                        }
                         .padding(.horizontal, 20)
                         .padding(.top, 10)
                         .padding(.bottom, 20)
@@ -112,13 +105,13 @@ struct UserDetailsView: View {
                         .padding(.top, 20)
                         
                         HStack(alignment: .top) {
-                                    Image(systemName: "mappin.and.ellipse")
-                                    .font(.system(size: 18, weight: .medium))
-                                        .foregroundColor(Color ("button1"))
-                                    .fixedSize()
-                                    .frame(width: 20, height: 20)
-                                        .padding(.trailing, 10)
-
+                            Image(systemName: "mappin.and.ellipse")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(Color ("button1"))
+                                .fixedSize()
+                                .frame(width: 20, height: 20)
+                                .padding(.trailing, 10)
+                            
                             VStack(alignment: .leading) {
                                 Text("max. Enterfernung")
                                     .font(.avenirNextRegular(size: 16))
@@ -128,15 +121,16 @@ struct UserDetailsView: View {
                                     .fontWeight(.light)
                             }
                             .padding(.trailing, 40)
-
-                                Spacer()
-                            }
+                            
+                            Spacer()
+                        }
                         .padding(.horizontal, 20)
                         .padding(.top, 10)
                         .padding(.bottom, 2)
-                                                
+                        
                         HStack() {
                             Slider(value: self.$defaultMaxDistance, in: 2...150, step: 1)
+                                .accentColor(.pink)
                         }
                         .padding(.horizontal, 50)
                         .padding(.bottom, 20)
@@ -147,7 +141,7 @@ struct UserDetailsView: View {
                     Group {
                         HStack() {
                             VStack(alignment: .leading) {
-                                Text("Deine Interessen")
+                                Text("Interessen")
                                     .font(.avenirNextRegular(size: 20))
                                     .fontWeight(.medium)
                                     .fixedSize(horizontal: false, vertical: true)
@@ -156,19 +150,19 @@ struct UserDetailsView: View {
                                     .font(.avenirNextRegular(size: 14))
                                     .fontWeight(.light)
                             }
-                        Spacer()
+                            Spacer()
                         }
                         .padding(.horizontal, 20)
                         .padding(.top, 20)
                         
                         HStack(alignment: .top) {
-                                    Image(systemName: "moon.stars")
-                                    .font(.system(size: 18, weight: .medium))
-                                        .foregroundColor(Color ("button1"))
-                                    .fixedSize()
-                                    .frame(width: 20, height: 20)
-                                        .padding(.trailing, 10)
-
+                            Image(systemName: "moon.stars")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(Color ("button1"))
+                                .fixedSize()
+                                .frame(width: 20, height: 20)
+                                .padding(.trailing, 10)
+                            
                             
                             VStack(alignment: .leading) {
                                 Text("Essen und Trinken")
@@ -179,7 +173,7 @@ struct UserDetailsView: View {
                                     .fontWeight(.light)
                             }
                             .padding(.trailing, 40)
-
+                            
                             Spacer()
                             
                             VStack(){
@@ -190,22 +184,22 @@ struct UserDetailsView: View {
                                     .fixedSize()
                                     .frame(width: 20, height: 20)
                                 Spacer()
-                                }
+                            }
                         }
                         .padding(.horizontal, 20)
                         .padding(.top, 10)
                         
                         HStack(alignment: .top) {
-                                    Image(systemName: "music.mic")
-                                    .font(.system(size: 18, weight: .medium))
-                                        .foregroundColor(Color ("button1"))
-                                    .fixedSize()
-                                    .frame(width: 20, height: 20)
-                                        .padding(.trailing, 10)
-
+                            Image(systemName: "guitars")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(Color ("button1"))
+                                .fixedSize()
+                                .frame(width: 20, height: 20)
+                                .padding(.trailing, 10)
+                            
                             
                             VStack(alignment: .leading) {
-                                Text("Aktivität")
+                                Text("Freizeit")
                                     .font(.avenirNextRegular(size: 16))
                                     .fontWeight(.semibold)
                                 Text("Party, House, Pop, Rock, Kino, Comedy, Horror, Action ...")
@@ -213,7 +207,7 @@ struct UserDetailsView: View {
                                     .fontWeight(.light)
                             }
                             .padding(.trailing, 40)
-
+                            
                             Spacer()
                             
                             VStack(){
@@ -224,19 +218,19 @@ struct UserDetailsView: View {
                                     .fixedSize()
                                     .frame(width: 20, height: 20)
                                 Spacer()
-                                }
                             }
+                        }
                         .padding(.horizontal, 20)
                         .padding(.top, 10)
                         
                         HStack(alignment: .top) {
-                                    Image(systemName: "quote.bubble")
-                                    .font(.system(size: 18, weight: .medium))
-                                        .foregroundColor(Color ("button1"))
-                                    .fixedSize()
-                                    .frame(width: 20, height: 20)
-                                        .padding(.trailing, 10)
-
+                            Image(systemName: "sportscourt")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(Color ("button1"))
+                                .fixedSize()
+                                .frame(width: 20, height: 20)
+                                .padding(.trailing, 10)
+                            
                             
                             VStack(alignment: .leading) {
                                 Text("Sport")
@@ -247,7 +241,7 @@ struct UserDetailsView: View {
                                     .fontWeight(.light)
                             }
                             .padding(.trailing, 40)
-
+                            
                             Spacer()
                             
                             VStack(){
@@ -258,8 +252,8 @@ struct UserDetailsView: View {
                                     .fixedSize()
                                     .frame(width: 20, height: 20)
                                 Spacer()
-                                }
                             }
+                        }
                         .padding(.horizontal, 20)
                         .padding(.top, 10)
                         .padding(.bottom, 20)
@@ -297,23 +291,113 @@ struct UserDetailsView: View {
                                         .font(.avenirNextRegular(size: 14))
                                         .fontWeight(.light)
                                 }
-                            
-                            Spacer()
+                                
+                                Spacer()
                             }.frame(maxWidth: .infinity)
                             
-                            Toggle("", isOn: $showInfoTexts)
+                            Toggle("", isOn: $userData.showInfoTexts)
                                 .labelsHidden()
                                 .padding()
                         }
+                        .toggleStyle(SwitchToggleStyle(tint: Color .pink))
                         .padding(.leading, 20)
                         .padding(.bottom, 20)
                         
                         Divider()
+                    }
+                    
+                    
+                    Group {
+                        HStack() {
+                            VStack(alignment: .leading) {
+                                Text("Rechtliches")
+                                    .font(.avenirNextRegular(size: 20))
+                                    .fontWeight(.medium)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .lineLimit(1)
+                            }
+                            Spacer()
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.top, 20)
+                        
+                        HStack(alignment: .top) {
+                            Image(systemName: "paragraph")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(Color ("button1"))
+                                .fixedSize()
+                                .frame(width: 20, height: 20)
+                                .padding(.trailing, 10)
                             
+                            
+                            VStack(alignment: .leading) {
+                                Text("AGB und Nutzungsbedingungen")
+                                    .font(.avenirNextRegular(size: 16))
+                                    .fontWeight(.semibold)
+                                Text("HIer gibt es den Text zu den AGBs bzw. zu den Nutzungsbedingungen")
+                                    .font(.avenirNextRegular(size: 14))
+                                    .fontWeight(.light)
+                            }
+                            .padding(.trailing, 40)
+                            
+                            Spacer()
+                            
+                            VStack(){
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 18, weight: .medium))
+                                    .foregroundColor(Color ("button1"))
+                                    .fixedSize()
+                                    .frame(width: 20, height: 20)
+                                Spacer()
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.top, 10)
+                        
+                        HStack(alignment: .top) {
+                            Image(systemName: "text.justifyleft")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(Color ("button1"))
+                                .fixedSize()
+                                .frame(width: 20, height: 20)
+                                .padding(.trailing, 10)
+                            
+                            
+                            VStack(alignment: .leading) {
+                                Text("Datenschutzhinweise")
+                                    .font(.avenirNextRegular(size: 16))
+                                    .fontWeight(.semibold)
+                                Text("Und hier noch ein paar Infos zum Datenschutz")
+                                    .font(.avenirNextRegular(size: 14))
+                                    .fontWeight(.light)
+                            }
+                            .padding(.trailing, 40)
+                            
+                            Spacer()
+                            
+                            VStack(){
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 18, weight: .medium))
+                                    .foregroundColor(Color ("button1"))
+                                    .fixedSize()
+                                    .frame(width: 20, height: 20)
+                                Spacer()
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.top, 10)
+                        .padding(.bottom, 20)
+                        
+                        Divider()
+                    }
+                    
+                    Group {
+                        
                         // Abbrechen
                         Button(action: {
                             withAnimation(.linear(duration: 0.2)) {
-//                                self.searchDataContainer.cancel()
                             }
                         }) {
                             HStack() {
@@ -325,13 +409,13 @@ struct UserDetailsView: View {
                             .frame(height: 30)
                             .foreground(gradientPinkPinkAndPeach)
                         }
+                        .padding(.top, 10)
                         .padding(.horizontal, 20)
-                            .padding(.bottom, 20)
+                        .padding(.bottom, 20)
                         
                         // Konto löschen
                         Button(action: {
                             withAnimation(.linear(duration: 0.2)) {
-//                                self.searchDataContainer.cancel()
                             }
                         }) {
                             HStack() {
@@ -344,8 +428,9 @@ struct UserDetailsView: View {
                             .foregroundColor(Color ("button1"))
                         }
                         .padding(.horizontal, 20)
-                            .padding(.bottom, 90)
+                        .padding(.bottom, 90)
                     }
+                    
                     
                     
                 }
@@ -361,33 +446,33 @@ struct UserDetailsView: View {
                         .frame(maxWidth: .infinity)
                 }
                 .edgesIgnoringSafeArea(.all)
-//                .edgesIgnoringSafeArea(.top)
+                //                .edgesIgnoringSafeArea(.top)
                 
-//                VStack() {
-//                    HStack() {
-//                        Button(action: {
-//                            withAnimation(.linear(duration: 0.2)) {
-//                                self.presentationMode.wrappedValue.dismiss()
-//                            }
-//                        }) {
-//                            Image(systemName: "chevron.left")
-//                                .font(.system(size: 14, weight: .medium))
-//                                .scaledToFill()
-//                                .frame(width: 45 ,height: 45)
-//                                .background(Color ("background1"))
-//                                .clipShape(Circle())
-//                                .foregroundColor(Color ("button1"))
-//                        }
-//                        .shadow(radius: 4, y: 2)
-//                        .padding(.trailing, 15)
-//                        .padding(.bottom, 15)
-//                        .padding(.top, 10)
-//
-//                        Spacer()
-//                    }
-//                    .padding(.leading, 20)
-//                    Spacer()
-//                }
+                //                VStack() {
+                //                    HStack() {
+                //                        Button(action: {
+                //                            withAnimation(.linear(duration: 0.2)) {
+                //                                self.presentationMode.wrappedValue.dismiss()
+                //                            }
+                //                        }) {
+                //                            Image(systemName: "chevron.left")
+                //                                .font(.system(size: 14, weight: .medium))
+                //                                .scaledToFill()
+                //                                .frame(width: 45 ,height: 45)
+                //                                .background(Color ("background1"))
+                //                                .clipShape(Circle())
+                //                                .foregroundColor(Color ("button1"))
+                //                        }
+                //                        .shadow(radius: 4, y: 2)
+                //                        .padding(.trailing, 15)
+                //                        .padding(.bottom, 15)
+                //                        .padding(.top, 10)
+                //
+                //                        Spacer()
+                //                    }
+                //                    .padding(.leading, 20)
+                //                    Spacer()
+                //                }
             }
             .navigationBarHidden(true)
             .navigationBarTitle("", displayMode: .inline)

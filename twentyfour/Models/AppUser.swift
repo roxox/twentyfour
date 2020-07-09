@@ -9,18 +9,19 @@
 import SwiftUI
 import CoreLocation
 
-struct Profile: Hashable, Codable, Identifiable {
+struct AppUser: Hashable, Codable, Identifiable {
     var id: String
     var email: String
     var username: String
     var selected: Bool? = false
     var searchParameter: SearchParameter
     fileprivate var imageName: String
-    var searchTypes: [EventType]
-    var groups: [UserGroup] = []
+    var searchTypes: [ActivityType]
+    var memberships: [Membership] = []
+    var created: String
     
-    mutating func addGroup(group: UserGroup) {
-        groups.append(group)
+    mutating func addMembership(membership: Membership) {
+        memberships.append(membership)
     }
     
 }
@@ -59,7 +60,7 @@ struct SearchParameter: Hashable, Codable {
 }
 
 
-extension Profile {
+extension AppUser {
     var image: Image {
         ImageStore.shared.image(name: imageName)
     }
@@ -72,19 +73,19 @@ struct Coordinates: Hashable, Codable {
 
 
 
-struct Profile_Previews: PreviewProvider {
+struct AppUser_Previews: PreviewProvider {
     static var previews: some View {
         /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
 }
 
-enum EventType: CaseIterable {
+enum ActivityType: CaseIterable {
     case food
-    case activity
-    case sport
+    case leisure
+    case sports
 }
 
-extension EventType: Codable {
+extension ActivityType: Codable {
     
     enum Key: CodingKey {
         case rawValue
@@ -101,9 +102,9 @@ extension EventType: Codable {
         case 0:
             self = .food
         case 1:
-            self = .activity
+            self = .leisure
         case 2:
-            self = .sport
+            self = .sports
         default:
             throw CodingError.unknownValue
         }
@@ -114,9 +115,54 @@ extension EventType: Codable {
         switch self {
         case .food:
             try container.encode(0, forKey: .rawValue)
-        case .activity:
+        case .leisure:
             try container.encode(1, forKey: .rawValue)
-        case .sport:
+        case .sports:
+            try container.encode(2, forKey: .rawValue)
+        }
+    }
+    
+}
+
+enum Gender: CaseIterable {
+    case male
+    case female
+    case divers
+}
+
+extension Gender: Codable {
+    
+    enum Key: CodingKey {
+        case rawValue
+    }
+    
+    enum CodingError: Error {
+        case unknownValue
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: Key.self)
+        let rawValue = try container.decode(Int.self, forKey: .rawValue)
+        switch rawValue {
+        case 0:
+            self = .male
+        case 1:
+            self = .female
+        case 2:
+            self = .divers
+        default:
+            throw CodingError.unknownValue
+        }
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: Key.self)
+        switch self {
+        case .male:
+            try container.encode(0, forKey: .rawValue)
+        case .female:
+            try container.encode(1, forKey: .rawValue)
+        case .divers:
             try container.encode(2, forKey: .rawValue)
         }
     }

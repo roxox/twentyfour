@@ -9,7 +9,7 @@
 import SwiftUI
 import Combine
 
-class SearchDataContainer: ObservableObject {
+class SearchData: ObservableObject {
     
     @Published var locationString: String = UserDefaults.standard.string(forKey: "locationString") ?? "" {
         didSet {
@@ -48,7 +48,7 @@ class SearchDataContainer: ObservableObject {
         }
     }
     
-    @Published var eventTypes: [EventType] = [] {
+    @Published var eventTypes: [ActivityType] = [] {
         didSet {
             self.eventTypesWillChange.send(eventTypes)
             self.updateSelectedEvents()
@@ -101,7 +101,7 @@ class SearchDataContainer: ObservableObject {
     
     public let maxDistanceWillChange = PassthroughSubject<Double,Never>()
     
-    public let eventTypesWillChange = PassthroughSubject<[EventType],Never>()
+    public let eventTypesWillChange = PassthroughSubject<[ActivityType],Never>()
 
     func updateSelectedEvents() {
         do {
@@ -118,7 +118,7 @@ class SearchDataContainer: ObservableObject {
         if string != nil {
             let data = string!.data(using: .utf8)!
             do {
-                let result = try JSONDecoder().decode([EventType].self, from: data)
+                let result = try JSONDecoder().decode([ActivityType].self, from: data)
                 for item in result {
                     self.eventTypes.append(item)
 
@@ -178,7 +178,7 @@ class SearchDataContainer: ObservableObject {
         eventTypes = []
     }
     
-    func copyTmpValuesToValues(tmpLocationString: String, tmpMaxDistance: Double, tmpEventTypes: [EventType]) {
+    func copyTmpValuesToValues(tmpLocationString: String, tmpMaxDistance: Double, tmpEventTypes: [ActivityType]) {
         locationString = tmpLocationString
         maxDistance = tmpMaxDistance
         
