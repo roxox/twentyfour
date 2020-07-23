@@ -53,12 +53,12 @@ struct UserGroupDetail: View {
                         .padding(.top, 20)
                         Divider()
                     }
-                    Group {
-                        
-                        ForEach(currentUserGroup.invitedMembers, id: \.self) { member in
-                            Text("\(member.user.username)")
-                        }
-                    }
+//                    Group {
+//                        
+//                        ForEach(currentUserGroup.invitedMembers, id: \.self) { member in
+//                            Text("\(member.user.username)")
+//                        }
+//                    }
                     
                     Group {
                         HStack() {

@@ -12,6 +12,7 @@ import UIKit
 
 struct AppUserListView: View {
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var session: FirebaseSession
     @ObservedObject var searchData: SearchData
     
     @Binding var selectedEventType: ActivityType?
@@ -80,14 +81,15 @@ struct AppUserListView: View {
                     // Headline ausgewähle User
                     HStack(){
                         VStack(alignment: .leading){
-                            Text("Ausgewählte Personen")
+                            Text("1. Stelle dir eine Gruppe zusammen")
                                 .font(.avenirNextRegular(size: 20))
-                                .fontWeight(.medium)
+                                .fontWeight(.semibold)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .lineLimit(1)
+//                                .foreground(gradientCherryPink)
                             
-                            
-                            if userData.showInfoTexts {
+//                            Text("hier: \(String(session.settings!.showInfoTexts))")
+                            if session.settings!.showInfoTexts {
                                 HStack() {
                                     Text("Info: ")
                                         .font(.avenirNextRegular(size: 16))
@@ -131,7 +133,6 @@ struct AppUserListView: View {
                                                         .scaledToFill()
                                                         .clipShape(Circle())
                                                         .frame(width: 60 ,height: 60)
-                                                        .overlay(Circle().stroke(gradientBlueAccentSea, lineWidth: 2))
                                                         .shadow(radius: 4, y: 2)
                                                     
                                                     Text(appUser.username)
@@ -158,7 +159,7 @@ struct AppUserListView: View {
                     //END: ScrollView
                     
                     
-                    if userData.showInfoTexts {
+                    if session.settings!.showInfoTexts {
                         Divider()
                             .padding(.horizontal, 20)
                     }
@@ -173,11 +174,12 @@ struct AppUserListView: View {
                     // Headline EventType
                     HStack(){
                         VStack(alignment: .leading) {
-                            Text("Wähle eine Aktivität für die Gruppe")
+                            Text("2. Wähle eine Aktivität für die Gruppe")
                                 .font(.avenirNextRegular(size: 20))
-                                .fontWeight(.medium)
+                                .fontWeight(.semibold)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .lineLimit(1)
+//                                .foreground(gradientCherryPink)
                         }
                         
                         Spacer()
@@ -186,7 +188,7 @@ struct AppUserListView: View {
                     .padding([.leading, .trailing], 20)
                     .padding(.top, 10)
                     
-                    if userData.showInfoTexts {
+                    if session.settings!.showInfoTexts {
                         HStack() {
                             Text("Info: ")
                                 .font(.avenirNextRegular(size: 16))
@@ -245,7 +247,7 @@ struct AppUserListView: View {
                     .padding(.bottom, 20)
                     
                     
-                    if userData.showInfoTexts {
+                    if session.settings!.showInfoTexts {
                         Divider()
                             .padding(.horizontal, 20)
                     }
@@ -257,9 +259,10 @@ struct AppUserListView: View {
                 
                 Group {
                     HStack() {
-                        Text("Benötigte Informationen")
+                        Text("3. Hier noch ein paar benötigte Informationen")
                             .font(.avenirNextRegular(size: 20))
-                            .fontWeight(.medium)
+                            .fontWeight(.semibold)
+//                            .foreground(gradientCherryPink)
                         
                         Spacer()
                     }
@@ -267,7 +270,7 @@ struct AppUserListView: View {
                     .padding(.top, 10)
                     
                     
-                    if userData.showInfoTexts {
+                    if session.settings!.showInfoTexts {
                         HStack() {
                             Text("Info: ")
                                 .font(.avenirNextRegular(size: 16))
@@ -307,43 +310,6 @@ struct AppUserListView: View {
                     .padding(.top, 10)
                     .padding(.bottom, 20)
                     
-                    if userData.showInfoTexts {
-                        Divider()
-                            .padding(.horizontal, 20)
-                    }
-                }
-                .onTapGesture {
-                    hideKeyboard()
-                }
-                // Group 3 ENDED
-                
-                Group {
-                    //
-                    HStack() {
-                        Text("Optionale Angaben")
-                            .font(.avenirNextRegular(size: 20))
-                            .fontWeight(.medium)
-                        Spacer()
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 10)
-                    
-                    if userData.showInfoTexts {
-                        HStack() {
-                            Text("Info: ")
-                                .font(.avenirNextRegular(size: 16))
-                                .fontWeight(.semibold)
-                                .foregroundColor(Color ("button1"))
-                                +
-                            Text("Hast du z.B. von einem speziellen Restaurant gehört, dass du ausprobieren möchtest, dann gib es hier an. Alle Angabgen können auch später gemacht oder verändert werden.")
-                                .font(.avenirNextRegular(size: 16))
-                                .fontWeight(.light)
-                            Spacer()
-                        }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 10)
-                    }
-                    
                     HStack(alignment: .top) {
                         Image(systemName: "house")
                             .font(.system(size: 18, weight: .semibold))
@@ -366,6 +332,43 @@ struct AppUserListView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 10)
                     .padding(.bottom, 20)
+                    
+                    if session.settings!.showInfoTexts {
+                        Divider()
+                            .padding(.horizontal, 20)
+                    }
+                }
+                .onTapGesture {
+                    hideKeyboard()
+                }
+                // Group 3 ENDED
+                
+                Group {
+                    //
+                    HStack() {
+                        Text("4. Noch ein paar optionale Angaben... wenn du willst!")
+                            .font(.avenirNextRegular(size: 20))
+                            .fontWeight(.semibold)
+                        Spacer()
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 10)
+                    
+                    if session.settings!.showInfoTexts {
+                        HStack() {
+                            Text("Info: ")
+                                .font(.avenirNextRegular(size: 16))
+                                .fontWeight(.semibold)
+                                .foregroundColor(Color ("button1"))
+                                +
+                            Text("Hast du z.B. von einem speziellen Restaurant gehört, dass du ausprobieren möchtest, dann gib es hier an. Alle Angabgen können auch später gemacht oder verändert werden.")
+                                .font(.avenirNextRegular(size: 16))
+                                .fontWeight(.light)
+                            Spacer()
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.top, 10)
+                    }
                     
                     HStack(alignment: .top) {
                         Image(systemName: "mappin.and.ellipse")
@@ -545,9 +548,9 @@ struct AppUserTextOverlay: View {
             endPoint: .center)
     }
     
-    func getNumberOfMemberships(_ user: AppUser) -> Int {
-        return user.memberships.count
-    }
+//    func getNumberOfMemberships(_ user: AppUser) -> Int {
+//        return user.memberships.count
+//    }
     
     var body: some View {
         
@@ -588,11 +591,11 @@ struct AppUserTextOverlay: View {
                                     .padding(.leading)
                                 
                                 
-                                Text("\(currentAppUser.memberships.count)")
-                                    .foregroundColor(.white)
-                                    .font(.avenirNextRegular(size: 16))
-                                    .fontWeight(.light)
-                                    .padding(.leading)
+//                                Text("\(currentAppUser.memberships.count)")
+//                                    .foregroundColor(.white)
+//                                    .font(.avenirNextRegular(size: 16))
+//                                    .fontWeight(.light)
+//                                    .padding(.leading)
                             }
                             .padding(.bottom, 10)
                         }

@@ -34,6 +34,7 @@ struct ActivityTypeToggleHandler {
 struct SearchView: View {
     
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var session: FirebaseSession
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @ObservedObject var searchData: SearchData
@@ -46,6 +47,7 @@ struct SearchView: View {
     @State var tmpLocationString: String = ""
     @State var tmpMaxDistance: Double = 0
     @State var tmpEventTypes: [ActivityType] = []
+    @State var tmpLocation: CLLocationCoordinate2D?
     
     @State var toggleHandler = ActivityTypeToggleHandler()
     
@@ -62,7 +64,6 @@ struct SearchView: View {
         }
     }
     
-    
     fileprivate let locationManager: CLLocationManager = {
         let manager = CLLocationManager()
         manager.requestWhenInUseAuthorization()
@@ -75,7 +76,15 @@ struct SearchView: View {
         presentationMode.wrappedValue.dismiss()
     }
     
-    func copyValuesToTmpValues() {
+    func getCurrentLocation() {
+        globalLookUpCurrentLocation { loc in
+            tmpLocationString = (loc?.locality)!
+            tmpLocation = loc?.location?.coordinate
+        }
+    }
+    
+    
+    func initializeTmpValues() {
         self.tmpLocationString = self.searchData.locationString
         self.tmpMaxDistance = self.searchData.maxDistance
         self.tmpEventTypes = self.searchData.eventTypes
@@ -121,6 +130,17 @@ struct SearchView: View {
         
         self.searchData.createOrUpdate()
         self.closeSearchView()
+    }
+    
+    func getDistanceUnitString(_ value: DistanceUnit) -> String {
+        switch value {
+        case .kilometres:
+            return "km"
+        case .miles:
+            return "mi"
+        default:
+            return "unknown"
+        }
     }
     
     func getLabel() -> String {
@@ -196,22 +216,29 @@ struct SearchView: View {
                                 .padding(.bottom, 2)
                                 
                                 HStack() {
-                                    HStack() {
-                                        
-                                        Image(systemName: "location.fill")
-                                            .font(.system(size: 14, weight: .medium))
-                                            .fixedSize()
-                                            .frame(width: 20, height: 20)
-                                            .foreground(gradientSeaAndBlue)
-                                        
-                                        Text("In der Umgebung")
-                                            .font(.avenirNextRegular(size: 14))
+                                    
+                                    Button(action: {
+                                        withAnimation(.linear(duration: 0.2)) {
+                                            getCurrentLocation()
+                                        }
+                                    }) {
+                                        HStack() {
+                                            
+                                            Image(systemName: "location.fill")
+                                                .font(.system(size: 14, weight: .medium))
+                                                .fixedSize()
+                                                .frame(width: 20, height: 20)
+                                                .foreground(gradientSeaAndBlue)
+                                            
+                                            Text("In der Umgebung")
+                                                .font(.avenirNextRegular(size: 14))
+                                        }
+                                        .frame(height: 30)
+                                        .padding(.horizontal, 7)
+                                        .background(Color ("SuperLightGray"))
+                                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                                        Spacer()
                                     }
-                                    .frame(height: 30)
-                                    .padding(.horizontal, 7)
-                                    .background(Color ("SuperLightGray"))
-                                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                                    Spacer()
                                 }
                                 .padding(.horizontal, 45)
                                 .padding(.top, 5)
@@ -230,9 +257,13 @@ struct SearchView: View {
                                             .font(.avenirNextRegular(size: 12))
                                             .fontWeight(.semibold)
                                     }
-                                    .padding(.trailing, 40)
-                                    
                                     Spacer()
+                                    
+                                    Text("\(Int(self.tmpMaxDistance))")
+                                    Text("\(getDistanceUnitString(session.settings!.distanceUnit))")
+//                                    .padding(.trailing, 40)
+                                    
+//                                    Spacer()
                                 }
                                 .padding(.horizontal, 20)
                                 .padding(.top, 10)
@@ -476,7 +507,7 @@ struct SearchView: View {
                 }
             }
             .onAppear() {
-                self.copyValuesToTmpValues()
+                self.initializeTmpValues()
             }
             
             .onReceive(self.toggleHandler.isFoodToggleWillChange) { newValue in
@@ -789,7 +820,8 @@ struct SearchHeaderOverlay: View {
                                     .padding(.horizontal)
                             }
                             .frame(height: 40)
-                            .background(gradientPeachPink)
+//                            .background(gradientPeachPink)
+                            .background(gradientCherryPink)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
                         }
                         .disabled(!self.isModified() || self.tmpEventTypes.count == 0 || self.tmpLocationString == "")

@@ -7,15 +7,44 @@
 //
 
 import SwiftUI
+import Combine
+import Firebase
+import FirebaseFirestore
+
+struct ChangeHandler {
+    
+    var isToggled: Bool = false {
+        didSet {
+            self.isToggledDidChange.send(isToggled)
+        }
+    }
+    
+    var maxDistance: Double = 2 {
+        didSet {
+            self.maxDistanceDidChange.send(maxDistance)
+        }
+    }
+    
+    public let isToggledDidChange = PassthroughSubject<Bool,Never>()
+    public let maxDistanceDidChange = PassthroughSubject<Double,Never>()
+}
+
 
 struct CurrentAppUserDetailsView: View {
     
-    @EnvironmentObject var userData: UserData
+    @EnvironmentObject var session: FirebaseSession
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State var showInfoTexts: Bool = false
-    @State var defaultMaxDistance: Double = 2
     
+    @State var defaultMaxDistance: Double = 2
+    @State var changeHandler = ChangeHandler()
+    
+    let user = Auth.auth().currentUser
     let currentUser: AppUser
+    
+    func initSettings() {
+        changeHandler.isToggled = ((session.settings?.showInfoTexts) ?? false)
+        changeHandler.maxDistance = ((session.userDefaultValues?.maxDistance) ?? 2)
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -24,16 +53,17 @@ struct CurrentAppUserDetailsView: View {
                     Group {
                         HStack(alignment: .top){
                             VStack(alignment: .leading) {
-                                Text(currentUser.username)
+                                Text("\(session.publicUserData!.username!)")
                                     .font(.avenirNextRegular(size: 28))
                                     .fontWeight(.semibold)
                                     .fixedSize(horizontal: false, vertical: true)
                                     .lineLimit(1)
-                                Text("Hier könnte eine kleine Beschreibung über dich stehen. Klicke auf Bearbeiten, um eine zu erstellen")
+                                Text("\(session.publicUserData!.userDescription != "" ? session.publicUserData!.userDescription : "Hier könnte eine kleine Beschreibung über dich stehen")")
                                     .font(.avenirNextRegular(size: 16))
                                     .fontWeight(.light)
                                     .fixedSize(horizontal: false, vertical: true)
                                     .lineLimit(4)
+                                
                             }
                             .padding(.trailing, 10)
                             Spacer()
@@ -77,7 +107,7 @@ struct CurrentAppUserDetailsView: View {
                                 .padding(.trailing, 10)
                             
                             VStack(alignment: .leading) {
-                                Text(currentUser.email)
+                                Text((session.publicUserData?.email)!)
                                     .font(.avenirNextRegular(size: 18))
                                     .fontWeight(.light)
                             }
@@ -129,7 +159,7 @@ struct CurrentAppUserDetailsView: View {
                         .padding(.bottom, 2)
                         
                         HStack() {
-                            Slider(value: self.$defaultMaxDistance, in: 2...150, step: 1)
+                            Slider(value: self.$changeHandler.maxDistance, in: 2...150, step: 1)
                                 .accentColor(.pink)
                         }
                         .padding(.horizontal, 50)
@@ -295,7 +325,12 @@ struct CurrentAppUserDetailsView: View {
                                 Spacer()
                             }.frame(maxWidth: .infinity)
                             
-                            Toggle("", isOn: $userData.showInfoTexts)
+                            
+                            //                            Toggle("", isOn: $userData.showInfoTexts)
+                            //                                .labelsHidden()
+                            //                                .padding()
+                            
+                            Toggle("", isOn: ($changeHandler.isToggled))
                                 .labelsHidden()
                                 .padding()
                         }
@@ -428,7 +463,23 @@ struct CurrentAppUserDetailsView: View {
                             .foregroundColor(Color ("button1"))
                         }
                         .padding(.horizontal, 20)
-                        .padding(.bottom, 90)
+                        .padding(.bottom, 20)
+                        
+                        
+                        // User IDs
+                        Text("UID: \(user!.uid)")
+                            .font(.avenirNextRegular(size: 12))
+                            .fontWeight(.light)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .lineLimit(1)
+                        Text("PublicUserDataID: \((session.publicUserData?.id)!)")
+                            .font(.avenirNextRegular(size: 12))
+                            .fontWeight(.light)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .lineLimit(1)
+                            
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 90)
                     }
                     
                     
@@ -477,6 +528,32 @@ struct CurrentAppUserDetailsView: View {
             .navigationBarHidden(true)
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarBackButtonHidden(true)
+            .onAppear(){
+                self.initSettings()
+            }
+            .onReceive(self.changeHandler.isToggledDidChange) { newValue in
+                withAnimation(.linear(duration: 0.2)) {
+                    if session.settings?.showInfoTexts != newValue {
+                        session.settings?.showInfoTexts = newValue
+//                        session.settings?.setShowInfoTexts(newValue)
+                            session.updateSettings(session.settings!)
+                        print("Settings: successfully updated")
+                    } else {
+                        print("Settings: no update needed")
+                    }
+                }
+            }
+            .onReceive(self.changeHandler.maxDistanceDidChange) { newValue in
+                withAnimation(.linear(duration: 0.2)) {
+                    if session.userDefaultValues?.maxDistance != newValue {
+                        session.userDefaultValues?.maxDistance = newValue
+                        session.updateUserDefaultValues(session.userDefaultValues!)
+                        print("UserDefaultValues: successfully updated")
+                    } else {
+                        print("UserDefaultValues: no update needed")
+                    }
+                }
+            }
         }
     }
 }

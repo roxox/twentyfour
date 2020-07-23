@@ -16,6 +16,7 @@ import FirebaseFirestoreSwift
 struct ContentView: View {
     
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var session: FirebaseSession
     @ObservedObject var searchData = SearchData()
     
     @State var pageIndex = 0
@@ -31,74 +32,82 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView() {
-        VStack() {
-            if !userData.isLogged {
-                ZStack(){
-                    SignInView()
-                }
-            } else {
-                
-            ZStack() {
-                
-                
-                // USER IS ALREADY LOGGED IN
-                // VERIFIED BY FIREBASE USER STORE + LOCAL USER STORE (COMPLETE PROFILE ENTITY OR JUST DOCUMENT ID OF USER)
-                
-                VStack(alignment: .leading) {
-                    // ExploreView
-                    if pageIndex == 0 {
-                        if self.searchData.targetDate > self.searchData.currentTime {
-                            ExploreView(
-                                searchData: searchData,
-                                isButtonBarHidden: self.$isButtonBarHidden,
-                                showSearch: self.$showSearch
-                            )
+            VStack() {
+                if !session.isLogged {
+                    ZStack(){
+                        SignInView()
+                    }
+                } else {
+                    
+                    if !session.isPublicUserDataAvailable {
+                            ZStack(){
+                                CreateUserDataView()
+                            }
+                    } else {
+                        ZStack() {
+                            
+                            
+                            // USER IS ALREADY LOGGED IN
+                            // VERIFIED BY FIREBASE USER STORE + LOCAL USER STORE (COMPLETE PROFILE ENTITY OR JUST DOCUMENT ID OF USER)
+                            
+                            VStack(alignment: .leading) {
+                                // ExploreView
+                                if pageIndex == 0 {
+                                    if self.searchData.targetDate > self.searchData.currentTime {
+                                        ExploreView(
+                                            searchData: searchData,
+                                            isButtonBarHidden: self.$isButtonBarHidden,
+                                            showSearch: self.$showSearch
+                                        )
+                                    }
+                                    else {
+                                        ExploreNoSearchView(
+                                            searchData: searchData,
+                                            showSearch: self.$showSearch
+                                        )
+                                    }
+                                    
+                                }
+                                
+                                if pageIndex == 1 {
+                                    GroupListView(
+                                    )
+                                }
+                                
+                                if pageIndex == 3 {
+                                    CurrentAppUserDetailsView(
+                                        currentUser: userData.currentUser
+                                    ).environmentObject(self.userData)
+                                }
+                            }
+                            
+                            VStack() {
+                                Spacer()
+                                ButtonBarView(pageIndex: $pageIndex)
+                                    .background(Color .clear)
+                                    .offset(y: isButtonBarHidden ? CGFloat(150) : CGFloat(0))
+                            }
+                            .animation(.spring())
+                            
                         }
-                        else {
-                            ExploreNoSearchView(
-                                searchData: searchData,
-                                showSearch: self.$showSearch
-                            )
-                        }
-                        
-                    }
-                    
-                    if pageIndex == 1 {
-                        GroupListView(
-                        )
-                    }
-                    
-                    if pageIndex == 3 {
-                        CurrentAppUserDetailsView(
-                            currentUser: userData.currentUser
-                        ).environmentObject(self.userData)
                     }
                 }
-                    
-                VStack() {
-                    Spacer()
-                    ButtonBarView(pageIndex: $pageIndex)
-                        .background(Color .clear)
-                        .offset(y: isButtonBarHidden ? CGFloat(150) : CGFloat(0))
-                }
-                .animation(.spring())
-                
+            }.onReceive(timer) { time in
+                self.searchData.currentTime = Date()
             }
+            .navigationBarHidden(true)
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarBackButtonHidden(true)
+            
+            .fullScreenCover(isPresented: self.$showSearch) {
+                SearchView(
+                    searchData: searchData
+                )
+                .environmentObject(self.userData)
+                .environmentObject(self.session)
             }
-        }.onReceive(timer) { time in
-            self.searchData.currentTime = Date()
+            
         }
-        .navigationBarHidden(true)
-        .navigationBarTitle("", displayMode: .inline)
-        .navigationBarBackButtonHidden(true)
-        
-        .fullScreenCover(isPresented: self.$showSearch) {
-            SearchView(
-                searchData: searchData
-            ).environmentObject(self.userData)
-        }
-        
-    }
     }
     
 }
@@ -115,8 +124,8 @@ struct CategoryHome_Previews: PreviewProvider {
     static var previews: some View{
         ForEach(["iPhone SE (2nd generation)", "iPhone 11 Pro Max"], id: \.self) { deviceName in
             ContentView()
-            .previewDevice(PreviewDevice(rawValue: deviceName))
-            .previewDisplayName(deviceName)
+                .previewDevice(PreviewDevice(rawValue: deviceName))
+                .previewDisplayName(deviceName)
         }
         .environmentObject(UserData())
     }
@@ -124,7 +133,7 @@ struct CategoryHome_Previews: PreviewProvider {
 
 struct NavigationConfigurator: UIViewControllerRepresentable {
     var configure: (UINavigationController) -> Void = { _ in }
-
+    
     func makeUIViewController(context: UIViewControllerRepresentableContext<NavigationConfigurator>) -> UIViewController {
         UIViewController()
     }
@@ -133,7 +142,7 @@ struct NavigationConfigurator: UIViewControllerRepresentable {
             self.configure(nc)
         }
     }
-
+    
 }
 
 struct VisualEffectView: UIViewRepresentable {

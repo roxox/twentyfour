@@ -20,18 +20,6 @@ struct ButtonBarView: View {
             endPoint: .top)
     }
     
-    var gradientGray: LinearGradient {
-        LinearGradient(
-            gradient: Gradient(
-                colors:
-                    [
-                        Color ("AlmostBlack"),
-                        Color ("AlmostBlack"),
-                    ]),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing)
-    }
-    
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             
@@ -50,13 +38,13 @@ struct ButtonBarView: View {
                                 .padding(.vertical, 10.0)
                                 .font(.system(size: 20, weight: .semibold))
                                 .frame(width: 40, height: 24)
-                                .foreground(pageIndex == 0 ? gradientPeachPink : gradientGray)
+                                .foreground(pageIndex == 0 ? gradientCherryPink : gradientAlmostBlack)
                                 .offset(x: 0, y: 0)
                             
                             Text("Stöbern")
                                 .font(.avenirNextRegular(size: 11))
                                 .fontWeight(.semibold)
-                                .foreground(pageIndex == 0 ? gradientPeachPink : gradientGray)
+                                .foreground(pageIndex == 0 ? gradientCherryPink : gradientAlmostBlack)
                         }
                     }
                     
@@ -72,13 +60,13 @@ struct ButtonBarView: View {
                                 //                            .padding(.vertical, 10.0)
                                 .font(.system(size: 20, weight: .semibold))
                                 .frame(width: 40, height: 24)
-                                .foreground(pageIndex == 1 ? gradientPeachPink : gradientGray)
+                                .foreground(pageIndex == 1 ? gradientPeachPink : gradientAlmostBlack)
                                 .offset(x: 0, y: 0)
                             
                             Text("Meine Gruppen")
                                 .font(.avenirNextRegular(size: 11))
                                 .fontWeight(.semibold)
-                                .foreground(pageIndex == 1 ? gradientPeachPink : gradientGray)
+                                .foreground(pageIndex == 1 ? gradientPeachPink : gradientAlmostBlack)
                         }
                     }
                     
@@ -93,13 +81,13 @@ struct ButtonBarView: View {
                                 .padding(.vertical, 10.0)
                                 .font(.system(size: 20, weight: .semibold))
                                 .frame(width: 40, height: 24)
-                                .foreground(pageIndex == 2 ? gradientPeachPink : gradientGray)
+                                .foreground(pageIndex == 2 ? gradientPeachPink : gradientAlmostBlack)
                                 .offset(x: 0, y: 0)
                             
                             Text("Nachrichten")
                                 .font(.avenirNextRegular(size: 11))
                                 .fontWeight(.semibold)
-                                .foreground(pageIndex == 2 ? gradientPeachPink : gradientGray)
+                                .foreground(pageIndex == 2 ? gradientPeachPink : gradientAlmostBlack)
                         }
                     }
                     
@@ -114,13 +102,13 @@ struct ButtonBarView: View {
                                 .padding(.vertical, 10.0)
                                 .font(.system(size: 20, weight: .semibold))
                                 .frame(width: 40, height: 24)
-                                .foreground(pageIndex == 3 ? gradientPeachPink : gradientGray)
+                                .foreground(pageIndex == 3 ? gradientPeachPink : gradientAlmostBlack)
                                 .offset(x: 0, y: 0)
                             
                             Text("Profil")
                                 .font(.avenirNextRegular(size: 11))
                                 .fontWeight(.semibold)
-                                .foreground(pageIndex == 3 ? gradientPeachPink : gradientGray)
+                                .foreground(pageIndex == 3 ? gradientPeachPink : gradientAlmostBlack)
                         }
                     }
                     

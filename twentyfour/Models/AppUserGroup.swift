@@ -10,62 +10,63 @@ import Foundation
 import SwiftUI
 import CoreLocation
 
-struct AppUserGroup: Hashable, Codable, Identifiable {
+struct AppUserGroup: Codable, Identifiable {
+    
     var id: String?
     var title: String?
     var description: String?
-    var memberships: [Membership]?
+//    var memberships: [Membership]?
     var activityType: ActivityType?
 //    fileprivate var imageName: String?
     var imageName: String?
     
-    var invitedMembers: [Membership] {
-        memberships!.filter {
-            if case UserGroupStatus.invited = $0.status { return true }
-            return false
-        }
-    }
+//    var invitedMembers: [Membership] {
+//        memberships!.filter {
+//            if case UserGroupStatus.invited = $0.status { return true }
+//            return false
+//        }
+//    }
+//
+//    var requestedMembers: [Membership] {
+//        memberships!.filter {
+//            if case UserGroupStatus.requested = $0.status { return true }
+//            return false
+//        }
+//    }
     
-    var requestedMembers: [Membership] {
-        memberships!.filter {
-            if case UserGroupStatus.requested = $0.status { return true }
-            return false
-        }
-    }
-    
-    var activeMembers: [Membership] {
-        memberships!.filter {
-            if case UserGroupStatus.active = $0.status { return true }
-            return false
-        }
-    }
-    
-    var rejectedMembers: [Membership] {
-        memberships!.filter {
-            if case UserGroupStatus.rejected = $0.status { return true }
-            return false
-        }
-    }
+//    var activeMembers: [Membership] {
+//        memberships!.filter {
+//            if case UserGroupStatus.active = $0.status { return true }
+//            return false
+//        }
+//    }
+//
+//    var rejectedMembers: [Membership] {
+//        memberships!.filter {
+//            if case UserGroupStatus.rejected = $0.status { return true }
+//            return false
+//        }
+//    }
     
     init() {
-        memberships = []
+//        memberships = []
     }
     
-    mutating func addGroupMembership(user: inout AppUser, role: UserGroupRole, status: UserGroupStatus) -> Membership {
-        let membership = Membership(user: user, group: self, role: role, status: status)
-        memberships?.append(membership)
-        return membership
-    }
+//    mutating func addGroupMembership(user: inout AppUser, role: UserGroupRole, status: UserGroupStatus) -> Membership {
+//        let membership = Membership(user: user, group: self, role: role, status: status)
+//        memberships?.append(membership)
+//        return membership
+//    }
     
-    mutating func inviteMember(user: inout AppUser) -> Membership {
-        let membership = addGroupMembership(user: &user, role: .member, status: .invited)
-        return membership
-    }
-    
-    mutating func requestMembership(user: inout AppUser) -> Membership {
-        let membership = addGroupMembership(user: &user, role: .member, status: .requested)
-        return membership
-    }
+//    mutating func inviteMember(user: inout AppUser) -> Membership {
+//        let membership = addGroupMembership(user: &user, role: .member, status: .invited)
+//        return membership
+//    }
+//
+//    mutating func requestMembership(user: inout AppUser) -> Membership {
+//        let membership = addGroupMembership(user: &user, role: .member, status: .requested)
+//        return membership
+//    }
     
 //    mutating func inviteMember(member: UserToGroupRelationShip) {
 //        let memberIndex = members?.firstIndex(of: member)
@@ -77,15 +78,15 @@ struct AppUserGroup: Hashable, Codable, Identifiable {
 //        members![memberIndex!].status = .requested
 //    }
     
-    mutating func approveMember(member: Membership) {
-        let memberIndex = memberships?.firstIndex(of: member)
-        memberships![memberIndex!].status = .active
-    }
-    
-    mutating func rejectMember(member: Membership) {
-        let memberIndex = memberships?.firstIndex(of: member)
-        memberships![memberIndex!].status = .rejected
-    }
+//    mutating func approveMember(member: Membership) {
+//        let memberIndex = memberships?.firstIndex(of: member)
+//        memberships![memberIndex!].status = .active
+//    }
+//
+//    mutating func rejectMember(member: Membership) {
+//        let memberIndex = memberships?.firstIndex(of: member)
+//        memberships![memberIndex!].status = .rejected
+//    }
 }
 
 struct GroupRequest: Hashable, Codable, Identifiable {
@@ -213,19 +214,19 @@ extension UserGroupStatus: Codable {
     
 }
 
-struct Membership: Hashable, Codable {
-    var user: AppUser
-    var group: AppUserGroup
-    var role: UserGroupRole
-    var status: UserGroupStatus
-    
-    init(user: AppUser, group: AppUserGroup, role: UserGroupRole, status: UserGroupStatus) {
-        self.user = user
-        self.group = group
-        self.role = role
-        self.status = status
-    }
-}
+//struct Membership: Hashable, Codable {
+//    var user: AppUser
+//    var group: AppUserGroup
+//    var role: UserGroupRole
+//    var status: UserGroupStatus
+//
+//    init(user: AppUser, group: AppUserGroup, role: UserGroupRole, status: UserGroupStatus) {
+//        self.user = user
+//        self.group = group
+//        self.role = role
+//        self.status = status
+//    }
+//}
 
 
  

@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct ExploreView: View {
     
@@ -16,7 +17,7 @@ struct ExploreView: View {
     // Editable values
     @State var selectedEventType: ActivityType?
     @State var groupList: [AppUser] = []
-    @State var showSubTexts = false
+    @State var showSubTexts = true
     @State var remainingTime: Int = 0
     @State var tmpValues = TemporaryGroupValues()
     
@@ -51,12 +52,12 @@ struct ExploreView: View {
                             if self.groupList.count == 0 {
                                 
                                 HStack(alignment: .center){
-                                    Text("Finde Gleichgesinnte, gründet Gruppen")
+                                    Text("Finde Gleichgesinnte")
                                         .foregroundColor(Color ("button1"))
-                                        .font(.avenirNextRegular(size: 24))
+                                        .font(.avenirNextRegular(size: 26))
                                         .fontWeight(self.groupList.count == 0 ? .semibold : .medium)
                                         .padding(.horizontal)
-                                        .padding(.vertical) // ist neu
+                                        .padding(.vertical, 5) // ist neu
                                         .animation(.spring())
                                     
                                     Spacer()
@@ -68,10 +69,10 @@ struct ExploreView: View {
                                 
                                 if showSubTexts {
                                     HStack(){
-                                        Text("Denn zusammen ist man weniger allein")
+                                        Text("Finde Gleichgesinnte, gründet Gruppen und unternehmt etwas zusammen")
                                             .foregroundColor(Color ("button1"))
-                                            .font(.avenirNextRegular(size: 16))
-                                            .fontWeight(.light)
+                                            .font(.avenirNextRegular(size: 15))
+                                            .fontWeight(.medium)
                                             .lineLimit(5)
                                             .padding(.bottom)
                                             .padding(.horizontal)
@@ -98,10 +99,11 @@ struct ExploreView: View {
                                         HStack(){
                                             Text("Schließe dich Gruppen an")
                                                 .foregroundColor(Color ("button1"))
-                                                .font(.avenirNextRegular(size: 24 ))
-                                                .fontWeight(.semibold)
-                                                .padding(.vertical)
+                                                .font(.avenirNextRegular(size: 26))
+                                                .fontWeight(self.groupList.count == 0 ? .semibold : .medium)
                                                 .padding(.horizontal)
+                                                .padding(.vertical, 5) // ist neu
+                                                .animation(.spring())
                                             Spacer()
                                         }
                                         .padding(.top, 15)
@@ -111,11 +113,27 @@ struct ExploreView: View {
                                             HStack(){
                                                 Text("Lass dich von anderen Gruppen inspirieren und frage an, ob du dich anschließen kannst.")
                                                     .foregroundColor(Color ("button1"))
-                                                    .font(.avenirNextRegular(size: 16))
-                                                    .fontWeight(.light)
+                                                    .font(.avenirNextRegular(size: 15))
+                                                    .fontWeight(.medium)
                                                     .lineLimit(5)
-                                                    .frame(height: 50)
+                                                    .padding(.bottom, 5) // ist neu
                                                     .padding(.horizontal)
+                                                Spacer()
+                                            }
+                                            HStack(){
+                                                
+                                                Button(action: {
+                                                    withAnimation(.linear(duration: 0.2)) {
+                                                        self.showSubTexts.toggle()
+                                                    }
+                                                }) {
+                                                    Text("nur Favoriten anzeigen")
+                                                        .font(.avenirNextRegular(size: 15))
+                                                        .fontWeight(.medium)
+                                                }
+                                                .padding(.horizontal)
+                                                .padding(.bottom)
+                                                
                                                 Spacer()
                                             }
                                         }
@@ -219,6 +237,7 @@ struct ExploreView: View {
 struct CreateGroupNavigation: View {
     
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var session: FirebaseSession
     @Binding var selectedEventType: ActivityType?
     @Binding var groupList: [AppUser]
     @Binding var isButtonBarHidden: Bool
@@ -259,10 +278,15 @@ struct CreateGroupNavigation: View {
         
         for user in groupList {
             let userIndex = groupList.firstIndex(of: user)
-            let membership = group.inviteMember(user: &groupList[userIndex!])
-            groupList[userIndex!].addMembership(membership: membership)
+            //            let membership = group.inviteMember(user: &groupList[userIndex!])
+            //            groupList[userIndex!].addMembership(membership: membership)
         }
         userData.appGroups.append(group)
+        
+        let location = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+        
+        let userGroup = UserGroup(title: tmpValues.tmpTitleString, description: "", location: location, locationPlacemark: "", datemode: false, eventType: .leisure, memberscount: 1)
+        session.addUserGroup(group: userGroup)
         
     }
     
@@ -307,62 +331,79 @@ struct CreateGroupNavigation: View {
                 
                 Spacer()
                 
-                HStack() {
-                    Button(action: {
-                        withAnimation(.linear(duration: 0.2)) {
-                            userData.showInfoTexts.toggle()
-                        }
-                    }) {
-                        HStack() {
-                            Image(systemName: userData.showInfoTexts ? "questionmark.circle.fill" : "questionmark.circle")
-                                .font(.system(size: 22, weight: .semibold))
-                                .fixedSize()
-                                .frame(width: 30, height: 30)
-                                .foregroundColor(Color ("button1"))
-                            Text("Infos ausblenden")
-                                .font(.avenirNextRegular(size: 13))
-                                .fontWeight(.medium)
-                                .foregroundColor(Color ("button1"))
-                        }
-                        .padding(8)
-                        .background(BlurView(style: .systemMaterial))
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                    }
-                    .padding(.horizontal, 20)
-                    //                .padding(.bottom, 5)
-                    
-                    Spacer()
-                }
+                //                HStack() {
+                //                    Button(action: {
+                //                        withAnimation(.linear(duration: 0.2)) {
+                //                            userData.showInfoTexts.toggle()
+                //                        }
+                //                    }) {
+                //                        HStack() {
+                //                            Image(systemName: userData.showInfoTexts ? "questionmark.circle.fill" : "questionmark.circle")
+                //                                .font(.system(size: 22, weight: .semibold))
+                //                                .fixedSize()
+                //                                .frame(width: 30, height: 30)
+                //                                .foregroundColor(Color ("button1"))
+                //                            Text("Infos ausblenden")
+                //                                .font(.avenirNextRegular(size: 13))
+                //                                .fontWeight(.medium)
+                //                                .foregroundColor(Color ("button1"))
+                //                        }
+                //                        .padding(8)
+                //                        .background(BlurView(style: .systemMaterial))
+                //                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                //                    }
+                //                    .padding(.horizontal, 20)
+                //                    //                .padding(.bottom, 5)
+                //
+                //                    Spacer()
+                //                }
                 
                 VStack() {
                     
                     Divider()
-                    
+                    //                    Spacer().foregroundColor(.black).frame(height: 2)
                     HStack() {
                         
                         VStack(alignment: .leading){
                             if tmpValues.tmpTitleString != "" {
                                 Text(tmpValues.tmpTitleString)
-                                    .font(.avenirNextRegular(size: 13))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(Color ("button1"))
+                                    .font(.avenirNextRegular(size: 14))
+                                    .fontWeight(.bold)
+                                    .underline()
+                                //                                    .foregroundColor(Color ("button1"))
                             } else {
-                                Text(tmpValues.tmpTitleString != "" ? tmpValues.tmpTitleString : "Gib der Gruppe noch einen Titel")
-                                    .font(.avenirNextRegular(size: 13))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(Color .pink)
+                                Text(tmpValues.tmpTitleString != "" ? tmpValues.tmpTitleString : "Gib der Gruppe einen Titel")
+                                    .font(.avenirNextRegular(size: 14))
+                                    .fontWeight(.bold)
+                                    .italic()
+                                    .underline()
+                                //                                    .foreground(selectedEventType == nil ? gradientCherryPink : gradientButton1)
                             }
+                            
                             HStack() {
-                                Text("\(self.groupList.count) Personen  •  ")
-                                    .font(.avenirNextRegular(size: 13))
-                                    .fontWeight(.medium) +
-                                    
-                                    Text("\(selectedEventType == nil ? "Wähle eine Aktivität aus" : self.getActivityString(eventType: selectedEventType!))")
-                                    .font(.avenirNextRegular(size: 13))
-                                    .fontWeight(.medium)
-                                    .foregroundColor(selectedEventType == nil ? .pink : Color ("button1"))
+                                if selectedEventType == nil {
+                                    Text("Wähle eine Aktivität aus")
+                                        .font(.avenirNextRegular(size: 14))
+                                        .fontWeight(.semibold)
+                                        .italic()
+                                } else {
+                                    Text("\(self.getActivityString(eventType: selectedEventType!))")
+                                        .font(.avenirNextRegular(size: 14))
+                                        .fontWeight(.semibold)
+                                }
+                            }
+                            
+                            HStack() {
+                                Text("\(self.groupList.count) \(self.groupList.count == 1 ? "Person wird" : "Personen werden") eingeladen")
+                                    .font(.avenirNextRegular(size: 14))
+                                    .fontWeight(.semibold)
+                                
+                                //                                    Text("\(selectedEventType == nil ? "Wähle eine Aktivität aus" : self.getActivityString(eventType: selectedEventType!))")
+                                //                                    .font(.avenirNextRegular(size: 14))
+                                //                                    .fontWeight(selectedEventType == nil ? .bold : .semibold)
                             }
                         }
+                        .foregroundColor(Color ("button1"))
                         .padding(.leading, 20)
                         
                         Spacer()
@@ -374,22 +415,21 @@ struct CreateGroupNavigation: View {
                             }
                         }) {
                             HStack() {
-                                Text("erstellen")
+                                Text("Gruppe erstellen")
                                     .font(.avenirNextRegular(size: 14))
                                     .fontWeight(.semibold)
                                     .foregroundColor(.white)
                                     .padding(.horizontal)
                             }
                             .frame(height: 40)
-                            .background(gradientPeachPink)
+                            .background(gradientCherryPink)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
                         }
                         .saturation(self.selectedEventType != nil && self.groupList.count != 0 && tmpValues.tmpTitleString != "" ? 1 : 0.2)
                         .opacity(self.selectedEventType != nil && self.groupList.count != 0 && tmpValues.tmpTitleString != "" ? 1 : 0.2)
                         .padding(.horizontal, 20)
-                        
+                        .padding(.vertical, 10)
                     }
-                    
                 }
                 .background(Color ("background1"))
             }

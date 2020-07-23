@@ -57,6 +57,19 @@ var gradientGray: LinearGradient {
         startPoint: .topLeading,
         endPoint: .bottomTrailing)
 }
+
+
+var gradientAlmostBlack: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(
+            colors:
+                [
+                    Color ("AlmostBlack"),
+                    Color ("AlmostBlack"),
+                ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing)
+}
     
 var gradientPinkBlueAccent: LinearGradient {
     LinearGradient(
@@ -220,10 +233,6 @@ var gradientAmablueAmagreen: LinearGradient {
         gradient: Gradient(
             colors:
             [
-//                .pink,
-//                .purple,
-//                Color ("Violet"),
-//                .blue,
             Color ("AmaBlue"),
             Color ("AmaGreen"),
         ]),
@@ -239,6 +248,18 @@ var gradientPinkPink: LinearGradient {
 //                Color ("Orange"),
                 .pink,
             .pink,
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing)
+}
+
+var gradientButton1: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(
+            colors:
+            [
+            Color ("button1"),
+            Color ("button1"),
         ]),
         startPoint: .topLeading,
         endPoint: .bottomTrailing)
