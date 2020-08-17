@@ -2,6 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Coniferous-Demo-Bold.otf</string>
+		<string>Coniferous-Demo-Light.otf</string>
+		<string>Coniferous-Demo-Medium.otf</string>
+		<string>Coniferous-Demo-Regular.otf</string>
+		<string>Coniferous-Demo-Thin.otf</string>
+		<string>Coniferous-Demo-Black.otf</string>
+		<string>AirbnbCerealBook.ttf</string>
+		<string>AirbnbCerealBlack.ttf</string>
+		<string>AirbnbCerealBold.ttf</string>
+		<string>AirbnbCerealExtraBook.ttf</string>
+		<string>AirbnbCerealMedium.ttf</string>
+		<string>AirbnbCerealLight.ttf</string>
+	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Use for Location</string>
 	<key>CFBundleDevelopmentRegion</key>

@@ -25,11 +25,13 @@ struct ExploreSearchButtonView: View {
     
     @EnvironmentObject var userData: UserData
     @ObservedObject var searchData: SearchData
+    @EnvironmentObject var session: FirebaseSession
     
     @Binding var showSearch: Bool
     
     @State var showButtons = false
     @State var selectedScreen = 0
+    @State private var favoriteColor = 0
     
     
     
@@ -42,7 +44,11 @@ struct ExploreSearchButtonView: View {
     }
     
     func openSearchView() {
-        self.showSearch.toggle()
+        session.getLastActiveOwnSearch { search in
+            print("\(search?.id)")
+            self.showSearch.toggle()
+        }
+//        self.showSearch.toggle()
     }
     
     var body: some View {
@@ -56,6 +62,7 @@ struct ExploreSearchButtonView: View {
                                             
                     Spacer()
                     
+                        
                     
                     Button(action: {
                         withAnimation(.linear(duration: 0.2)) {
@@ -78,6 +85,9 @@ struct ExploreSearchButtonView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         .shadow(radius: 2, y: 1)
                     }
+                    
+                    
+                    
                     Spacer()
             
                 }

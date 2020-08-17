@@ -21,9 +21,20 @@ extension Font {
         return Font.custom("Avenir Next", size: CGFloat(size))
     }
     
+//    static func avenirNextRegular(size: Int) -> Font {
+//        return Font.custom("AvenirNext-Regular", size: CGFloat(size))
+//    }
+    
     static func avenirNextRegular(size: Int) -> Font {
-        return Font.custom("AvenirNext-Regular", size: CGFloat(size))
+        return Font.custom("Airbnb Cereal App", size: CGFloat(size))
     }
+    
+    static func coniferous(size: Int) -> Font {
+        return Font.custom("Coniferous Demo", size: CGFloat(size))
+    }
+//    static func avenirNextRegular(size: Int) -> Font {
+//        return Font.custom("Coniferous", size: CGFloat(size))
+//    }
 }
 
 func openMenu<T>(_ view: T)  {

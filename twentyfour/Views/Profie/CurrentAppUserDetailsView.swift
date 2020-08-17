@@ -38,12 +38,19 @@ struct CurrentAppUserDetailsView: View {
     @State var defaultMaxDistance: Double = 2
     @State var changeHandler = ChangeHandler()
     
+    @Binding var pageIndex: Int
+    
     let user = Auth.auth().currentUser
     let currentUser: AppUser
     
     func initSettings() {
         changeHandler.isToggled = ((session.settings?.showInfoTexts) ?? false)
         changeHandler.maxDistance = ((session.userDefaultValues?.maxDistance) ?? 2)
+    }
+    
+    func logOut() {
+        self.session.logOut()
+        self.pageIndex = 0
     }
     
     var body: some View {
@@ -195,7 +202,7 @@ struct CurrentAppUserDetailsView: View {
                             
                             
                             VStack(alignment: .leading) {
-                                Text("Essen und Trinken")
+                                Text("Essen & Trinken")
                                     .font(.avenirNextRegular(size: 16))
                                     .fontWeight(.semibold)
                                 Text("Italienisch, Amerikanisch, Französisch, Cocktails, Softdrinks ...")
@@ -433,6 +440,7 @@ struct CurrentAppUserDetailsView: View {
                         // Abbrechen
                         Button(action: {
                             withAnimation(.linear(duration: 0.2)) {
+                                self.logOut()
                             }
                         }) {
                             HStack() {

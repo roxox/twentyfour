@@ -36,7 +36,7 @@ struct ButtonBarView: View {
                             
                             Image(systemName: "magnifyingglass")
                                 .padding(.vertical, 10.0)
-                                .font(.system(size: 20, weight: .semibold))
+                                .font(.system(size: 20, weight: pageIndex == 0 ? .bold : .semibold))
                                 .frame(width: 40, height: 24)
                                 .foreground(pageIndex == 0 ? gradientCherryPink : gradientAlmostBlack)
                                 .offset(x: 0, y: 0)
@@ -58,15 +58,15 @@ struct ButtonBarView: View {
                             
                             Image(systemName: "person.3")
                                 //                            .padding(.vertical, 10.0)
-                                .font(.system(size: 20, weight: .semibold))
+                                .font(.system(size: 20, weight: pageIndex == 1 ? .bold : .semibold))
                                 .frame(width: 40, height: 24)
-                                .foreground(pageIndex == 1 ? gradientPeachPink : gradientAlmostBlack)
+                                .foreground(pageIndex == 1 ? gradientCherryPink : gradientAlmostBlack)
                                 .offset(x: 0, y: 0)
                             
                             Text("Meine Gruppen")
                                 .font(.avenirNextRegular(size: 11))
                                 .fontWeight(.semibold)
-                                .foreground(pageIndex == 1 ? gradientPeachPink : gradientAlmostBlack)
+                                .foreground(pageIndex == 1 ? gradientCherryPink : gradientAlmostBlack)
                         }
                     }
                     
@@ -79,15 +79,15 @@ struct ButtonBarView: View {
                         VStack() {
                             Image(systemName: "bubble.left")
                                 .padding(.vertical, 10.0)
-                                .font(.system(size: 20, weight: .semibold))
+                                .font(.system(size: 20, weight: pageIndex == 2 ? .bold : .semibold))
                                 .frame(width: 40, height: 24)
-                                .foreground(pageIndex == 2 ? gradientPeachPink : gradientAlmostBlack)
+                                .foreground(pageIndex == 2 ? gradientCherryPink : gradientAlmostBlack)
                                 .offset(x: 0, y: 0)
                             
                             Text("Nachrichten")
                                 .font(.avenirNextRegular(size: 11))
                                 .fontWeight(.semibold)
-                                .foreground(pageIndex == 2 ? gradientPeachPink : gradientAlmostBlack)
+                                .foreground(pageIndex == 2 ? gradientCherryPink : gradientAlmostBlack)
                         }
                     }
                     
@@ -100,15 +100,15 @@ struct ButtonBarView: View {
                         VStack() {
                             Image(systemName: "person")
                                 .padding(.vertical, 10.0)
-                                .font(.system(size: 20, weight: .semibold))
+                                .font(.system(size: 20, weight: pageIndex == 3 ? .bold : .semibold))
                                 .frame(width: 40, height: 24)
-                                .foreground(pageIndex == 3 ? gradientPeachPink : gradientAlmostBlack)
+                                .foreground(pageIndex == 3 ? gradientCherryPink : gradientAlmostBlack)
                                 .offset(x: 0, y: 0)
                             
                             Text("Profil")
                                 .font(.avenirNextRegular(size: 11))
                                 .fontWeight(.semibold)
-                                .foreground(pageIndex == 3 ? gradientPeachPink : gradientAlmostBlack)
+                                .foreground(pageIndex == 3 ? gradientCherryPink : gradientAlmostBlack)
                         }
                     }
                     

@@ -45,9 +45,12 @@ struct SearchView: View {
     
     // Temporary values
     @State var tmpLocationString: String = ""
-    @State var tmpMaxDistance: Double = 0
+    @State var tmpMaxDistance: Double = 2
     @State var tmpEventTypes: [ActivityType] = []
     @State var tmpLocation: CLLocationCoordinate2D?
+    @State var isFoodToggle: Bool = false
+    @State var isLeisureToggle: Bool = false
+    @State var isSportToggle: Bool = false
     
     @State var toggleHandler = ActivityTypeToggleHandler()
     
@@ -85,24 +88,38 @@ struct SearchView: View {
     
     
     func initializeTmpValues() {
-        self.tmpLocationString = self.searchData.locationString
-        self.tmpMaxDistance = self.searchData.maxDistance
-        self.tmpEventTypes = self.searchData.eventTypes
-        if self.tmpEventTypes.contains(.food) {
-            self.toggleHandler.isFoodToggle = true
-        } else {
-            self.toggleHandler.isFoodToggle = false
+        if session.ownSearch != nil {
+            let currentSearch: Search = session.ownSearch!
+            self.tmpLocation = currentSearch.location
+            self.tmpLocationString = currentSearch.locationName ?? ""
+            self.tmpMaxDistance = currentSearch.maxDistance ?? 2
+            self.isFoodToggle = currentSearch.isFoodSelected!
+            self.isLeisureToggle = currentSearch.isLeisureSelected!
+            self.isSportToggle = currentSearch.isSportSelected!
+        } else{
+            self.tmpLocation = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+            self.tmpLocationString = ""
+            self.tmpMaxDistance = 2.0
+            self.isFoodToggle = false
+            self.isLeisureToggle = false
+            self.isSportToggle = false
         }
-        if self.tmpEventTypes.contains(.leisure) {
-            self.toggleHandler.isLeisureToggle = true
-        } else {
-            self.toggleHandler.isLeisureToggle = false
-        }
-        if self.tmpEventTypes.contains(.sports) {
-            self.toggleHandler.isSportsToggle = true
-        } else {
-            self.toggleHandler.isSportsToggle = false
-        }
+        
+//        if self.tmpEventTypes.contains(.food) {
+//            self.toggleHandler.isFoodToggle = true
+//        } else {
+//            self.toggleHandler.isFoodToggle = false
+//        }
+//        if self.tmpEventTypes.contains(.leisure) {
+//            self.toggleHandler.isLeisureToggle = true
+//        } else {
+//            self.toggleHandler.isLeisureToggle = false
+//        }
+//        if self.tmpEventTypes.contains(.sports) {
+//            self.toggleHandler.isSportsToggle = true
+//        } else {
+//            self.toggleHandler.isSportsToggle = false
+//        }
     }
     
     func isModified() -> Bool {
@@ -123,6 +140,26 @@ struct SearchView: View {
     }
     
     func saveValues() {
+//        if session.activeSearches.count != 0 {
+//            var currentSearch = session.activeSearches.first
+//            currentSearch?.location = tmpLocation
+//            currentSearch?.maxDistance = tmpMaxDistance
+//            
+//            // update firebase entity
+//        } else {
+//            let currentSearch: Search = Search(
+//                (session.publicUserData?.id)!,
+//                Date(),
+//                Date() + 86400,
+//                tmpLocation!,
+//                true,
+//                true,
+//                true,
+//                tmpMaxDistance
+//            )
+//            // create firebase entity
+//            session.addSearch(search: currentSearch)
+//        }
         searchData.copyTmpValuesToValues(tmpLocationString: tmpLocationString, tmpMaxDistance: tmpMaxDistance, tmpEventTypes: tmpEventTypes)
         self.searchData.createOrUpdate()
         
@@ -138,8 +175,6 @@ struct SearchView: View {
             return "km"
         case .miles:
             return "mi"
-        default:
-            return "unknown"
         }
     }
     
@@ -151,7 +186,7 @@ struct SearchView: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
+//        GeometryReader { geometry in
             ZStack() {
                 //                VStack() {
                 ScrollView(showsIndicators: false) {
@@ -177,7 +212,7 @@ struct SearchView: View {
                                 .padding(.top, 30)
                                 
                                 
-                                if userData.showInfoTexts {
+//                                if session.settings!.showInfoTexts {
                                     HStack() {
                                         Text("Wähle zunächst den Ort ,wo du etwas unternehmen möchtest. Entweder direkt in deiner Umgebung, aber wenn du heute Abedn ganz woanders bist, suche einfach dort.")
                                             .font(.avenirNextRegular(size: 16))
@@ -186,7 +221,7 @@ struct SearchView: View {
                                     }
                                     .padding(.horizontal, 20)
                                     .padding(.top, 10)
-                                }
+//                                }
                                 
                                 HStack(alignment: .top) {
                                     Image("locationBlack")
@@ -295,7 +330,7 @@ struct SearchView: View {
                                 
                                 
                                 
-                                if userData.showInfoTexts {
+//                                if session.settings!.showInfoTexts {
                                     HStack() {
                                         Text("Wähle zunächst den Ort ,wo du etwas unternehmen möchtest. Entweder direkt in deiner Umgebung, aber wenn du heute Abedn ganz woanders bist, suche einfach dort.")
                                             .font(.avenirNextRegular(size: 16))
@@ -304,7 +339,7 @@ struct SearchView: View {
                                     }
                                     .padding(.horizontal, 20)
                                     .padding(.top, 10)
-                                }
+//                                }
                                 
                                 HStack() {
                                     
@@ -317,7 +352,7 @@ struct SearchView: View {
                                     
                                     HStack() {
                                         VStack(alignment: .leading){
-                                            Text("Essen und Trinken")
+                                            Text("Essen & Trinken")
                                                 .font(.avenirNextRegular(size: 16))
                                                 .fontWeight(.semibold)
                                             Text("Hier gibt es auch etwas Text")
@@ -328,7 +363,7 @@ struct SearchView: View {
                                         Spacer()
                                     }.frame(maxWidth: .infinity)
                                     
-                                    Toggle("", isOn: $toggleHandler.isFoodToggle)
+                                    Toggle("", isOn: $isFoodToggle)
                                         .labelsHidden()
                                         .padding()
                                 }
@@ -360,7 +395,7 @@ struct SearchView: View {
                                         Spacer()
                                     }.frame(maxWidth: .infinity)
                                     
-                                    Toggle("", isOn: $toggleHandler.isLeisureToggle)
+                                    Toggle("", isOn: $isLeisureToggle)
                                         .labelsHidden()
                                         .padding()
                                 }
@@ -391,7 +426,7 @@ struct SearchView: View {
                                         Spacer()
                                     }.frame(maxWidth: .infinity)
                                     
-                                    Toggle("", isOn: $toggleHandler.isSportsToggle)
+                                    Toggle("", isOn: $isSportToggle)
                                         .labelsHidden()
                                         .padding()
                                 }
@@ -402,10 +437,11 @@ struct SearchView: View {
                             }
                             
                             //                            ButtonAreaView(searchData: self.searchData, tmpEventTypes: self.$tmpEventTypes)
-                            
-                            if self.searchData.targetDate > self.searchData.currentTime {
-                                RequestView(searchData: self.searchData)
-                                    .padding(.bottom, 80)
+                            if (self.session.ownSearch != nil){
+                                if (self.session.ownSearch?.expireDate)! > Date() {
+                                    RequestView(searchData: self.searchData)
+                                        .padding(.bottom, 80)
+                                }
                             }
                         }
                         .onReceive(self.searchData.scrollSearchMenuToTopWillChange) { newValue in
@@ -433,7 +469,11 @@ struct SearchView: View {
                     searchData: searchData,
                     tmpLocationString: $tmpLocationString,
                     tmpMaxDistance: $tmpMaxDistance,
-                    tmpEventTypes: $tmpEventTypes)
+                    tmpEventTypes: $tmpEventTypes,
+                    tmpLocation: $tmpLocation,
+                    isFoodToggle: $isFoodToggle,
+                    isLeisureToggle: $isLeisureToggle,
+                    isSportToggle: $isSportToggle)
                 
                 if self.showKeyboard == true {
                     VStack(){
@@ -455,21 +495,21 @@ struct SearchView: View {
                             }
                             .foregroundColor(.black)
                             
-                            .onAppear() {
-                                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { (noti)  in
-                                    
-                                    let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-                                    let height = value.height
-                                    
-                                    self.keyboardHeight = height
-                                    self.showKeyboard = true
-                                }
-                                
-                                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (noti)  in
-                                    self.keyboardHeight = 0
-                                    self.showKeyboard = false
-                                }
-                            }
+//                            .onAppear() {
+//                                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { (noti)  in
+//
+//                                    let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+//                                    let height = value.height
+//
+//                                    self.keyboardHeight = height
+//                                    self.showKeyboard = true
+//                                }
+//
+//                                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (noti)  in
+//                                    self.keyboardHeight = 0
+//                                    self.showKeyboard = false
+//                                }
+//                            }
                         }
                         .padding(.top, 10)
                         .padding(.bottom, 5)
@@ -491,21 +531,21 @@ struct SearchView: View {
                     self.remainingTime = newValue
                 }
             }
-            .onReceive(self.searchData.eventTypesWillChange) { newValue in
-                withAnimation(.linear(duration: 0.2)) {
-                    self.tmpEventTypes = newValue
-                }
-            }
-            .onReceive(self.searchData.locationStringWillChange) { newValue in
-                withAnimation(.linear(duration: 0.2)) {
-                    self.tmpLocationString = newValue
-                }
-            }
-            .onReceive(self.searchData.maxDistanceWillChange) { newValue in
-                withAnimation(.linear(duration: 0.2)) {
-                    self.tmpMaxDistance = newValue
-                }
-            }
+//            .onReceive(self.searchData.eventTypesWillChange) { newValue in
+//                withAnimation(.linear(duration: 0.2)) {
+//                    self.tmpEventTypes = newValue
+//                }
+//            }
+//            .onReceive(self.searchData.locationStringWillChange) { newValue in
+//                withAnimation(.linear(duration: 0.2)) {
+//                    self.tmpLocationString = newValue
+//                }
+//            }
+//            .onReceive(self.searchData.maxDistanceWillChange) { newValue in
+//                withAnimation(.linear(duration: 0.2)) {
+//                    self.tmpMaxDistance = newValue
+//                }
+//            }
             .onAppear() {
                 self.initializeTmpValues()
             }
@@ -557,10 +597,10 @@ struct SearchView: View {
             }
             
             .animation(.spring())
-            .navigationBarHidden(true)
-            .navigationBarTitle("", displayMode: .inline)
-            .navigationBarBackButtonHidden(true)
-        }
+//            .navigationBarHidden(true)
+//            .navigationBarTitle("", displayMode: .inline)
+//            .navigationBarBackButtonHidden(true)
+//        }
     }
 }
 
@@ -676,11 +716,16 @@ struct SearchHeaderOverlay: View {
     
     @EnvironmentObject var userData: UserData
     @ObservedObject var searchData: SearchData
+    @EnvironmentObject var session: FirebaseSession
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @Binding var tmpLocationString: String
     @Binding var tmpMaxDistance: Double
     @Binding var tmpEventTypes: [ActivityType]
+    @Binding var tmpLocation: CLLocationCoordinate2D?
+    @Binding var isFoodToggle: Bool
+    @Binding var isLeisureToggle: Bool
+    @Binding var isSportToggle: Bool
     
     func closeSearchView() {
         hideKeyboard()
@@ -688,32 +733,79 @@ struct SearchHeaderOverlay: View {
         presentationMode.wrappedValue.dismiss()
     }
     
-    func copyValuesToTmpValues() {
-        self.tmpLocationString = self.searchData.locationString
-        self.tmpMaxDistance = self.searchData.maxDistance
-        self.tmpEventTypes = self.searchData.eventTypes
-    }
-    
     func isModified() -> Bool {
-        if self.tmpLocationString != searchData.locationString {
+        if self.session.ownSearch != nil {
+            if self.tmpLocationString != String((session.ownSearch?.locationName)!) {
+                return true
+            }
+            
+            if self.tmpMaxDistance != session.ownSearch?.maxDistance {
+                return true
+            }
+            
+            if self.isFoodToggle != session.ownSearch?.isFoodSelected {
+                return true
+            }
+            
+            if self.isLeisureToggle != session.ownSearch?.isLeisureSelected {
+                return true
+            }
+            
+            if self.isSportToggle != session.ownSearch?.isSportSelected {
+                return true
+            }
+        } else {
             return true
         }
         
-        if self.tmpMaxDistance != searchData.maxDistance {
-            return true
-        }
-        
-        
-        if self.tmpEventTypes != searchData.eventTypes {
-            return true
-        }
+//        if self.tmpEventTypes != searchData.eventTypes {
+//            return true
+//        }
         
         return false
     }
     
     func saveValues() {
-        searchData.copyTmpValuesToValues(tmpLocationString: tmpLocationString, tmpMaxDistance: tmpMaxDistance, tmpEventTypes: tmpEventTypes)
-        self.searchData.createOrUpdate()
+        
+        tmpLocation = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+            if session.ownSearch != nil {
+                var currentSearch = session.ownSearch
+                currentSearch?.location = tmpLocation
+                currentSearch?.maxDistance = tmpMaxDistance
+                currentSearch?.isFoodSelected = isFoodToggle
+                currentSearch?.isLeisureSelected = isLeisureToggle
+                currentSearch?.isSportSelected = isSportToggle
+                
+                session.addSearch(search: currentSearch!) { search in
+                    session.ownSearch = search
+                }
+                // update firebase entity
+            } else {
+                let currentSearch: Search = Search(
+                    (session.publicUserData?.id)!,
+                    Date(),
+                    Date() + 86400,
+                    tmpLocation!,
+                    tmpLocationString,
+                    isFoodToggle,
+                    isLeisureToggle,
+                    isSportToggle,
+                    tmpMaxDistance
+                )
+                
+                // create firebase entity
+                session.addSearch(search: currentSearch) { search in
+                    session.ownSearch = search
+                }
+            }
+        
+        session.getAllActiveSearches { searches in
+            
+        }
+        
+        
+//        searchData.copyTmpValuesToValues(tmpLocationString: tmpLocationString, tmpMaxDistance: tmpMaxDistance, tmpEventTypes: tmpEventTypes)
+//        self.searchData.createOrUpdate()
         presentationMode.wrappedValue.dismiss()
     }
     
@@ -757,13 +849,45 @@ struct SearchHeaderOverlay: View {
                                 HStack(){
                                     Image(systemName: "chevron.left")
                                         .font(.system(size: 14, weight: .medium))
-                                        .frame(width: 14, height: 14)
+                                        .frame(width: 18, height: 18)
                                 }
                             }
                             .frame(height: 36)
                             .foregroundColor(Color ("button1"))
                             
                             Spacer()
+                            
+                            
+                            Spacer()
+             
+//                            Text("\(self.session.ownSearch != nil ? "ändern" : "erstellen")")
+//                                .font(.avenirNextRegular(size: 15))
+//                                .fontWeight(.bold)
+//                                .underline()
+                            
+                            
+                            Button(action: {
+                                withAnimation(.linear(duration: 0.2)) {
+                                    self.saveValues()
+                                }
+                            }) {
+                                HStack() {
+                                    Text("\(self.session.ownSearch != nil ? "ändern" : "erstellen")")
+                                        .font(.avenirNextRegular(size: 15))
+                                        .foregroundColor(.black)
+                                        .fontWeight(.bold)
+                                        .underline()
+                                }
+//                                .frame(height: 40)
+//    //                            .background(gradientPeachPink)
+//                                .background(gradientCherryPink)
+//                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                            }
+                            .disabled(!self.isModified() || self.tmpLocationString == "")
+                            .saturation(!self.isModified() || self.tmpLocationString == "" ? 0.2 : 1)
+                            .opacity(!self.isModified() || self.tmpLocationString == "" ? 0.2 : 1)
+//                            .padding(.horizontal, 20)
+                            
                             
                         }
                         .padding(.horizontal, 20)
@@ -773,12 +897,12 @@ struct SearchHeaderOverlay: View {
                             Spacer()
                             Text("Deine Suche / Inserat")
                                 .font(.avenirNextRegular(size: 15))
-                                .fontWeight(.semibold)
+                                .fontWeight(.bold)
                             Spacer()
                         }
                     }
                     
-                    Divider()
+//                    Divider()
                 }
                 .background(Color ("background1"))
                 .edgesIgnoringSafeArea(.top)
@@ -786,58 +910,58 @@ struct SearchHeaderOverlay: View {
                 
                 Spacer()
                 
-                Group {
-                VStack() {
-                    
-                    Divider()
-                    
-                    HStack() {
-                        
-//                        VStack(alignment: .leading){
-//                            Text(tmpLocationString != "" ? tmpLocationString + " (+ max. " + String(Int(tmpMaxDistance)) + "km)" : "Wähle einen Ort, wo du etwas unternehmen möchtest")
-//                                .font(.avenirNextRegular(size: 13))
-//                                .fontWeight(.semibold)
-//                                .foregroundColor(tmpLocationString != "" ? Color ("button1") : Color .pink)
-//                            
-////                            HStack(){
-////                                Text(generateActivityString(tmpEventTypes))
-////                            }
+//                Group {
+//                VStack() {
+//                    
+//                    Divider()
+//                    
+//                    HStack() {
+//                        
+////                        VStack(alignment: .leading){
+////                            Text(tmpLocationString != "" ? tmpLocationString + " (+ max. " + String(Int(tmpMaxDistance)) + "km)" : "Wähle einen Ort, wo du etwas unternehmen möchtest")
+////                                .font(.avenirNextRegular(size: 13))
+////                                .fontWeight(.semibold)
+////                                .foregroundColor(tmpLocationString != "" ? Color ("button1") : Color .pink)
+////                            
+//////                            HStack(){
+//////                                Text(generateActivityString(tmpEventTypes))
+//////                            }
+////                        }
+////                        .padding(.leading, 20)
+//                        
+//                        Spacer()
+//                        
+//                        Button(action: {
+//                            withAnimation(.linear(duration: 0.2)) {
+//                                self.saveValues()
+//                            }
+//                        }) {
+//                            HStack() {
+//                                Text("\(self.session.ownSearch != nil ? "ändern" : "erstellen")")
+//                                    .font(.avenirNextRegular(size: 14))
+//                                    .fontWeight(.semibold)
+//                                    .foregroundColor(.white)
+//                                    .padding(.horizontal)
+//                            }
+//                            .frame(height: 40)
+////                            .background(gradientPeachPink)
+//                            .background(gradientCherryPink)
+//                            .clipShape(RoundedRectangle(cornerRadius: 8))
 //                        }
-//                        .padding(.leading, 20)
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            withAnimation(.linear(duration: 0.2)) {
-                                self.saveValues()
-                            }
-                        }) {
-                            HStack() {
-                                Text("erstellen")
-                                    .font(.avenirNextRegular(size: 14))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal)
-                            }
-                            .frame(height: 40)
-//                            .background(gradientPeachPink)
-                            .background(gradientCherryPink)
-                            .clipShape(RoundedRectangle(cornerRadius: 8))
-                        }
-                        .disabled(!self.isModified() || self.tmpEventTypes.count == 0 || self.tmpLocationString == "")
-                        .saturation(!self.isModified() || self.tmpEventTypes.count == 0 || self.tmpLocationString == "" ? 0.2 : 1)
-                        .opacity(!self.isModified() || self.tmpEventTypes.count == 0 || self.tmpLocationString == "" ? 0.2 : 1)
-                        .padding(.horizontal, 20)
-                        
-                    }
-                    
-                    
-                    Rectangle().fill(Color ("background1"))
-                        .frame(height: geometry.safeAreaInsets.bottom)
-                    
-                }
-                .background(Color ("background1"))
-                }
+//                        .disabled(!self.isModified() || self.tmpLocationString == "")
+//                        .saturation(!self.isModified() || self.tmpLocationString == "" ? 0.2 : 1)
+//                        .opacity(!self.isModified() || self.tmpLocationString == "" ? 0.2 : 1)
+//                        .padding(.horizontal, 20)
+//                        
+//                    }
+//                    
+//                    
+//                    Rectangle().fill(Color ("background1"))
+//                        .frame(height: geometry.safeAreaInsets.bottom)
+//                    
+//                }
+//                .background(Color ("background1"))
+//                }
             }
             .edgesIgnoringSafeArea(.bottom)
         }

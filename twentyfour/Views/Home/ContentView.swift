@@ -30,6 +30,8 @@ struct ContentView: View {
         UITableView.appearance().separatorInset = .zero
     }
     
+    
+    
     var body: some View {
         NavigationView() {
             VStack() {
@@ -53,7 +55,7 @@ struct ContentView: View {
                             VStack(alignment: .leading) {
                                 // ExploreView
                                 if pageIndex == 0 {
-                                    if self.searchData.targetDate > self.searchData.currentTime {
+                                    if self.session.ownSearch != nil {
                                         ExploreView(
                                             searchData: searchData,
                                             isButtonBarHidden: self.$isButtonBarHidden,
@@ -76,6 +78,7 @@ struct ContentView: View {
                                 
                                 if pageIndex == 3 {
                                     CurrentAppUserDetailsView(
+                                        pageIndex: $pageIndex,
                                         currentUser: userData.currentUser
                                     ).environmentObject(self.userData)
                                 }

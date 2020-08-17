@@ -51,27 +51,47 @@ struct ActivityTypeButton: View {
                 }
             }) {
                 VStack(alignment: .center){
-                    
+                    Spacer()
                     Image(systemName: imageString)
-                        .font(.system(size: 25, weight: .medium))
-                        .foregroundColor(selectedEventType == eventType ? .white : Color ("button1"))
+                        .font(.system(size: 25 * 0.8, weight: selectedEventType == eventType ? .semibold : .medium))
+//                        .foregroundColor(selectedEventType == eventType ? .white : Color ("button1"))
+//                        .foregroundColor(Color ("button1"))
+                        //                                    .foregroundColor(Color ("Darknight"))
+                        .foreground(selectedEventType == eventType ? gradientCherryPink : gradientAlmostBlack)
+//                        .foregroundColor(selectedEventType == eventType ? Color ("Darknight2") : Color ("button1"))
                         .fixedSize()
-                        .frame(width: 50, height: 50)
-                        .background(selectedEventType == eventType ? gradientCherryPink : gradientGray)
-                        .clipShape(Circle())
-                        .shadow(radius: 4, y: 2)
 
                     Text(buttonTextString)
-                        .font(.avenirNextRegular(size: 12))
-                        .fontWeight(.semibold)
-                        .frame(width: 118)
+                        .font(.avenirNextRegular(size: 10))
+                        .fontWeight(selectedEventType == eventType ? .semibold : .medium)
+//                        .foregroundColor(selectedEventType == eventType ? .white : Color ("button1"))
+//                        .foregroundColor(Color ("button1"))
+                        .foreground(selectedEventType == eventType ? gradientCherryPink : gradientAlmostBlack)
+//                        .foregroundColor(selectedEventType == eventType ? Color ("Darknight2") : Color ("button1"))
+//                        .frame(width: 118)
                         .lineLimit(2)
+//                        .padding(.bottom, 5)
+                    Spacer()
                 }
-            }.animation(nil)
+                .frame(width: ((UIScreen.main.bounds.width - 90) / 3) * 0.8, height: 80 * 0.8)
+//                .background(selectedEventType == eventType ? gradientCherryPink : gradientWhite)
+//                .background(selectedEventType == eventType ? gradientGray : gradientWhite)
+                .background(Color .white)
+//                        .clipShape(Circle())
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+//                .overlay(
+//                    RoundedRectangle(cornerRadius: 8)
+//                        .stroke(Color ("Gray"), lineWidth: 0.5)
+//                )
+                .shadow(radius: 2, y: 1)
+            }
+        
+            .animation(nil)
             .foregroundColor(Color ("button1"))
-                .disabled(!isEventTypeAvailable(eventType: eventType))
+//                .disabled(!isEventTypeAvailable(eventType: eventType))
 //                .saturation(selectedEventType == eventType ? 1.0 : 0.0)
                 .buttonStyle(BorderlessButtonStyle())
+            .padding(.horizontal, 2)
     }
 }
 

@@ -17,7 +17,7 @@ struct UserGroup: Codable {
     @DocumentID var id: String? = UUID().uuidString
     var title: String!
     var description: String!
-    var location: CLLocationCoordinate2D!
+    var location: GeoPoint!
     var locationPlacemark: String!
     var meetingpoint: CLLocationCoordinate2D?
     var meetingpointPlacemark: String?
@@ -47,7 +47,7 @@ struct UserGroup: Codable {
     
     init(title: String,
          description: String,
-         location: CLLocationCoordinate2D,
+         location: GeoPoint,
          locationPlacemark: String,
          datemode: Bool,
          eventType: EventType,
@@ -78,7 +78,7 @@ struct UserGroup: Codable {
             return nil
         }
         
-        guard let location = data["location"] as? CLLocationCoordinate2D else {
+        guard let location = data["location"] as? GeoPoint else {
             return nil
         }
         

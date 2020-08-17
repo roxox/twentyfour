@@ -38,23 +38,29 @@ struct UserDefaultValues: Codable {
         self.maxDistance = maxDistance
         self.uid = uid
     }
-}
-
-extension UserDefaultValues: DatabaseRepresentation {
     
-    var representation: [String : Any] {
-        var rep = [
-            "uid": uid,
-            "maxDistance": maxDistance
-        ] as [String : Any]
-        
-        if let id = id {
-            rep["id"] = id
-        }
-        
-        return rep
+    enum CodingKeys: String, CodingKey {
+        case id
+        case uid
+        case maxDistance
     }
 }
+
+//extension UserDefaultValues: DatabaseRepresentation {
+//    
+//    var representation: [String : Any] {
+//        var rep = [
+//            "uid": uid,
+//            "maxDistance": maxDistance
+//        ] as [String : Any]
+//        
+//        if let id = id {
+//            rep["id"] = id
+//        }
+//        
+//        return rep
+//    }
+//}
 
 enum Gender {
     case male

@@ -26,6 +26,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Create the SwiftUI view that provides the window contents.
 
+        var isReady: Bool = false
+        
         // read current user
         let user = Auth.auth().currentUser
         
@@ -35,11 +37,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // WILL BE DELETED AS SOON AS POSSIBLE
         let userData = UserData()
         
+        if user != nil {
         // initialize user values
         if session.publicUserData == nil {
             print("Loading Public User Data")
             session.getPublicUserDataByUID(user!.uid) { publicUserData in
                 session.publicUserData = publicUserData
+                
+                    
+                if session.ownSearch == nil {
+                    print("Loading ownSearch")
+                    session.getLastActiveOwnSearch{ search in
+                        print("Search loaded: \(search?.id)")
+                        isReady = true
+                    }
+                } else {
+                    print("ownSearch available")
+                    isReady = true
+                }
             }
             
             if session.publicUserData != nil {
@@ -63,7 +78,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             print("User Default Values available")
         }
         
-        session.getAllActiveSearches()
+            session.getAllSearches() { searches in
+                for item in session.activeSearches {
+                    print("Gefundenes Datum: \(item.expireDate)")
+                }
+            }
         
         let locationManager = CLLocationManager()
         
@@ -159,7 +178,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 completionHandler(nil)
             }
         }
-        
+        }
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

@@ -17,12 +17,28 @@ class FirebaseSession: ObservableObject {
     var db: Firestore!
     
     //MARK: Properties
-    @Published var session: User?
+    @Published var currentUser: User?
     @Published var publicUserData: PublicUserData? // of current user
     @Published var privateUserData: PrivateUserData? // of current user
     @Published var settings: Settings?
     @Published var userDefaultValues: UserDefaultValues?
     @Published var searches: [Search] = []
+    @Published var ownSearch: Search?
+    {
+        didSet {
+//            if ownSearch != nil {
+                saveOperations()
+//            }
+        }
+    }
+    
+    
+    @Published var isOwnSearchActive: Bool = UserDefaults.standard.bool(forKey: "isOwnSearchActive") {
+        didSet {
+            UserDefaults.standard.set(self.isOwnSearchActive, forKey: "isOwnSearchActive")
+        }
+    }
+    
     @Published var users: [PublicUserData] = []
     @Published var groups: [UserGroup] = []
     
@@ -44,13 +60,54 @@ class FirebaseSession: ObservableObject {
         }
     }
     
+    init() {
+        loadOperations()
+    }
+    
+    
+    func saveOperations() {
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(self.ownSearch) {
+            let defaults = UserDefaults.standard
+            defaults.set(encoded, forKey: "ownSearch")
+        }
+    }
+    
+    func loadOperations() {
+        let defaults = UserDefaults.standard
+        if let ownSearch = defaults.object(forKey: "ownSearch") as? Data {
+            let decoder = JSONDecoder()
+            if let loadedSearch = try? decoder.decode(Search.self, from: ownSearch) {
+                print("xxx \(loadedSearch.id)")
+                self.ownSearch = loadedSearch
+            }
+        }
+    }
+    
+    var activeSearches: [Search] {
+        searches.filter { $0.expireDate! >= Date() && $0.pubid
+             == self.publicUserData?.id
+        }
+    }
+    
+//    var activeSearches: [Search] {
+//        searches.filter {
+//            if case Date() < $0.expireDate { return true }
+//            return false
+//        }
+//    }
+    
     // Authentication
     func logIn(email: String, password: String, handler: @escaping AuthDataResultCallback) {
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
             if error != nil {
                 print(error?.localizedDescription ?? "")
             } else {
+                self.currentUser = Auth.auth().currentUser
                 self.isLogged = true
+                self.getPublicUserDataByUID(self.currentUser!.uid) { publicUserData in
+                    self.publicUserData = publicUserData
+                }
             }
             
         }
@@ -61,7 +118,7 @@ class FirebaseSession: ObservableObject {
         self.isLogged = false
         self.isPublicUserDataAvailable = false
         self.isPrivateUserDataAvailable = false
-        self.session = nil
+        self.currentUser = nil
     }
     
     func signUp(email: String, password: String, handler: @escaping AuthDataResultCallback) {
@@ -264,17 +321,27 @@ class FirebaseSession: ObservableObject {
     func updateUserDefaultValues(_ userDefaultValues: UserDefaultValues) {
         
         // Get firestore docRef
-        let docRef = db.collection("userDefaultValues").document(userDefaultValues.id!)
+//        let docRef = db.collection("userDefaultValues").document(userDefaultValues.id!)
         
-        // update via representation
-        docRef.updateData(userDefaultValues.representation) { err in
-            if let err = err {
-                print("Error updating document: \(err)")
-            } else {
-                print("Document successfully updated")
+        
+            
+            do {
+                try db.collection("userDefaultValues").document(userDefaultValues.id!).setData(from: userDefaultValues)
+            } catch let error {
+                print("Error writing user to Firestore: \(error)")
             }
         }
-    }
+    
+    
+        // update via representation
+//        docRef.updateData(userDefaultValues.representation) { err in
+//            if let err = err {
+//                print("Error updating document: \(err)")
+//            } else {
+//                print("Document successfully updated")
+//            }
+//        }
+//    }
     
     func getUserDefaultValuesByUID(_ uid: String) {
         db = Firestore.firestore()
@@ -320,10 +387,12 @@ class FirebaseSession: ObservableObject {
     }
     
     // Searches
-    func addSearch(search: Search) {
+    func addSearch(search: Search, completion: @escaping (Search?) -> Void) {
         db = Firestore.firestore()
+        
         do {
             try db.collection("searches").document(search.id!).setData(from: search)
+            completion(search)
         } catch let error {
             print("Error writing user to Firestore: \(error)")
         }
@@ -372,13 +441,14 @@ class FirebaseSession: ObservableObject {
             }
     }
     
-    func getAllSearches() {
+    func getAllSearches(completion: @escaping ([Search]?) -> Void) {
         db = Firestore.firestore()
         db.collection("searches")
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {
+                    var searches: [Search] = []
                     for document in querySnapshot!.documents {
                         let result = Result {
                             try document.data(as: Search.self)
@@ -388,6 +458,12 @@ class FirebaseSession: ObservableObject {
                                 if let search = search {
                                     // A `Search` value was successfully initialized from the DocumentSnapshot.
                                     print("Search found: \(search)")
+                                    if !searches.contains(search) {
+                                        searches.append(search)
+                                    }
+                                    if !self.searches.contains(search) {
+                                        self.searches.append(search)
+                                    }
                                 } else {
                                     // A nil value was successfully initialized from the DocumentSnapshot,
                                     // or the DocumentSnapshot was nil.
@@ -398,17 +474,20 @@ class FirebaseSession: ObservableObject {
                                 print("Error decoding city: \(error)")
                             }
                     }
+                    completion(searches)
                 }
             }
     }
     
-    func getAllActiveSearches() {
+    func getAllActiveSearches(completion: @escaping ([Search]?) -> Void) {
+        
         db = Firestore.firestore()
-        db.collection("searches").whereField("expireDate", isGreaterThan: Date()).whereField("uid", isEqualTo: "kEv0yBQaYfbxJFLLS0vARrgFEcy2")
+        db.collection("searches").whereField("expireDate", isGreaterThan: Date())
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {
+                    var searches: [Search] = []
                     for document in querySnapshot!.documents {
                         let result = Result {
                             try document.data(as: Search.self)
@@ -418,6 +497,12 @@ class FirebaseSession: ObservableObject {
                                 if let search = search {
                                     // A `Search` value was successfully initialized from the DocumentSnapshot.
                                     print("Search found: \(search)")
+                                    if !searches.contains(search) {
+                                        searches.append(search)
+                                    }
+                                    if !self.searches.contains(search) {
+                                        self.searches.append(search)
+                                    }
                                 } else {
                                     // A nil value was successfully initialized from the DocumentSnapshot,
                                     // or the DocumentSnapshot was nil.
@@ -427,6 +512,85 @@ class FirebaseSession: ObservableObject {
                                 // A `City` value could not be initialized from the DocumentSnapshot.
                                 print("Error decoding city: \(error)")
                             }
+                    }
+                    completion(searches)
+                }
+            }
+    }
+    
+    func getAllActiveOwnSearches(completion: @escaping ([Search]?) -> Void) {
+        
+        db = Firestore.firestore()
+        db.collection("searches").whereField("expireDate", isGreaterThan: Date()).whereField("pubid", isEqualTo: self.publicUserData?.id)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    var searches: [Search] = []
+                    for document in querySnapshot!.documents {
+                        let result = Result {
+                            try document.data(as: Search.self)
+                        }
+                        switch result {
+                            case .success(let search):
+                                if let search = search {
+                                    // A `Search` value was successfully initialized from the DocumentSnapshot.
+                                    print("Search found: \(search)")
+                                    if !searches.contains(search) {
+                                        searches.append(search)
+                                    }
+                                    if !self.searches.contains(search) {
+                                        self.searches.append(search)
+                                    }
+                                } else {
+                                    // A nil value was successfully initialized from the DocumentSnapshot,
+                                    // or the DocumentSnapshot was nil.
+                                    print("Document does not exist")
+                                }
+                            case .failure(let error):
+                                // A `City` value could not be initialized from the DocumentSnapshot.
+                                print("Error decoding city: \(error)")
+                            }
+                    }
+                    completion(searches)
+                }
+            }
+    }
+    
+    func getLastActiveOwnSearch(completion: @escaping (Search?) -> Void) {
+        
+        db = Firestore.firestore()
+        db.collection("searches").whereField("expireDate", isGreaterThan: Date()).whereField("pubid", isEqualTo: self.publicUserData?.id)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    if querySnapshot!.documents.count > 0 {
+                        let document = querySnapshot!.documents.last
+                        
+                        let result = Result {
+                            try document!.data(as: Search.self)
+                        }
+                        switch result {
+                            case .success(let search):
+                                if let search = search {
+                                    // A `Search` value was successfully initialized from the DocumentSnapshot.
+                                    print("Search found: \(search)")
+                                    self.ownSearch = search
+                                    completion(search)
+                                } else {
+                                    // A nil value was successfully initialized from the DocumentSnapshot,
+                                    // or the DocumentSnapshot was nil.
+                                    print("Document does not exist")
+                                    completion(nil)
+                                }
+                            case .failure(let error):
+                                // A `City` value could not be initialized from the DocumentSnapshot.
+                                print("Error decoding city: \(error)")
+                            }
+                    } else {
+                        self.ownSearch = nil
+                        completion(nil)
                     }
                 }
             }

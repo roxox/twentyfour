@@ -62,8 +62,12 @@ struct AppUserListView: View {
                                 isButtonBarHidden: self.$isButtonBarHidden,
                                 tmpValues: self.$tmpValues
                             )
+                            
                         }
-                        .frame(width: 250, height: 320)
+                        .frame(width: 250, height: 330)
+//                        .padding(.horizontal, 10)
+//                        .frame(width: UIScreen.main.bounds.width*0.95, height: UIScreen.main.bounds.width*0.95*3/2)
+//                        UIScreen.main.bounds.height
                     }
                 }
                 
@@ -75,17 +79,34 @@ struct AppUserListView: View {
             
             
             if self.groupList.count != 0  {
-                Divider()
+//                Divider()
                 
                 Group {
                     // Headline ausgewähle User
-                    HStack(){
+                    HStack(alignment: .top, spacing: 0){
+                        
+//                            Image(systemName: "1.circle")
+//                                .font(.system(size: 30, weight: .light))
+//                                .fixedSize()
+//                                .frame(width: 30, height: 30)
+//                                .padding(.trailing, 5)
+//                                .foreground(gradientCherryPink)
+                        
+//                            Text("1. ")
+//                                .font(.avenirNextRegular(size: 20))
+//                                .fontWeight(.semibold)
+//                                .fixedSize(horizontal: false, vertical: true)
+//                                .lineLimit(1)
+                        
+//                        Spacer()
                         VStack(alignment: .leading){
-                            Text("1. Stelle dir eine Gruppe zusammen")
-                                .font(.avenirNextRegular(size: 20))
-                                .fontWeight(.semibold)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .lineLimit(1)
+                            Text("Wähle Gruppenmitglieder aus ")
+                                .font(.avenirNextRegular(size: 16))
+//                                .fontWeight(.light)
+                                +
+                                Text("(benötigt)")
+                                    .font(.avenirNextRegular(size: 16))
+                                    .fontWeight(.medium)
 //                                .foreground(gradientCherryPink)
                             
 //                            Text("hier: \(String(session.settings!.showInfoTexts))")
@@ -113,11 +134,11 @@ struct AppUserListView: View {
                     .padding([.leading, .trailing], 20)
                     .padding(.top, 10)
                     // ScrollView
-                    ScrollView(.horizontal){
+                    ScrollView(.vertical){
                         VStack(){
                             Spacer()
                                 .frame(minWidth: 0, maxWidth: .infinity)
-                            HStack(){
+                            VStack(){
                                 ForEach(self.groupList, id: \.self) { appUser in
                                     VStack(){
                                         HStack(){
@@ -126,18 +147,35 @@ struct AppUserListView: View {
                                                     self.removeFromGroupList(appUser: appUser)
                                                 }
                                             }) {
-                                                VStack() {
+                                                HStack() {
                                                     appUser.image
                                                         .renderingMode(.original)
                                                         .resizable()
                                                         .scaledToFill()
                                                         .clipShape(Circle())
-                                                        .frame(width: 60 ,height: 60)
-                                                        .shadow(radius: 4, y: 2)
+                                                        .frame(width: 40 ,height: 40)
+//                                                        .shadow(radius: 7, y: 2)
                                                     
-                                                    Text(appUser.username)
-                                                        .font(.avenirNextRegular(size: 12))
-                                                        .fontWeight(.semibold)
+//                                                    Text(appUser.username)
+//                                                        .font(.avenirNextRegular(size: 12))
+//                                                        .fontWeight(.semibold)
+                                                    VStack(alignment: .leading) {
+                                                        Text(appUser.username)
+                                                            .font(.avenirNextRegular(size: 16))
+                                                            .fontWeight(.medium)
+                                                        Text(appUser.searchParameter.locationName)
+                                                            .font(.avenirNextRegular(size: 16))
+//                                                            .fontWeight(.medium)
+                                                    }
+                                                    Spacer()
+                                                    Text("entfernen")
+                                                        .font(.avenirNextRegular(size: 18))
+//                                                        .fontWeight(.medium)
+//                                                        .foregroundColor(Color ("DarkGreen"))
+//                                                        .foregroundColor(.black)
+//                                                        .underline()
+                                                        .foreground(gradientPinkOrange)
+                                                        .padding(.trailing, 10)
                                                     
                                                 }
                                                 .foregroundColor(Color ("button1"))
@@ -150,19 +188,19 @@ struct AppUserListView: View {
                                 }
                             }
                         }
-                        .frame(maxWidth: .infinity)
+                        .frame(maxHeight: .infinity)
                         .padding(.horizontal, 20)
-                        .padding(.bottom, 20)
+                        .padding(.bottom, 30)
                     }
                     .frame(maxWidth: .infinity)
-                    .frame(maxHeight: 120)
+                    .frame(maxHeight: .infinity)
                     //END: ScrollView
                     
                     
-                    if session.settings!.showInfoTexts {
+//                    if session.settings!.showInfoTexts {
                         Divider()
                             .padding(.horizontal, 20)
-                    }
+//                    }
                     
                 }
                 .onTapGesture {
@@ -172,13 +210,30 @@ struct AppUserListView: View {
                 
                 Group {
                     // Headline EventType
-                    HStack(){
+                    HStack(alignment: .top, spacing: 0){
+                        
+//                        Image(systemName: "2.circle")
+//                            .font(.system(size: 30, weight: .light))
+//                            .fixedSize()
+//                            .frame(width: 30, height: 30)
+//                            .padding(.trailing, 5)
+//                            .foreground(gradientCherryPink)
+                        
+//                        Text("2. ")
+//                            .font(.avenirNextRegular(size: 20))
+//                            .fontWeight(.semibold)
+//                            .fixedSize(horizontal: false, vertical: true)
+//                            .lineLimit(1)
+//                        Spacer()
                         VStack(alignment: .leading) {
-                            Text("2. Wähle eine Aktivität für die Gruppe")
-                                .font(.avenirNextRegular(size: 20))
-                                .fontWeight(.semibold)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .lineLimit(1)
+                            Text("Kategorie ")
+                                .font(.avenirNextRegular(size: 16))
+//                                .fontWeight(.light)
+                                +
+                                Text("(benötigt)")
+                                    .font(.avenirNextRegular(size: 16))
+                                    .fontWeight(.medium)
+//                                .padding(.bottom)
 //                                .foreground(gradientCherryPink)
                         }
                         
@@ -186,7 +241,8 @@ struct AppUserListView: View {
                         
                     }
                     .padding([.leading, .trailing], 20)
-                    .padding(.top, 10)
+                    .padding(.top, 20)
+                    .padding(.bottom)
                     
                     if session.settings!.showInfoTexts {
                         HStack() {
@@ -209,18 +265,19 @@ struct AppUserListView: View {
                     
                     // Selection EventType
                     HStack() {
-                        if self.isEventTypeAvailable(eventType: .food) {
+                        if self.session.ownSearch?.isFoodSelected == true {
                             ActivityTypeButton(
                                 searchData: self.searchData,
                                 eventType: .food,
                                 imageString: "moon.stars",
-                                buttonTextString: "Essen und Trinken",
+                                buttonTextString: "Essen & Trinken",
                                 selectedEventType: self.$selectedEventType,
                                 tmpValues: self.$tmpValues
                             )
+                            .scaleEffect(selectedEventType == .food ? 1.08 : 1)
                         }
                         
-                        if self.isEventTypeAvailable(eventType: .leisure) {
+                        if self.session.ownSearch?.isLeisureSelected == true {
                             ActivityTypeButton(
                                 searchData: self.searchData,
                                 eventType: .leisure,
@@ -229,9 +286,10 @@ struct AppUserListView: View {
                                 selectedEventType: self.$selectedEventType,
                                 tmpValues: self.$tmpValues
                             )
+                            .scaleEffect(selectedEventType == .leisure ? 1.08 : 1)
                         }
                         
-                        if self.isEventTypeAvailable(eventType: .sports) {
+                        if self.session.ownSearch?.isSportSelected == true {
                             ActivityTypeButton(
                                 searchData: self.searchData,
                                 eventType: .sports,
@@ -240,17 +298,19 @@ struct AppUserListView: View {
                                 selectedEventType: self.$selectedEventType,
                                 tmpValues: self.$tmpValues
                             )
+                            .scaleEffect(selectedEventType == .sports ? 1.08 : 1)
                         }
-                        
+                        Spacer()
                     }
                     .padding(.top, 10)
-                    .padding(.bottom, 20)
+                    .padding(.bottom, 30)
+                    .padding(.horizontal, 20)
                     
                     
-                    if session.settings!.showInfoTexts {
+//                    if session.settings!.showInfoTexts {
                         Divider()
                             .padding(.horizontal, 20)
-                    }
+//                    }
                 }
                 .onTapGesture {
                     hideKeyboard()
@@ -258,16 +318,31 @@ struct AppUserListView: View {
                 // Group 2 ENDED
                 
                 Group {
-                    HStack() {
-                        Text("3. Hier noch ein paar benötigte Informationen")
-                            .font(.avenirNextRegular(size: 20))
-                            .fontWeight(.semibold)
-//                            .foreground(gradientCherryPink)
-                        
-                        Spacer()
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 10)
+//                    HStack(alignment: .top, spacing: 0) {
+//
+////                        Image(systemName: "3.circle")
+////                            .font(.system(size: 30, weight: .light))
+////                            .fixedSize()
+////                            .frame(width: 30, height: 30)
+////                            .padding(.trailing, 5)
+////                            .foreground(gradientCherryPink)
+//
+////                        Text("3. ")
+////                            .font(.avenirNextRegular(size: 20))
+////                            .fontWeight(.semibold)
+////                            .fixedSize(horizontal: false, vertical: true)
+////                            .lineLimit(1)
+////                        Spacer()
+//                        Text("Benötigte Angaben")
+//                            .font(.avenirNextRegular(size: 18))
+//                            .fontWeight(.semibold)
+//                            .padding(.bottom)
+////                            .foreground(gradientCherryPink)
+//
+//                        Spacer()
+//                    }
+//                    .padding(.horizontal, 20)
+//                    .padding(.top, 10)
                     
                     
                     if session.settings!.showInfoTexts {
@@ -288,55 +363,76 @@ struct AppUserListView: View {
                     
                     
                     HStack(alignment: .top) {
-                        Image(systemName: "pencil")
-                            .font(.system(size: 18, weight: .semibold))
-                            .fixedSize()
-                            .frame(width: 30, height: 30)
-                            .padding(.trailing, 10)
+//                        Image(systemName: "pencil")
+//                            .font(.system(size: 18, weight: .semibold))
+//                            .fixedSize()
+//                            .frame(width: 30, height: 30)
+//                            .padding(.trailing, 10)
                         
                         VStack(alignment: .leading) {
-                            Text("Titel")
-                                .font(.avenirNextRegular(size: 12))
-                                .fontWeight(.semibold)
+                            Text("Titel ")
+                                .font(.avenirNextRegular(size: 16))
+//                                .fontWeight(.light)
+                                +
+                                Text("(benötigt)")
+                                    .font(.avenirNextRegular(size: 16))
+                                    .fontWeight(.medium)
                             TextField("Gib dem Ganzen einen Namen", text: $tmpValues.tmpTitleString)
-                                .font(.avenirNextRegular(size: 18))
-                            Divider()
+                                .font(.avenirNextRegular(size: 20))
+                            Divider().padding(.top)
                         }
-                        .padding(.trailing, 40)
+//                        .padding(.trailing, 40)
                         
                         Spacer()
                     }
                     .padding(.horizontal, 20)
-                    .padding(.top, 10)
-                    .padding(.bottom, 20)
+                    .padding(.top, 20)
+//                    .padding(.bottom, 20)
                     
                     HStack(alignment: .top) {
-                        Image(systemName: "house")
-                            .font(.system(size: 18, weight: .semibold))
-                            .fixedSize()
-                            .frame(width: 30, height: 30)
-                            .padding(.trailing, 10)
+//                        Image(systemName: "house")
+//                            .font(.system(size: 18, weight: .semibold))
+//                            .fixedSize()
+//                            .frame(width: 30, height: 30)
+//                            .padding(.trailing, 10)
                         
                         VStack(alignment: .leading) {
-                            Text("Location")
-                                .font(.avenirNextRegular(size: 12))
-                                .fontWeight(.semibold)
+                            HStack() {
+                            Text("Ort ")
+                                .font(.avenirNextRegular(size: 16))
+//                                .fontWeight(.light)
+//                                +
+//                                Text("(benötigt)")
+//                                    .font(.avenirNextRegular(size: 14))
+//                                    .fontWeight(.bold)
+                                
+                                Spacer()
+                                Text("ändern")
+                                    .font(.avenirNextRegular(size: 18))
+//                                    .fontWeight(.medium)
+//                                    .foregroundColor(Color ("DarkGreen"))
+                                    .foreground(gradientPinkOrange)
+//                                    .foregroundColor(Color .pink)
+                                    
+                                    .padding(.trailing, 10)
+                            }
                             TextField("Wo soll es hingehen?", text: $tmpValues.tmpLocationString)
-                                .font(.avenirNextRegular(size: 18))
-                            Divider()
+                                .font(.avenirNextRegular(size: 20))
+                            Divider().padding(.top)
+//                                .padding(.bottom, 10)
                         }
-                        .padding(.trailing, 40)
+//                        .padding(.trailing, 40)
                         
                         Spacer()
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 10)
-                    .padding(.bottom, 20)
+//                    .padding(.bottom, 20)
                     
-                    if session.settings!.showInfoTexts {
-                        Divider()
-                            .padding(.horizontal, 20)
-                    }
+//                    if session.settings!.showInfoTexts {
+//                        Divider()
+//                            .padding(.horizontal, 20)
+//                    }
                 }
                 .onTapGesture {
                     hideKeyboard()
@@ -345,14 +441,30 @@ struct AppUserListView: View {
                 
                 Group {
                     //
-                    HStack() {
-                        Text("4. Noch ein paar optionale Angaben... wenn du willst!")
-                            .font(.avenirNextRegular(size: 20))
-                            .fontWeight(.semibold)
-                        Spacer()
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 10)
+//                    HStack(alignment: .top, spacing: 0) {
+//
+////                        Image(systemName: "4.circle")
+////                            .font(.system(size: 30, weight: .light))
+////                            .fixedSize()
+////                            .frame(width: 30, height: 30)
+////                            .padding(.trailing, 5)
+////                            .foreground(gradientCherryPink)
+//
+////                        Text("4. ")
+////                            .font(.avenirNextRegular(size: 20))
+////                            .fontWeight(.semibold)
+////                            .fixedSize(horizontal: false, vertical: true)
+////                            .lineLimit(1)
+//
+////                        Spacer()
+////                        Text("Optional")
+////                            .font(.avenirNextRegular(size: 18))
+////                            .fontWeight(.semibold)
+////                            .padding(.bottom)
+////                        Spacer()
+//                    }
+//                    .padding(.horizontal, 20)
+//                    .padding(.top, 10)
                     
                     if session.settings!.showInfoTexts {
                         HStack() {
@@ -371,50 +483,65 @@ struct AppUserListView: View {
                     }
                     
                     HStack(alignment: .top) {
-                        Image(systemName: "mappin.and.ellipse")
-                            .font(.system(size: 18, weight: .semibold))
-                            .fixedSize()
-                            .frame(width: 30, height: 30)
-                            .padding(.trailing, 10)
+//                        Image(systemName: "mappin.and.ellipse")
+//                            .font(.system(size: 18, weight: .semibold))
+//                            .fixedSize()
+//                            .frame(width: 30, height: 30)
+//                            .padding(.trailing, 10)
                         
                         VStack(alignment: .leading) {
-                            Text("Treffpunkt")
-                                .font(.avenirNextRegular(size: 12))
-                                .fontWeight(.semibold)
-                            TextField("Wo kann man sich dort treffen?", text: $tmpValues.tmpMeetingString)
-                                .font(.avenirNextRegular(size: 18))
-                            Divider()
+                            HStack() {
+                            Text("Beschreibung")
+                                .font(.avenirNextRegular(size: 16))
+//                                .fontWeight(.light)
+                                
+                                Spacer()
+                                Text("hinzufügen")
+                                    .font(.avenirNextRegular(size: 18))
+//                                    .fontWeight(.medium)
+//                                                                        .foregroundColor(Color ("DarkGreen"))
+//                                                                        .foreground(gradientCherryPink)gradientPinkOrange
+                                        .foreground(gradientPinkOrange)
+                                    .padding(.trailing, 10)
+                            }
+//                            TextField("Wo kann man sich dort treffen?", text: $tmpValues.tmpMeetingString)
+//                                .font(.avenirNextRegular(size: 20))
+                            
+                            Divider().padding(.top)
                         }
-                        .padding(.trailing, 40)
+//                        .padding(.trailing, 40)
                         
                         Spacer()
                     }
                     .padding(.horizontal, 20)
-                    .padding(.top, 10)
-                    .padding(.bottom, 20)
+                    .padding(.top, 20)
+//                    .padding(.bottom, 20)
                     
                     HStack(alignment: .top) {
-                        Image(systemName: "alarm")
-                            .font(.system(size: 18, weight: .semibold))
-                            .fixedSize()
-                            .frame(width: 30, height: 30)
-                            .padding(.trailing, 10)
+//                        Image(systemName: "alarm")
+//                            .font(.system(size: 18, weight: .semibold))
+//                            .fixedSize()
+//                            .frame(width: 30, height: 30)
+//                            .padding(.trailing, 10)
                         
                         VStack(alignment: .leading) {
                             Text("Zeitpunkt")
-                                .font(.avenirNextRegular(size: 12))
-                                .fontWeight(.semibold)
+                                .font(.avenirNextRegular(size: 16))
+//                                .fontWeight(.light)
                             TextField("Wann wollt ihr euch treffen?", text: $tmpValues.tmpTimeString)
-                                .font(.avenirNextRegular(size: 18))
-                            Divider()
+                                .font(.avenirNextRegular(size: 20))
+                            Divider().padding(.top)
+//                                .padding(.bottom, 10)
                         }
-                        .padding(.trailing, 40)
+//                        .padding(.trailing, 40)
                         
                         Spacer()
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 10)
-                    .padding(.bottom, 20)
+                    
+//                    Divider()
+                                        .padding(.bottom, 20)
                 }
                 .onTapGesture {
                     hideKeyboard()
@@ -479,6 +606,7 @@ struct AppUserListItem: View {
                     .scaledToFill()
             }
             .frame(width: UIScreen.main.bounds.width*0.57 ,height: UIScreen.main.bounds.width*0.71)
+//            .frame(width: UIScreen.main.bounds.width*0.8 ,height: UIScreen.main.bounds.width*0.8*3/2.3)
             .overlay(AppUserTextOverlay(
                 currentAppUser: self.appUser,
                 selectedEventType: self.$selectedEventType,
@@ -490,6 +618,7 @@ struct AppUserListItem: View {
             .cornerRadius(12)
             .shadow(radius: 7, y: 4)
             .padding(10)
+//            .padding(.horizontal, 30)
         }
     }
 }
@@ -561,10 +690,43 @@ struct AppUserTextOverlay: View {
                 
                 VStack() {
                     
+                    
                     Spacer()
                     
                     HStack() {
                         VStack(alignment: .leading) {
+                            
+                            
+//                            HStack() {
+//
+//                                Image(systemName: "moon.stars.fill")
+//                                    .font(.system(size: 12, weight: .medium))
+//                                    .foregroundColor(.white)
+//                                    .fixedSize()
+//                                    .frame(width: 8, height: 12)
+//
+//                                Image(systemName: "guitars")
+//                                    .font(.system(size: 12, weight: .medium))
+//                                    .foregroundColor(.white)
+//                                    .fixedSize()
+//                                    .frame(width: 12, height: 12)
+//
+//                                Image(systemName: "sportscourt.fill")
+//                                    .font(.system(size: 12, weight: .medium))
+//                                    .foregroundColor(.white)
+//                                    .fixedSize()
+//                                    .frame(width: 12, height: 12)
+//                            }
+//                            .padding(.horizontal, 10)
+//                            .padding(.vertical, 8)
+//                            .background(Color .black.opacity(0.9))
+////                            .background(Color ("Midnight").opacity(0.6))
+//                            .cornerRadius(4)
+////                            .shadow(radius: 7, y: 2)
+//                            .offset(x: -2)
+////                            .padding(.top, 10)
+////                            .padding(.horizontal)
+                            
                             Spacer()
                             
 //                            NavigationLink(
@@ -573,23 +735,63 @@ struct AppUserTextOverlay: View {
 //                                )
 //
 //                            ) {
-                                Text(self.currentAppUser.username)
+                            HStack() {
+                                Text("\(self.currentAppUser.username)")
                                     .foregroundColor(.white)
-                                    .font(.avenirNextRegular(size: 16))
+                                    .font(.avenirNextRegular(size: 20))
                                     .fontWeight(.bold)
-                                    .padding(.top)
-                                    .padding(.horizontal)
-//                            }
-//                            .buttonStyle(BorderlessButtonStyle())
+                                    .lineLimit(1)
+//                                    .padding(.top)
+                                    .padding(.leading)
+                                    
+                                    Text("32")
+                                        .foregroundColor(.white)
+                                        .font(.avenirNextRegular(size: 20))
+                                        .fontWeight(.medium)
+                                        .lineLimit(1)
+    //                                    .padding(.top)
+//                                        .padding(.leading)
+                                
+//                                Divider().frame(width: 2, height: 18)
+//                                    .foregroundColor(.white)
+//                                    .background(Color .white)
+//                                    .cornerRadius(1)
+//                                    .padding(.trailing, 2)
+//
+//                                Image(systemName: "moon.stars.fill")
+//                                    .font(.system(size: 10, weight: .medium))
+//                                    .foregroundColor(.white)
+//                                    .fixedSize()
+//                                    .frame(width: 6, height:10)
+//
+//                                Image(systemName: "guitars")
+//                                    .font(.system(size: 10, weight: .medium))
+//                                    .foregroundColor(.white)
+//                                    .fixedSize()
+//                                    .frame(width: 10, height: 10)
+//
+//                                Image(systemName: "sportscourt.fill")
+//                                    .font(.system(size: 10, weight: .medium))
+//                                    .foregroundColor(.white)
+//                                    .fixedSize()
+//                                    .frame(width: 10, height: 10)
+                            }
                             
                             HStack() {
                                 
-                                Text(self.currentAppUser.searchParameter.locationName)
+                                Text("\(self.currentAppUser.searchParameter.locationName)")
+                                    .foregroundColor(.white)
+                                    .font(.avenirNextRegular(size: 16))
+                                    .fontWeight(.medium)
+                                    .lineLimit(1)
+                                    .padding(.leading)
+                                
+                                Text("37km")
                                     .foregroundColor(.white)
                                     .font(.avenirNextRegular(size: 16))
                                     .fontWeight(.light)
-                                    .padding(.leading)
-                                
+                                    .lineLimit(1)
+//                                    .padding(.leading)
                                 
 //                                Text("\(currentAppUser.memberships.count)")
 //                                    .foregroundColor(.white)
@@ -639,6 +841,36 @@ struct AppUserTextOverlay: View {
                                         .padding(.top, 10)
                                 }
                             }
+//                            HStack() {
+//
+//
+//                            Image(systemName: "moon.stars")
+//                                .font(.system(size: 16, weight: .medium))
+//                                .foregroundColor(.white)
+//                                .fixedSize()
+//                                .frame(width: 12, height: 16)
+//                                .padding(.trailing, 2)
+//                                .padding(.top)
+//
+//                            Image(systemName: "guitars")
+//                                .font(.system(size: 16, weight: .medium))
+//                                .foregroundColor(.white)
+//                                .fixedSize()
+//                                .frame(width: 16, height: 16)
+//                                .padding(.trailing, 4)
+//                                .padding(.top)
+//
+//                            Image(systemName: "sportscourt")
+//                                .font(.system(size: 16, weight: .medium))
+//                                .foregroundColor(.white)
+//                                .fixedSize()
+//                                .frame(width: 16, height: 16)
+////                                    .padding(.trailing, 10)
+//                                .padding(.top)
+//
+//                            }
+//                            .padding(.bottom, 15)
+//                            .padding(.trailing, 15)
                         }
                     }
                     .background(self.gradient)

@@ -12,7 +12,7 @@ import SwiftUI
 final class TemporaryGroupValues: ObservableObject {
     @Published var tmpTitleString: String = ""
     @Published var tmpDescriptionString: String = ""
-    @Published var tmpLocationString: String = ""
+    @Published var tmpLocationString: String = "Las Vegas, Nevada"
     @Published var tmpTimeString: String = ""
     @Published var tmpMeetingString: String = ""
     @Published var tmpDateMode: Bool = false

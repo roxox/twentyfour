@@ -19,13 +19,14 @@ struct SignInView: View {
     @State var alertMessage = "Something went wrong."
     @State var isSuccessful = false
     @EnvironmentObject var user: UserData
+    @EnvironmentObject var session: FirebaseSession
     
     func login() {
         hideKeyboard()
         self.isFocused = false
         self.isLoading = true
         
-        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+        session.logIn(email: email, password: password) { (result, error) in
             self.isLoading = false
             
             if error != nil {
@@ -33,8 +34,9 @@ struct SignInView: View {
                 self.showAlert = true
             } else {
                 self.isSuccessful = true
-                self.user.isLogged = true
-                UserDefaults.standard.set(true, forKey: "isLogged")
+                self.session.isLogged = true
+//                self.user.isLogged = true
+//                UserDefaults.standard.set(true, forKey: "isLogged")
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.email = ""
@@ -44,6 +46,25 @@ struct SignInView: View {
                 }
             }
         }
+//        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+//            self.isLoading = false
+//
+//            if error != nil {
+//                self.alertMessage = error?.localizedDescription ?? ""
+//                self.showAlert = true
+//            } else {
+//                self.isSuccessful = true
+//                self.user.isLogged = true
+//                UserDefaults.standard.set(true, forKey: "isLogged")
+//
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                    self.email = ""
+//                    self.password = ""
+//                    self.isSuccessful = false
+//                    self.user.showLogin = false
+//                }
+//            }
+//        }
     }
     
     var body: some View {

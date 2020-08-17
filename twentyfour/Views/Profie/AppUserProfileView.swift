@@ -34,7 +34,7 @@ struct AppUserProfileView: View {
                     }
                     .padding(.top, 10)
                 }
-                CurrentAppUserDetailsView(currentUser: user)
+//                CurrentAppUserDetailsView(currentUser: user)
             }
         }
     }

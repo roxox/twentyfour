@@ -264,3 +264,17 @@ var gradientButton1: LinearGradient {
         startPoint: .topLeading,
         endPoint: .bottomTrailing)
 }
+
+
+var gradientPinkOrange: LinearGradient {
+    LinearGradient(
+        gradient: Gradient(
+            colors:
+            [
+                Color .pink,
+                Color .red,
+//                Color .orange
+        ]),
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing)
+}

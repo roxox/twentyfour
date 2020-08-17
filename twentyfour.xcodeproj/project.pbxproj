@@ -14,6 +14,12 @@
 		4013AA4A2459525500890DD6 /* AppUserGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4013AA492459525500890DD6 /* AppUserGroup.swift */; };
 		40174905244714890058532B /* basti.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40174904244714880058532B /* basti.jpg */; };
 		4018933724B66A4100EDD0CA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4018933524B66A4100EDD0CA /* Model.xcdatamodeld */; };
+		4020924024CC980C000276B5 /* AirbnbCerealBlack.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4020923F24CC95F6000276B5 /* AirbnbCerealBlack.ttf */; };
+		4020924124CC9811000276B5 /* AirbnbCerealBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4020923C24CC95F2000276B5 /* AirbnbCerealBold.ttf */; };
+		4020924224CC9811000276B5 /* AirbnbCerealBook.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4020923B24CC95F1000276B5 /* AirbnbCerealBook.ttf */; };
+		4020924324CC9811000276B5 /* AirbnbCerealLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4020923D24CC95F3000276B5 /* AirbnbCerealLight.ttf */; };
+		4020924424CC9811000276B5 /* AirbnbCerealMedium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4020923E24CC95F5000276B5 /* AirbnbCerealMedium.ttf */; };
+		4020924524CC9811000276B5 /* AirbnbCerealExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4020923A24CC95F0000276B5 /* AirbnbCerealExtraBold.ttf */; };
 		4023B0DF24C1B741001692C2 /* UserGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4023B0DE24C1B741001692C2 /* UserGroup.swift */; };
 		4023B0E224C1B794001692C2 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4023B0E124C1B794001692C2 /* Search.swift */; };
 		4023B0E424C1BA6C001692C2 /* DatabaseRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4023B0E324C1BA6C001692C2 /* DatabaseRepresentation.swift */; };
@@ -76,6 +82,12 @@
 		408FC8B824C7CFAF00FFAF5D /* Membership.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FC8B724C7CFAF00FFAF5D /* Membership.swift */; };
 		408FC8BA24C846F300FFAF5D /* CreateUserDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FC8B924C846F300FFAF5D /* CreateUserDataView.swift */; };
 		40B14D352455BC460027B242 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40B14D342455BC460027B242 /* GoogleService-Info.plist */; };
+		40B554E124EB0439000CE43E /* Coniferous-Demo-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 40B554E024EB0431000CE43E /* Coniferous-Demo-Bold.otf */; };
+		40B554E224EB0439000CE43E /* Coniferous-Demo-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 40B554DF24EB0430000CE43E /* Coniferous-Demo-Black.otf */; };
+		40B554E324EB0439000CE43E /* Coniferous-Demo-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 40B554DE24EB042F000CE43E /* Coniferous-Demo-Thin.otf */; };
+		40B554E424EB0439000CE43E /* Coniferous-Demo-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 40B554DB24EB042C000CE43E /* Coniferous-Demo-Light.otf */; };
+		40B554E524EB0439000CE43E /* Coniferous-Demo-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 40B554DD24EB042F000CE43E /* Coniferous-Demo-Medium.otf */; };
+		40B554E624EB0439000CE43E /* Coniferous-Demo-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 40B554DC24EB042D000CE43E /* Coniferous-Demo-Regular.otf */; };
 		40EF4A462461563D0072752B /* PagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EF4A452461563D0072752B /* PagerView.swift */; };
 		FA4B32CFDF863682875A8981 /* Pods_twentyfour.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F7DEEAD7D4A7784A646F7A9 /* Pods_twentyfour.framework */; };
 /* End PBXBuildFile section */
@@ -90,6 +102,12 @@
 		4013AA492459525500890DD6 /* AppUserGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUserGroup.swift; sourceTree = "<group>"; };
 		40174904244714880058532B /* basti.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = basti.jpg; path = ../../../../Desktop/together_squares/basti.jpg; sourceTree = "<group>"; };
 		4018933624B66A4100EDD0CA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		4020923A24CC95F0000276B5 /* AirbnbCerealExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCerealExtraBold.ttf; sourceTree = "<group>"; };
+		4020923B24CC95F1000276B5 /* AirbnbCerealBook.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCerealBook.ttf; sourceTree = "<group>"; };
+		4020923C24CC95F2000276B5 /* AirbnbCerealBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCerealBold.ttf; sourceTree = "<group>"; };
+		4020923D24CC95F3000276B5 /* AirbnbCerealLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCerealLight.ttf; sourceTree = "<group>"; };
+		4020923E24CC95F5000276B5 /* AirbnbCerealMedium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCerealMedium.ttf; sourceTree = "<group>"; };
+		4020923F24CC95F6000276B5 /* AirbnbCerealBlack.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCerealBlack.ttf; sourceTree = "<group>"; };
 		4023B0DE24C1B741001692C2 /* UserGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGroup.swift; sourceTree = "<group>"; };
 		4023B0E124C1B794001692C2 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		4023B0E324C1BA6C001692C2 /* DatabaseRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseRepresentation.swift; sourceTree = "<group>"; };
@@ -154,6 +172,12 @@
 		408FC8B724C7CFAF00FFAF5D /* Membership.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Membership.swift; sourceTree = "<group>"; };
 		408FC8B924C846F300FFAF5D /* CreateUserDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserDataView.swift; sourceTree = "<group>"; };
 		40B14D342455BC460027B242 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		40B554DB24EB042C000CE43E /* Coniferous-Demo-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Coniferous-Demo-Light.otf"; sourceTree = "<group>"; };
+		40B554DC24EB042D000CE43E /* Coniferous-Demo-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Coniferous-Demo-Regular.otf"; sourceTree = "<group>"; };
+		40B554DD24EB042F000CE43E /* Coniferous-Demo-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Coniferous-Demo-Medium.otf"; sourceTree = "<group>"; };
+		40B554DE24EB042F000CE43E /* Coniferous-Demo-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Coniferous-Demo-Thin.otf"; sourceTree = "<group>"; };
+		40B554DF24EB0430000CE43E /* Coniferous-Demo-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Coniferous-Demo-Black.otf"; sourceTree = "<group>"; };
+		40B554E024EB0431000CE43E /* Coniferous-Demo-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Coniferous-Demo-Bold.otf"; sourceTree = "<group>"; };
 		40EF4A452461563D0072752B /* PagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerView.swift; sourceTree = "<group>"; };
 		623159FD19D20559FA45FAF3 /* Pods-twentyfour.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-twentyfour.debug.xcconfig"; path = "Target Support Files/Pods-twentyfour/Pods-twentyfour.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -187,6 +211,25 @@
 				4073983324A27727004AFB0E /* Groups */,
 			);
 			path = Explore;
+			sourceTree = "<group>";
+		};
+		4020923924CC95C8000276B5 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				40B554DF24EB0430000CE43E /* Coniferous-Demo-Black.otf */,
+				40B554E024EB0431000CE43E /* Coniferous-Demo-Bold.otf */,
+				40B554DB24EB042C000CE43E /* Coniferous-Demo-Light.otf */,
+				40B554DD24EB042F000CE43E /* Coniferous-Demo-Medium.otf */,
+				40B554DC24EB042D000CE43E /* Coniferous-Demo-Regular.otf */,
+				40B554DE24EB042F000CE43E /* Coniferous-Demo-Thin.otf */,
+				4020923F24CC95F6000276B5 /* AirbnbCerealBlack.ttf */,
+				4020923C24CC95F2000276B5 /* AirbnbCerealBold.ttf */,
+				4020923B24CC95F1000276B5 /* AirbnbCerealBook.ttf */,
+				4020923A24CC95F0000276B5 /* AirbnbCerealExtraBold.ttf */,
+				4020923D24CC95F3000276B5 /* AirbnbCerealLight.ttf */,
+				4020923E24CC95F5000276B5 /* AirbnbCerealMedium.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		4023B0E024C1B77A001692C2 /* Firebase conform models */ = {
@@ -226,6 +269,7 @@
 		404558CA244475F900CF12CD /* twentyfour */ = {
 			isa = PBXGroup;
 			children = (
+				4020923924CC95C8000276B5 /* Fonts */,
 				407193EC2490E99F00296C83 /* Lottie */,
 				404558D9244475FB00CF12CD /* Info.plist */,
 				404558CB244475F900CF12CD /* AppDelegate.swift */,
@@ -487,16 +531,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40B554E624EB0439000CE43E /* Coniferous-Demo-Regular.otf in Resources */,
+				40B554E324EB0439000CE43E /* Coniferous-Demo-Thin.otf in Resources */,
 				400F104C244F190E009C7598 /* carolina.png in Resources */,
+				40B554E424EB0439000CE43E /* Coniferous-Demo-Light.otf in Resources */,
 				404558F02444A35E00CF12CD /* appUser.json in Resources */,
+				4020924024CC980C000276B5 /* AirbnbCerealBlack.ttf in Resources */,
+				40B554E524EB0439000CE43E /* Coniferous-Demo-Medium.otf in Resources */,
 				404558F92444E42000CF12CD /* katha.jpg in Resources */,
 				404558FA2444E42000CF12CD /* mira.jpg in Resources */,
 				403B715924AA3715002E02F3 /* essen.jpg in Resources */,
+				4020924224CC9811000276B5 /* AirbnbCerealBook.ttf in Resources */,
 				407193EE2490E9AE00296C83 /* loading.json in Resources */,
+				40B554E124EB0439000CE43E /* Coniferous-Demo-Bold.otf in Resources */,
+				4020924124CC9811000276B5 /* AirbnbCerealBold.ttf in Resources */,
+				4020924424CC9811000276B5 /* AirbnbCerealMedium.ttf in Resources */,
 				407193F02490EA0200296C83 /* success.json in Resources */,
 				404558D8244475FB00CF12CD /* LaunchScreen.storyboard in Resources */,
+				4020924324CC9811000276B5 /* AirbnbCerealLight.ttf in Resources */,
 				4073983724A28F0A004AFB0E /* freizeit2.jpg in Resources */,
+				4020924524CC9811000276B5 /* AirbnbCerealExtraBold.ttf in Resources */,
 				404558D5244475FB00CF12CD /* Preview Assets.xcassets in Resources */,
+				40B554E224EB0439000CE43E /* Coniferous-Demo-Black.otf in Resources */,
 				404558FB2444E42000CF12CD /* carolina.jpg in Resources */,
 				4073983924A28F19004AFB0E /* sport.jpg in Resources */,
 				404558FE244507D100CF12CD /* basti.png in Resources */,

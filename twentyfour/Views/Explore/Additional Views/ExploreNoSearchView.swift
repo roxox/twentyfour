@@ -11,6 +11,7 @@ import SwiftUI
 struct ExploreNoSearchView: View {
     
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var session: FirebaseSession
     @ObservedObject var searchData: SearchData
     
     @Binding var showSearch: Bool
@@ -22,7 +23,17 @@ struct ExploreNoSearchView: View {
         searchData.locationString = ""
         userData.resetValues()
         
-        self.showSearch.toggle()
+        session.getLastActiveOwnSearch { search in
+            self.showSearch.toggle()
+        }
+//            session.getAllActiveOwnSearches { searches in
+//                if searches?.count != 0 {
+//                    self.showSearch.toggle()
+//                } else {
+//                    self.showSearch.toggle()
+//                }
+//            }
+        
     }
     
     var body: some View {
@@ -58,19 +69,21 @@ struct ExploreNoSearchView: View {
                     HStack() {
                         Image(systemName: "magnifyingglass")
                             .font(.system(size: 22, weight: .medium))
-                            .foregroundColor(.black)
+                            .foregroundColor(.white)
                             .fixedSize()
                             .frame(width: 45, height: 45)
                         Text("Suche erstellen")
                             .padding(.trailing)
                     }
                     .frame(height: 40)
-                    .foreground(gradientPeachPink)
+                    .background(gradientCherryPink)
+                    .foregroundColor(.white)
+//                    .foreground(gradientCherryPink)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(gradientPeachPink, lineWidth: 2)
-                    )
+//                    .overlay(
+//                        RoundedRectangle(cornerRadius: 20)
+//                            .stroke(gradientCherryPink, lineWidth: 2)
+//                    )
                 }
                 
                 Spacer()
