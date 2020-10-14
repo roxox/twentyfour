@@ -38,13 +38,18 @@ struct ButtonBarView: View {
                                 .padding(.vertical, 10.0)
                                 .font(.system(size: 20, weight: pageIndex == 0 ? .bold : .semibold))
                                 .frame(width: 40, height: 24)
-                                .foreground(pageIndex == 0 ? gradientCherryPink : gradientAlmostBlack)
+//                                .foreground(pageIndex == 0 ? gradientCherryPink : gradientAlmostBlack)
+//                                .foreground(pageIndex == 0 ? Color ("old_gras") : Color ("dark_gray"))
+                                .foreground(pageIndex == 0 ? gradientGrasOldGras : gradientAlmostBlack)
+//                                gradientGrasOldGras
                                 .offset(x: 0, y: 0)
                             
                             Text("Stöbern")
                                 .font(.avenirNextRegular(size: 11))
                                 .fontWeight(.semibold)
-                                .foreground(pageIndex == 0 ? gradientCherryPink : gradientAlmostBlack)
+//                                .foreground(pageIndex == 0 ? gradientCherryPink : gradientAlmostBlack)
+//                                .foreground(pageIndex == 0 ? Color ("old_gras") : Color ("dark_gray"))
+                                .foreground(pageIndex == 0 ? gradientGrasOldGras : gradientAlmostBlack)
                         }
                     }
                     
@@ -116,7 +121,7 @@ struct ButtonBarView: View {
                 }
                 .padding(.top, 10)
             }
-            .background(Color ("background1"))
+//            .background(Color ("background_new"))
         }
     }
     

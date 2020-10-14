@@ -4,6 +4,7 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>coconut_punch.otf</string>
 		<string>Coniferous-Demo-Bold.otf</string>
 		<string>Coniferous-Demo-Light.otf</string>
 		<string>Coniferous-Demo-Medium.otf</string>

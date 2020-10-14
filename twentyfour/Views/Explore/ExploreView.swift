@@ -49,6 +49,43 @@ struct ExploreView: View {
         return ((Int(seconds) % 3600) % 60)
     }
     
+    // TESTWERTE
+    var buttonGradientA: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(
+                colors:
+                    [
+                        Color ("buttonGradient1"),
+                        Color ("buttonGradient2"),
+                    ]),
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing)
+    }
+    
+    var buttonGradientB: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(
+                colors:
+                    [
+                        Color ("buttonGradient3"),
+                        Color ("buttonGradient4"),
+                    ]),
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing)
+    }
+    
+    var buttonGradientC: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(
+                colors:
+                    [
+                        Color ("buttonGradient5"),
+                        Color ("buttonGradient6"),
+                    ]),
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing)
+    }
+    
     var body: some View {
         
         GeometryReader { geometry in
@@ -60,77 +97,31 @@ struct ExploreView: View {
                         ScrollViewReader { scrollView in
                             
                             
-                            if self.groupList.count == 0 {
-                                
-                                HStack(alignment: .center){
-                                    Text("Finde Gleichgesinnte")
-                                        .foregroundColor(Color ("button1"))
-//                                        .font(.avenirNextRegular(size: 26))
-                                        .font(.coniferous(size: 46))
-//                                        .fontWeight(self.groupList.count == 0 ? .semibold : .medium)
-                                        .fontWeight(.semibold)
-                                        .padding(.horizontal)
-                                        .padding(.bottom, 15) // ist neu
-                                        .animation(.spring())
-                                    
-                                    Spacer()
-                                    
-                                }
-//                                .padding(.top, self.groupList.count == 0 ? 90 : 60)
-                                .padding(.top, 90)
-                                .animation(.spring())
-//                        }
-                                
-                                if showSubTexts {
-                                    HStack(){
-                                        Text("Finde Gleichgesinnte, gründet Gruppen und unternehmt etwas zusammen")
-                                            .foregroundColor(Color ("button1"))
-                                            .font(.avenirNextRegular(size: 17))
-//                                            .fontWeight(.light)
-                                            .lineLimit(5)
-                                            .padding(.bottom, 15) // ist neu
-                                            .padding(.horizontal)
-                                        Spacer()
-                                    }
-//                                    HStack(){
-//
-//                                        Button(action: {
-//                                            withAnimation(.linear(duration: 0.2)) {
-//                                                self.showSubTexts.toggle()
-//                                            }
-//                                        }) {
-//                                            Text("nur Favoriten anzeigen")
-//                                                .font(.avenirNextRegular(size: 15))
-//                                                .fontWeight(.medium)
-//                                        }
-//                                        .padding(.horizontal)
-//                                        .padding(.bottom)
-//
+//                            if self.groupList.count == 0 {
+//                                
+//                                    VStack(){
+//                                                HStack() {
+//                                                    Text("Finde neue Freunde und gründe Gruppen")
+//                                                        .font(.avenirNextRegular(size: 22))
+//                                                        .fontWeight(.medium)
+//                                                        .padding(.horizontal, 26)
+//                                                    Spacer()
+//                                                }
+//                                        
+//                                                    HStack() {
+//                                                        Text("Egal ob zugezogen, auf Dienstreise oder nur so noch ohne Freunde, hier findest du bestimmt Gleichgesinnte.")
+//                                                            .font(.avenirNextRegular(size: 16))
+//                                                            .padding(.horizontal, 26)
+//                                                        Spacer()
+//                                                    }
+//                                                    .padding(.top, 16)
+//                                                    .padding(.bottom, 25)
 //                                        Spacer()
 //                                    }
-                                }
-
-                            }
-//                            else {
-//
-//                                HStack(alignment: .center){
-//                                    Text("Neue Gruppe")
-//                                        .foregroundColor(Color ("button1"))
-//                                        .font(.avenirNextRegular(size: 26))
-////                                        .fontWeight(self.groupList.count == 0 ? .semibold : .medium)
-//                                        .fontWeight(.semibold)
-//                                        .padding(.horizontal)
-//                                        .padding(.vertical, 5) // ist neu
-//                                        .animation(.spring())
-//
-//                                    Spacer()
-//
-//                                }
-////                                .padding(.top, self.groupList.count == 0 ? 90 : 60)
-//                                .padding(.top, 90)
-//                                .animation(.spring())
+//                                    .padding(.top, 120)
+//                                
 //                            }
-            
+                            
                             
                             VStack() {
                                 Spacer()
@@ -145,117 +136,16 @@ struct ExploreView: View {
                                         tmpValues: self.$tmpValues
                                     )
                                     .padding(.top, self.groupList.count == 0 ? 0 : 50)
-                                    
-                                    
-//                                        HStack(){
-//                                            Spacer()
-//                                            Text("leere Gruppe erstellen")
-//                                                .foregroundColor(Color ("button1"))
-//                                                .font(.avenirNextRegular(size: 16))
-////                                                .font(.coniferous(size: 28))
-//                                                .underline()
-//                                                .fontWeight(self.groupList.count == 0 ? .semibold : .medium)
-//                                                .padding(.horizontal)
-//                                                .padding(.vertical, 15) // ist neu
-//                                                .animation(.spring())
-////                                                .background(Color .black)
-//                                                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-////                                                .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).stroke(gradientBlueAccentSea, lineWidth: 2))
-//                                                .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).stroke(Color .black, lineWidth: 2))
-//                                            Spacer()
-//                                        }
-                                    
-//                                    
-//                                    Picker(selection: $favoriteColor, label: Text("What is your favorite color?")) {
-//                                        Text("Essen & Trinken").tag(0)
-//                                            .font(.avenirNextRegular(size: 16))
-//                                        Text("Freizeit").tag(1)
-//                                            .font(.avenirNextRegular(size: 16))
-//                                        Text("Sport").tag(2)
-//                                            .font(.avenirNextRegular(size: 20))
-//                                    }
-//                                    .pickerStyle(SegmentedPickerStyle())
-//                                    .frame(width: UIScreen.main.bounds.width/2)
-                                    
-                                    if self.groupList.count == 0 {
-                                        HStack(){
-                                            Text("Schliesse dich Gruppen an")
-                                                .foregroundColor(Color ("button1"))
-//                                                .font(.avenirNextRegular(size: 26))
-                                                .font(.coniferous(size: 40))
-                                                .fontWeight(self.groupList.count == 0 ? .semibold : .medium)
-                                                .padding(.horizontal)
-                                                .padding(.vertical, 15) // ist neu
-                                                .animation(.spring())
-                                            Spacer()
-                                        }
-                                        .padding(.top, 15)
-                                        
-                                        
-                                        if showSubTexts {
-                                            HStack(){
-                                                Text("Lass dich von anderen Gruppen inspirieren und frage an, ob du dich anschließen kannst.")
-                                                    .foregroundColor(Color ("button1"))
-                                                    .font(.avenirNextRegular(size: 17))
-//                                                    .fontWeight(.light)
-                                                    .lineLimit(5)
-                                                    .padding(.bottom, 5) // ist neu
-                                                    .padding(.horizontal)
-                                                Spacer()
-                                            }
-                                            HStack(){
-                                                
-                                                Button(action: {
-                                                    withAnimation(.linear(duration: 0.2)) {
-                                                        self.showSubTexts.toggle()
-                                                    }
-                                                }) {
-                                                    Text("nur Favoriten anzeigen")
-                                                        .font(.avenirNextRegular(size: 17))
-                                                        .fontWeight(.medium)
-                                                        .foregroundColor(.black)
-                                                        .underline()
-                                                }
-                                                .padding(.horizontal)
-                                                .padding(.bottom, 15)
-                                                
-                                                Spacer()
-                                            }
-                                        }
-                                        
-                                        AppGroupListView()
-                                            .background(Color ("background1"))
-                                        
-                                        // PAGINATION TEST
-                                       
-                                    }
                                 }
                             }
-//                            HStack() {
-//
-//                                Button(action: {
-//                                    withAnimation(.linear(duration: 0.2)) {
-//                                        self.showSubTexts.toggle()
-//                                    }
-//                                }) {
-//
-//                                    Image(systemName: showSubTexts ? "exclamationmark.bubble.fill" : "exclamationmark.bubble")
-//                                        .font(.system(size: 22, weight: .semibold))
-//                                        .fixedSize()
-//                                        .frame(width: 30, height: 30)
-//                                        .foregroundColor(Color ("button1"))
-//                                }
-//                                .padding(.horizontal, 20)
-//                                .padding(.bottom, 30)
-//                            }
                         }
                     }
                     if self.groupList.count == 0 {
-                    Rectangle().fill(Color .clear)
-                        .frame(height: 30)
+                        Rectangle().fill(Color .clear)
+                            .frame(height: 30)
                     }
                 }
-                .animation(.spring())
+//                .animation(.spring())
                 
                 VStack(){
                     Rectangle().fill(Color ("background1"))
@@ -269,7 +159,7 @@ struct ExploreView: View {
                         searchData: searchData,
                         showSearch: self.$showSearch
                     )
-                    .offset(y: 10)
+                    .offset(y: 0)
                     
                     Spacer()
                 }
@@ -388,7 +278,7 @@ struct CreateGroupNavigation: View {
                             }
                             
                             Spacer()
-             
+                            
                             Text("erstellen")
                                 .font(.avenirNextRegular(size: 15))
                                 .fontWeight(.bold)
@@ -405,113 +295,11 @@ struct CreateGroupNavigation: View {
                             Spacer()
                         }
                     }
-//                    Divider()
+                    //                    Divider()
                 }
                 .background(Color ("background1"))
                 
                 Spacer()
-                
-                //                HStack() {
-                //                    Button(action: {
-                //                        withAnimation(.linear(duration: 0.2)) {
-                //                            userData.showInfoTexts.toggle()
-                //                        }
-                //                    }) {
-                //                        HStack() {
-                //                            Image(systemName: userData.showInfoTexts ? "questionmark.circle.fill" : "questionmark.circle")
-                //                                .font(.system(size: 22, weight: .semibold))
-                //                                .fixedSize()
-                //                                .frame(width: 30, height: 30)
-                //                                .foregroundColor(Color ("button1"))
-                //                            Text("Infos ausblenden")
-                //                                .font(.avenirNextRegular(size: 13))
-                //                                .fontWeight(.medium)
-                //                                .foregroundColor(Color ("button1"))
-                //                        }
-                //                        .padding(8)
-                //                        .background(BlurView(style: .systemMaterial))
-                //                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                //                    }
-                //                    .padding(.horizontal, 20)
-                //                    //                .padding(.bottom, 5)
-                //
-                //                    Spacer()
-                //                }
-                
-//                VStack() {
-//
-//                    Divider()
-//                    //                    Spacer().foregroundColor(.black).frame(height: 2)
-//                    HStack() {
-//
-////                        VStack(alignment: .leading){
-////                            if tmpValues.tmpTitleString != "" {
-////                                Text(tmpValues.tmpTitleString)
-////                                    .font(.avenirNextRegular(size: 14))
-////                                    .fontWeight(.bold)
-////                                    .underline()
-////                                //                                    .foregroundColor(Color ("button1"))
-////                            } else {
-////                                Text(tmpValues.tmpTitleString != "" ? tmpValues.tmpTitleString : "Gib der Gruppe einen Titel")
-////                                    .font(.avenirNextRegular(size: 14))
-////                                    .fontWeight(.bold)
-//////                                    .italic()
-//////                                    .underline()
-////                                //                                    .foreground(selectedEventType == nil ? gradientCherryPink : gradientButton1)
-////                            }
-////
-////                            HStack() {
-////                                if selectedEventType == nil {
-////                                    Text("Wähle eine Aktivität aus")
-////                                        .font(.avenirNextRegular(size: 14))
-////                                        .fontWeight(.semibold)
-//////                                        .italic()
-////                                } else {
-////                                    Text("\(self.getActivityString(eventType: selectedEventType!))")
-////                                        .font(.avenirNextRegular(size: 14))
-////                                        .fontWeight(.semibold)
-////                                }
-////                            }
-////
-////                            HStack() {
-////                                Text("\(self.groupList.count) \(self.groupList.count == 1 ? "Person wird" : "Personen werden") eingeladen")
-////                                    .font(.avenirNextRegular(size: 14))
-////                                    .fontWeight(.semibold)
-////
-////                                //                                    Text("\(selectedEventType == nil ? "Wähle eine Aktivität aus" : self.getActivityString(eventType: selectedEventType!))")
-////                                //                                    .font(.avenirNextRegular(size: 14))
-////                                //                                    .fontWeight(selectedEventType == nil ? .bold : .semibold)
-////                            }
-////                        }
-////                        .foregroundColor(Color ("button1"))
-////                        .padding(.leading, 20)
-//
-//                        Spacer()
-//
-//                        Button(action: {
-//                            withAnimation(.linear(duration: 0.2)) {
-//                                self.save()
-//                                //                        self.searchData.extendTimer()
-//                            }
-//                        }) {
-//                            HStack() {
-//                                Text("Gruppe erstellen")
-//                                    .font(.avenirNextRegular(size: 14))
-//                                    .fontWeight(.semibold)
-//                                    .foregroundColor(.white)
-//                                    .padding(.horizontal)
-//                            }
-//                            .frame(height: 40)
-//                            .background(gradientCherryPink)
-//                            .clipShape(RoundedRectangle(cornerRadius: 8))
-//                        }
-//                        .saturation(self.selectedEventType != nil && self.groupList.count != 0 && tmpValues.tmpTitleString != "" ? 1 : 0.2)
-//                        .opacity(self.selectedEventType != nil && self.groupList.count != 0 && tmpValues.tmpTitleString != "" ? 1 : 0.2)
-//                        .padding(.horizontal, 20)
-//                        .padding(.vertical, 10)
-//                    }
-//                }
-//                .background(Color ("background1"))
             }
             .edgesIgnoringSafeArea(.top)
         }

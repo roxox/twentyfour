@@ -81,6 +81,7 @@
 		408FC8B624C5B9C700FFAF5D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FC8B524C5B9C700FFAF5D /* LocationManager.swift */; };
 		408FC8B824C7CFAF00FFAF5D /* Membership.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FC8B724C7CFAF00FFAF5D /* Membership.swift */; };
 		408FC8BA24C846F300FFAF5D /* CreateUserDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FC8B924C846F300FFAF5D /* CreateUserDataView.swift */; };
+		40AC232824EB5674007A885E /* coconut_punch.otf in Resources */ = {isa = PBXBuildFile; fileRef = 40AC232724EB5672007A885E /* coconut_punch.otf */; };
 		40B14D352455BC460027B242 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40B14D342455BC460027B242 /* GoogleService-Info.plist */; };
 		40B554E124EB0439000CE43E /* Coniferous-Demo-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 40B554E024EB0431000CE43E /* Coniferous-Demo-Bold.otf */; };
 		40B554E224EB0439000CE43E /* Coniferous-Demo-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 40B554DF24EB0430000CE43E /* Coniferous-Demo-Black.otf */; };
@@ -171,6 +172,7 @@
 		408FC8B524C5B9C700FFAF5D /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		408FC8B724C7CFAF00FFAF5D /* Membership.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Membership.swift; sourceTree = "<group>"; };
 		408FC8B924C846F300FFAF5D /* CreateUserDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserDataView.swift; sourceTree = "<group>"; };
+		40AC232724EB5672007A885E /* coconut_punch.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = coconut_punch.otf; sourceTree = "<group>"; };
 		40B14D342455BC460027B242 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		40B554DB24EB042C000CE43E /* Coniferous-Demo-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Coniferous-Demo-Light.otf"; sourceTree = "<group>"; };
 		40B554DC24EB042D000CE43E /* Coniferous-Demo-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Coniferous-Demo-Regular.otf"; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 		4020923924CC95C8000276B5 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				40AC232724EB5672007A885E /* coconut_punch.otf */,
 				40B554DF24EB0430000CE43E /* Coniferous-Demo-Black.otf */,
 				40B554E024EB0431000CE43E /* Coniferous-Demo-Bold.otf */,
 				40B554DB24EB042C000CE43E /* Coniferous-Demo-Light.otf */,
@@ -558,6 +561,7 @@
 				404558FE244507D100CF12CD /* basti.png in Resources */,
 				4073983D24A28FEA004AFB0E /* essen2.jpg in Resources */,
 				400F104E244F1B4F009C7598 /* mira.png in Resources */,
+				40AC232824EB5674007A885E /* coconut_punch.otf in Resources */,
 				40B14D352455BC460027B242 /* GoogleService-Info.plist in Resources */,
 				40455900244507E500CF12CD /* katha.png in Resources */,
 				404558D2244475FB00CF12CD /* Assets.xcassets in Resources */,

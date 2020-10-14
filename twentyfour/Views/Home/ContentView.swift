@@ -30,6 +30,18 @@ struct ContentView: View {
         UITableView.appearance().separatorInset = .zero
     }
     
+    func tester() -> some View {
+        return
+            VStack() {
+                Text("hallo2")
+                Text("hallo3")
+//                    .font(.avenirNextRegular(size: 20))
+//                    .fontWeight(.medium)
+//                    .fixedSize(horizontal: false, vertical: true)
+//                    .lineLimit(1)
+                    .offset(x:15)
+            }
+    }
     
     
     var body: some View {
@@ -53,6 +65,8 @@ struct ContentView: View {
                             // VERIFIED BY FIREBASE USER STORE + LOCAL USER STORE (COMPLETE PROFILE ENTITY OR JUST DOCUMENT ID OF USER)
                             
                             VStack(alignment: .leading) {
+//                                Text("Hallo")
+//                                tester()
                                 // ExploreView
                                 if pageIndex == 0 {
                                     if self.session.ownSearch != nil {
@@ -61,6 +75,7 @@ struct ContentView: View {
                                             isButtonBarHidden: self.$isButtonBarHidden,
                                             showSearch: self.$showSearch
                                         )
+//                                        .background(Color ("background_new"))
                                     }
                                     else {
                                         ExploreNoSearchView(
@@ -90,12 +105,14 @@ struct ContentView: View {
                                     .background(Color .clear)
                                     .offset(y: isButtonBarHidden ? CGFloat(150) : CGFloat(0))
                             }
-                            .animation(.spring())
+//                            .animation(.spring())
                             
                         }
                     }
                 }
-            }.onReceive(timer) { time in
+            }
+//            .background(Color ("background_new"))
+            .onReceive(timer) { time in
                 self.searchData.currentTime = Date()
             }
             .navigationBarHidden(true)

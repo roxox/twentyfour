@@ -32,6 +32,10 @@ extension Font {
     static func coniferous(size: Int) -> Font {
         return Font.custom("Coniferous Demo", size: CGFloat(size))
     }
+    
+    static func coconut(size: Int) -> Font {
+        return Font.custom("Coconut Punch", size: CGFloat(size))
+    }
 //    static func avenirNextRegular(size: Int) -> Font {
 //        return Font.custom("Coniferous", size: CGFloat(size))
 //    }
